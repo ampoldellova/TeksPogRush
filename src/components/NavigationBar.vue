@@ -5,19 +5,25 @@
     <el-row style="padding-left: 2%; padding-right: 2%; width: 100%">
       <el-col :span="12">
         <el-tooltip class="box-item" effect="dark" content="Home Page" placement="bottom">
-          <el-image :src="logo" fit="cover" style="height: 60px; width: 100px" />
+          <RouterLink to="/">
+            <el-image :src="logo" fit="cover" style="height: 60px; width: 100px" />
+          </RouterLink>
         </el-tooltip>
       </el-col>
       <el-col :span="12" style="display: flex; align-items: center; justify-content: end">
         <el-tooltip class="box-item" effect="dark" content="Shop" placement="bottom">
           <el-button text :style="{ color: COLORS.quarternary }">Tindahan</el-button>
         </el-tooltip>
-        <el-button :style="{ backgroundColor: COLORS.secondary, color: 'white' }" round>
-          Sign In
-        </el-button>
-        <el-button :style="{ backgroundColor: COLORS.secondary, color: 'white' }" round>
-          Register
-        </el-button>
+        <RouterLink to="/signIn" style="margin-right: 5px">
+          <el-button :style="{ backgroundColor: COLORS.secondary, color: 'white' }" round>
+            Sign In
+          </el-button>
+        </RouterLink>
+        <RouterLink to="/register" style="margin-right: 5px">
+          <el-button :style="{ backgroundColor: COLORS.secondary, color: 'white' }" round>
+            Register
+          </el-button>
+        </RouterLink>
       </el-col>
     </el-row>
   </div>
