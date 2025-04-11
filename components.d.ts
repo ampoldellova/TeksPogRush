@@ -12,6 +12,7 @@ declare module 'vue' {
     ElCol: typeof import('element-plus/es')['ElCol']
     ElImage: typeof import('element-plus/es')['ElImage']
     ElRow: typeof import('element-plus/es')['ElRow']
+    ElText: typeof import('element-plus/es')['ElText']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     NavigationBar: typeof import('./src/components/NavigationBar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
