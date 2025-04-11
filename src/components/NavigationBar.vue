@@ -1,6 +1,6 @@
 <template>
   <div
-    style="width: 100%; background-color: #400e32; height: 80px; display: flex; align-items: center"
+    style="width: 100%; background-color: #400e32; height: 10vh; display: flex; align-items: center"
   >
     <el-row style="padding-left: 2%; padding-right: 2%; width: 100%">
       <el-col :span="12">
@@ -12,15 +12,27 @@
       </el-col>
       <el-col :span="12" style="display: flex; align-items: center; justify-content: end">
         <el-tooltip class="box-item" effect="dark" content="Shop" placement="bottom">
-          <el-button text :style="{ color: COLORS.quarternary }">Tindahan</el-button>
+          <el-button
+            text
+            :style="{ color: COLORS.quarternary, fontFamily: 'regular' }"
+            style="margin-right: 10px"
+          >
+            Tindahan
+          </el-button>
         </el-tooltip>
         <RouterLink to="/signIn" style="margin-right: 5px">
-          <el-button :style="{ backgroundColor: COLORS.secondary, color: 'white' }" round>
+          <el-button
+            :style="{ backgroundColor: COLORS.secondary, color: 'white', fontFamily: 'regular' }"
+            round
+          >
             Sign In
           </el-button>
         </RouterLink>
         <RouterLink to="/register" style="margin-right: 5px">
-          <el-button :style="{ backgroundColor: COLORS.secondary, color: 'white' }" round>
+          <el-button
+            :style="{ backgroundColor: COLORS.secondary, color: 'white', fontFamily: 'regular' }"
+            round
+          >
             Register
           </el-button>
         </RouterLink>

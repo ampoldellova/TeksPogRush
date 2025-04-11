@@ -1,3 +1,4 @@
+import ForgotPasswordPage from '@/views/ForgotPasswordPage.vue'
 import HomePage from '@/views/HomePage.vue'
 import RegisterPage from '@/views/RegisterPage.vue'
 import SignInPage from '@/views/SignInPage.vue'
@@ -20,6 +21,11 @@ const router = createRouter({
       path: '/register',
       name: 'register',
       component: RegisterPage,
+    },
+    {
+      path: '/forgot-password',
+      name: 'forgotPassword',
+      component: ForgotPasswordPage,
     },
   ],
 })
