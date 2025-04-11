@@ -10,6 +10,7 @@
           </RouterLink>
         </el-tooltip>
       </el-col>
+
       <el-col :span="12" style="display: flex; align-items: center; justify-content: end">
         <el-tooltip class="box-item" effect="dark" content="Shop" placement="bottom">
           <el-button
@@ -20,17 +21,27 @@
             Tindahan
           </el-button>
         </el-tooltip>
+
         <RouterLink to="/signIn" style="margin-right: 5px">
           <el-button
-            :style="{ backgroundColor: COLORS.secondary, color: 'white', fontFamily: 'regular' }"
+            :style="{
+              backgroundColor: COLORS.secondary,
+              color: 'white',
+              fontFamily: 'regular',
+            }"
             round
           >
             Sign In
           </el-button>
         </RouterLink>
+
         <RouterLink to="/register" style="margin-right: 5px">
           <el-button
-            :style="{ backgroundColor: COLORS.secondary, color: 'white', fontFamily: 'regular' }"
+            :style="{
+              backgroundColor: COLORS.secondary,
+              color: 'white',
+              fontFamily: 'regular',
+            }"
             round
           >
             Register
@@ -44,6 +55,7 @@
 <script setup lang="ts">
 import logo from '@/assets/TeksPogRush-Logo.png'
 import { COLORS } from '@/assets/theme'
+import { Edit } from '@element-plus/icons-vue'
 </script>
 
 <style scoped></style>
