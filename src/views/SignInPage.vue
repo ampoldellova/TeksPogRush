@@ -39,7 +39,7 @@
             backgroundColor: COLORS.dark,
             fontFamily: 'semiBold',
             color: 'white',
-            borderRadius: '5px',
+            borderRadius: '10px',
           }"
           style="width: 100%"
         >
@@ -47,12 +47,38 @@
         </el-button>
       </el-row>
 
-      <el-row style="margin-top: 10px">
-        <RouterLink to="/forgot-password">
-          <el-text :style="{ fontFamily: 'regular', color: COLORS.dark, cursor: 'pointer' }">
-            Forgot Password?
-          </el-text>
-        </RouterLink>
+      <el-row :gutter="10" style="margin-top: 10px">
+        <el-col :span="12">
+          <el-button
+            width="100%"
+            :style="{
+              fontFamily: 'regular',
+              color: 'white',
+              fontSize: '12px',
+              backgroundColor: COLORS.secondary,
+              borderRadius: '10px',
+            }"
+            style="width: 100%"
+          >
+            <RouterLink to="/register" style="color: white"> Register </RouterLink>
+          </el-button>
+        </el-col>
+
+        <el-col :span="12">
+          <el-button
+            width="100%"
+            :style="{
+              fontFamily: 'regular',
+              color: 'white',
+              fontSize: '12px',
+              backgroundColor: COLORS.secondary,
+              borderRadius: '10px',
+            }"
+            style="width: 100%"
+          >
+            <RouterLink to="/forgot-password" style="color: white"> Reset Password </RouterLink>
+          </el-button>
+        </el-col>
       </el-row>
     </el-card>
   </div>
