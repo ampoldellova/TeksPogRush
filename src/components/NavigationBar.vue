@@ -74,7 +74,13 @@
     </el-row>
   </div>
 
-  <el-drawer v-model="drawer" direction="ltr" :with-header="false" :size="drawerSize">
+  <el-drawer
+    v-model="drawer"
+    direction="ltr"
+    :with-header="false"
+    :size="drawerSize"
+    :style="{ backgroundColor: COLORS.dark }"
+  >
     <el-button
       @click="drawer = false"
       color="#A61F69"
