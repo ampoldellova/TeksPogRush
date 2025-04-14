@@ -24,7 +24,9 @@ declare module 'vue' {
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     HomePageCarousel: typeof import('./src/components/HomePageCarousel.vue')['default']
     NavigationBar: typeof import('./src/components/NavigationBar.vue')['default']
+    RegisterDialog: typeof import('./src/components/RegisterDialog.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SignInDialog: typeof import('./src/components/SignInDialog.vue')['default']
   }
 }

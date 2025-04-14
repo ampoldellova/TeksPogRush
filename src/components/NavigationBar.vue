@@ -141,6 +141,7 @@
 
       <el-col :span="12">
         <el-button
+          @click="resetPasswordDialogButton"
           width="100%"
           :style="{
             fontFamily: 'regular',
@@ -151,7 +152,7 @@
           }"
           style="width: 100%"
         >
-          <RouterLink to="/forgot-password" style="color: white"> Reset Password </RouterLink>
+          Reset Password
         </el-button>
       </el-col>
     </el-row>
@@ -251,7 +252,9 @@ import logo from '@/assets/TeksPogRush-Logo-small.png'
 import { COLORS } from '@/assets/theme'
 import { Menu } from '@element-plus/icons-vue'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const signInDialog = ref(false)
 const registerDialog = ref(false)
 
@@ -267,6 +270,11 @@ const confirmPassword = ref('')
 const registerDialogButton = () => {
   signInDialog.value = false
   registerDialog.value = true
+}
+
+const resetPasswordDialogButton = () => {
+  signInDialog.value = false
+  router.push('/forgot-password')
 }
 </script>
 
