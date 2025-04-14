@@ -53,9 +53,8 @@
 </template>
 
 <script setup lang="ts">
-import logo from '@/assets/TeksPogRush-Logo.png'
+import logo from '@/assets/TeksPogRush-Logo-small.png'
 import { COLORS } from '@/assets/theme'
-import { Edit } from '@element-plus/icons-vue'
 </script>
 
 <style scoped></style>
