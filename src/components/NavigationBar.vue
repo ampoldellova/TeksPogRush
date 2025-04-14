@@ -11,7 +11,7 @@
   >
     <el-row style="padding-left: 2%; padding-right: 2%; width: 100%">
       <el-col :span="8" style="display: flex; justify-content: start; align-items: center">
-        <el-button size="large" color="#A61F69" :icon="Menu" circle />
+        <el-button @click="drawer = true" size="large" color="#A61F69" :icon="Menu" circle />
       </el-col>
 
       <el-col :span="8" style="display: flex; justify-content: center; align-items: center">
@@ -73,6 +73,19 @@
       </el-col>
     </el-row>
   </div>
+
+  <el-drawer v-model="drawer" direction="ltr" :with-header="false" :size="drawerSize">
+    <el-button
+      @click="drawer = false"
+      color="#A61F69"
+      :icon="Close"
+      circle
+      style="position: absolute; z-index: 1"
+    />
+    <el-row style="display: flex; justify-content: center; align-items: center">
+      <el-image :src="logo" fit="cover" style="height: 140px; width: 250px" />
+    </el-row>
+  </el-drawer>
 
   <el-dialog v-model="signInDialog" width="300" align-center>
     <div style="display: flex; align-items: center; justify-content: center">
@@ -250,11 +263,14 @@
 <script setup lang="ts">
 import logo from '@/assets/TeksPogRush-Logo-small.png'
 import { COLORS } from '@/assets/theme'
-import { Menu } from '@element-plus/icons-vue'
-import { ref } from 'vue'
+import { Close, Menu } from '@element-plus/icons-vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+
+const drawer = ref(false)
+
 const signInDialog = ref(false)
 const registerDialog = ref(false)
 
@@ -276,6 +292,30 @@ const resetPasswordDialogButton = () => {
   signInDialog.value = false
   router.push('/forgot-password')
 }
+
+const drawerSize = ref('30%')
+
+const updateDrawerSize = () => {
+  const width = window.innerWidth
+  if (width < 768) {
+    drawerSize.value = '100%'
+  } else if (width < 992) {
+    drawerSize.value = '50%'
+  } else if (width < 1200) {
+    drawerSize.value = '40%'
+  } else {
+    drawerSize.value = '30%'
+  }
+}
+
+onMounted(() => {
+  updateDrawerSize()
+  window.addEventListener('resize', updateDrawerSize)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updateDrawerSize)
+})
 </script>
 
 <style scoped>
