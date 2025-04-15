@@ -1,5 +1,7 @@
 import ForgotPasswordPage from '@/views/ForgotPasswordPage.vue'
 import HomePage from '@/views/HomePage.vue'
+import PlayPage from '@/views/PlayPage.vue'
+import ShopPage from '@/views/ShopPage.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -14,6 +16,16 @@ const router = createRouter({
       path: '/forgot-password',
       name: 'forgotPassword',
       component: ForgotPasswordPage,
+    },
+    {
+      path: '/play',
+      name: 'play',
+      component: PlayPage,
+    },
+    {
+      path: '/shop',
+      name: 'shop',
+      component: ShopPage,
     },
   ],
 })

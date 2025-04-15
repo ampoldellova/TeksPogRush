@@ -30,12 +30,12 @@
         <el-text
           :style="{ fontFamily: 'regular', fontSize: '18px', color: 'white', cursor: 'pointer' }"
         >
-          <RouterLink to="/arena" style="color: white">Play</RouterLink>
+          <RouterLink to="/play" style="color: white">Play</RouterLink>
         </el-text>
         <el-text
           :style="{ fontFamily: 'regular', fontSize: '18px', color: 'white', cursor: 'pointer' }"
         >
-          <RouterLink to="/arena" style="color: white">Shop</RouterLink>
+          <RouterLink to="/shop" style="color: white">Shop</RouterLink>
         </el-text>
         <el-text
           @click="signInDialog = true"
