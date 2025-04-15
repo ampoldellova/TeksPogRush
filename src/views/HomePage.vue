@@ -1,5 +1,5 @@
 <template>
-  <div :style="{ backgroundColor: COLORS.dark, height: '100vh', width: '100%' }">
+  <div :style="{ backgroundColor: COLORS.dark, height: '90vh', width: '100%' }">
     <el-container>
       <!-- <el-aside width="15vw" :style="{ backgroundColor: COLORS.secondary, height: '90vh' }">
       </el-aside> -->
