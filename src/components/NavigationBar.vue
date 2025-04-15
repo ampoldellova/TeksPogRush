@@ -25,16 +25,18 @@
         <el-text
           :style="{ fontFamily: 'regular', fontSize: '18px', color: 'white', cursor: 'pointer' }"
         >
-          Home
+          <RouterLink to="/" style="color: white">Home</RouterLink>
         </el-text>
         <el-text
           :style="{ fontFamily: 'regular', fontSize: '18px', color: 'white', cursor: 'pointer' }"
-          >Play</el-text
         >
+          <RouterLink to="/arena" style="color: white">Play</RouterLink>
+        </el-text>
         <el-text
           :style="{ fontFamily: 'regular', fontSize: '18px', color: 'white', cursor: 'pointer' }"
-          >Shop</el-text
         >
+          <RouterLink to="/arena" style="color: white">Shop</RouterLink>
+        </el-text>
         <el-text
           @click="signInDialog = true"
           :style="{ fontFamily: 'regular', fontSize: '18px', color: 'white', cursor: 'pointer' }"
