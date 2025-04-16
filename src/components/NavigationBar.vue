@@ -1,16 +1,6 @@
 <template>
-  <div
-    style="
-      width: 100%;
-      background-color: transparent;
-      height: 10vh;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: absolute;
-    "
-  >
-    <el-row style="padding-left: 2%; padding-right: 2%; width: 100%">
+  <div class="responsive-navbar">
+    <el-row style="width: 100%">
       <el-col :span="8" style="display: flex; justify-content: start; align-items: center">
         <el-button @click="drawer = true" size="large" color="#A61F69" :icon="Menu" circle />
       </el-col>
@@ -22,30 +12,18 @@
       </el-col>
 
       <el-col :span="8" class="responsive-button">
-        <el-text
-          :style="{ fontFamily: 'regular', fontSize: '18px', color: 'white', cursor: 'pointer' }"
-        >
-          <RouterLink to="/" style="color: white">Home</RouterLink>
-        </el-text>
-        <el-text
-          :style="{ fontFamily: 'regular', fontSize: '18px', color: 'white', cursor: 'pointer' }"
-        >
-          <RouterLink to="/play" style="color: white">Play</RouterLink>
-        </el-text>
-        <el-text
-          :style="{ fontFamily: 'regular', fontSize: '18px', color: 'white', cursor: 'pointer' }"
-        >
-          <RouterLink to="/shop" style="color: white">Shop</RouterLink>
-        </el-text>
+        <NavBarButton label="Home" to="/" />
+        <NavBarButton label="Play" to="/play" />
+        <NavBarButton label="Shop" to="/shop" />
         <el-text
           @click="signInDialog = true"
-          :style="{ fontFamily: 'regular', fontSize: '18px', color: 'white', cursor: 'pointer' }"
+          :style="{ fontFamily: 'regular', fontSize: '14px', color: 'white', cursor: 'pointer' }"
         >
           Login
         </el-text>
         <el-text
           @click="registerNavButton"
-          :style="{ fontFamily: 'regular', fontSize: '18px', color: 'white', cursor: 'pointer' }"
+          :style="{ fontFamily: 'regular', fontSize: '14px', color: 'white', cursor: 'pointer' }"
         >
           Register
         </el-text>
@@ -357,6 +335,7 @@ import {
 } from '@element-plus/icons-vue'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import NavBarButton from './NavBarButton.vue'
 
 const router = useRouter()
 
@@ -422,10 +401,22 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.responsive-navbar {
+  width: 100%;
+  background-color: transparent;
+  height: 10vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: absolute;
+  padding-left: 200px;
+  padding-right: 200px;
+}
+
 .responsive-button {
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
   gap: 40px;
 }
 
@@ -433,14 +424,40 @@ onUnmounted(() => {
   display: none;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 1440px) {
+  .responsive-navbar {
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .responsive-navbar {
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+}
+
+@media (max-width: 980px) {
+  .responsive-navbar {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
   .responsive-button {
     display: none;
   }
   .responsive-menu {
     display: flex;
     align-items: center;
-    justify-content: end;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 480px) {
+  .responsive-navbar {
+    padding-left: 10px;
+    padding-right: 10px;
   }
 }
 </style>
