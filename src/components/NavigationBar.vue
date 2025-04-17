@@ -207,109 +207,122 @@
       <el-image :src="logo" fit="cover" style="height: 100px; width: 190px" />
     </div>
 
-    <el-row style="margin-top: 20px">
-      <el-text :style="{ fontFamily: 'bold', color: 'black' }">Username</el-text>
-      <el-col :span="24">
-        <el-input
-          :prefix-icon="User"
-          v-model="username"
-          style="width: 100%"
-          placeholder="Enter your usename"
-          input-style="font-family:regular"
-        />
-      </el-col>
-    </el-row>
+    <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules">
+      <el-row>
+        <el-text :style="{ fontFamily: 'bold', color: 'black' }">Username</el-text>
+        <el-col :span="24">
+          <el-form-item prop="username">
+            <el-input
+              :prefix-icon="User"
+              v-model="ruleForm.username"
+              style="width: 100%"
+              placeholder="Enter your usename"
+              input-style="font-family:regular"
+            />
+          </el-form-item>
+        </el-col>
+      </el-row>
 
-    <el-row style="margin-top: 20px">
-      <el-text :style="{ fontFamily: 'bold', color: 'black' }">Email</el-text>
-      <el-col :span="24">
-        <el-input
-          :prefix-icon="Message"
-          v-model="email"
-          style="width: 100%"
-          placeholder="Enter your email"
-          input-style="font-family:regular"
-        />
-      </el-col>
-    </el-row>
+      <el-row>
+        <el-text :style="{ fontFamily: 'bold', color: 'black' }">Email</el-text>
+        <el-col :span="24">
+          <el-form-item prop="email">
+            <el-input
+              :prefix-icon="Message"
+              v-model="ruleForm.email"
+              style="width: 100%"
+              placeholder="Enter your email"
+              input-style="font-family:regular"
+            />
+          </el-form-item>
+        </el-col>
+      </el-row>
 
-    <el-row style="margin-top: 20px">
-      <el-text :style="{ fontFamily: 'bold', color: 'black' }">Contact</el-text>
-      <el-col :span="24">
-        <el-input
-          :prefix-icon="Phone"
-          v-model="contact"
-          style="width: 100%"
-          placeholder="Enter your contact number"
-          input-style="font-family:regular"
-        />
-      </el-col>
-    </el-row>
+      <el-row>
+        <el-text :style="{ fontFamily: 'bold', color: 'black' }">Contact</el-text>
+        <el-col :span="24">
+          <el-form-item prop="contact">
+            <el-input
+              :prefix-icon="Phone"
+              v-model="ruleForm.contact"
+              style="width: 100%"
+              placeholder="Enter your contact number"
+              input-style="font-family:regular"
+            />
+          </el-form-item>
+        </el-col>
+      </el-row>
 
-    <el-row style="margin-top: 5px">
-      <el-text :style="{ fontFamily: 'bold', color: 'black' }" style="margin-top: 10px">
-        Password
-      </el-text>
-      <el-col :span="24">
-        <el-input
-          :prefix-icon="Unlock"
-          v-model="password"
-          style="width: 100%"
-          placeholder="Enter your password"
-          input-style="font-family:regular"
-          type="password"
-          show-password
-        />
-      </el-col>
-    </el-row>
-
-    <el-row style="margin-top: 5px">
-      <el-text :style="{ fontFamily: 'bold', color: 'black' }" style="margin-top: 10px">
-        Confirm Password
-      </el-text>
-      <el-col :span="24">
-        <el-input
-          :prefix-icon="Lock"
-          v-model="confirmPassword"
-          style="width: 100%"
-          placeholder="Confirm your password"
-          input-style="font-family:regular"
-          type="password"
-          show-password
-        />
-      </el-col>
-    </el-row>
-
-    <el-row style="margin-top: 30px">
-      <el-button
-        size="large"
-        :style="{
-          backgroundColor: COLORS.dark,
-          fontFamily: 'semiBold',
-          color: 'white',
-          borderRadius: '5px',
-        }"
-        style="width: 100%"
-      >
-        Register
-      </el-button>
-
-      <div
-        v-if="fromLogin"
-        @click="backDialogButton"
-        style="display: flex; gap: 10px; align-items: center; cursor: pointer"
-      >
-        <el-icon :style="{ fontSize: '16px', color: COLORS.dark, marginTop: '10px' }"
-          ><Back
-        /></el-icon>
-        <el-text
-          :style="{ fontFamily: 'regular', color: COLORS.dark, fontSize: '16px' }"
-          style="margin-top: 10px"
-        >
-          Go back
+      <el-row>
+        <el-text :style="{ fontFamily: 'bold', color: 'black' }" style="margin-top: 10px">
+          Password
         </el-text>
-      </div>
-    </el-row>
+        <el-col :span="24">
+          <el-form-item prop="password">
+            <el-input
+              :prefix-icon="Unlock"
+              v-model="ruleForm.password"
+              style="width: 100%"
+              placeholder="Enter your password"
+              input-style="font-family:regular"
+              type="password"
+              show-password
+            />
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      <el-row>
+        <el-text :style="{ fontFamily: 'bold', color: 'black' }" style="margin-top: 10px">
+          Confirm Password
+        </el-text>
+        <el-col :span="24">
+          <el-form-item prop="confirmPassword">
+            <el-input
+              :prefix-icon="Lock"
+              v-model="ruleForm.confirmPassword"
+              style="width: 100%"
+              placeholder="Confirm your password"
+              input-style="font-family:regular"
+              type="password"
+              show-password
+            />
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      <el-row style="margin-top: 30px">
+        <el-button
+          @click="submitForm(ruleFormRef)"
+          size="large"
+          :style="{
+            backgroundColor: COLORS.dark,
+            fontFamily: 'semiBold',
+            color: 'white',
+            borderRadius: '5px',
+          }"
+          style="width: 100%"
+        >
+          Register
+        </el-button>
+
+        <div
+          v-if="fromLogin"
+          @click="backDialogButton"
+          style="display: flex; gap: 10px; align-items: center; cursor: pointer"
+        >
+          <el-icon :style="{ fontSize: '16px', color: COLORS.dark, marginTop: '10px' }"
+            ><Back
+          /></el-icon>
+          <el-text
+            :style="{ fontFamily: 'regular', color: COLORS.dark, fontSize: '16px' }"
+            style="margin-top: 10px"
+          >
+            Go back
+          </el-text>
+        </div>
+      </el-row>
+    </el-form>
   </el-dialog>
 </template>
 
@@ -319,40 +332,111 @@ import { COLORS } from '@/assets/theme'
 import {
   Back,
   Close,
-  Coin,
   CreditCard,
-  HomeFilled,
   House,
   Lock,
   Menu,
   Message,
   Phone,
-  Switch,
   SwitchFilled,
   TakeawayBox,
   Unlock,
   User,
 } from '@element-plus/icons-vue'
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import NavBarButton from './NavBarButton.vue'
+import type { FormInstance, FormRules } from 'element-plus'
 
 const router = useRouter()
-
 const drawer = ref(false)
-
 const fromLogin = ref(false)
 const signInDialog = ref(false)
 const registerDialog = ref(false)
-
 const signInEmail = ref('')
 const signInPassword = ref('')
 
-const username = ref('')
-const email = ref('')
-const contact = ref('')
-const password = ref('')
-const confirmPassword = ref('')
+const ruleFormRef = ref<FormInstance>()
+
+const ruleForm = reactive({
+  username: '',
+  email: '',
+  contact: '',
+  password: '',
+  confirmPassword: '',
+})
+
+const validateUsername = (rule: any, value: any, callback: any) => {
+  if (value === '') {
+    callback(new Error('Please input the username'))
+  } else if (value.length < 8) {
+    callback(new Error('Username must be at least 8 characters long'))
+  } else {
+    callback()
+  }
+}
+
+const validateEmail = (rule: any, value: any, callback: any) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  if (value === '') {
+    callback(new Error('Please input the email'))
+  } else if (!emailRegex.test(value)) {
+    callback(new Error('Please input a valid email address'))
+  } else {
+    callback()
+  }
+}
+
+const validateContact = (rule: any, value: any, callback: any) => {
+  const contactRegex = /^(09|\+639)\d{9}$/
+  if (value === '') {
+    callback(new Error('Please input the contact number'))
+  } else if (!contactRegex.test(value)) {
+    callback(new Error('Please input a valid Philippine contact number'))
+  } else {
+    callback()
+  }
+}
+
+const validatePass = (rule: any, value: any, callback: any) => {
+  if (value === '') {
+    callback(new Error('Please input the password'))
+  } else {
+    if (ruleForm.password !== '') {
+      if (!ruleFormRef.value) return
+      ruleFormRef.value.validateField('checkPass')
+    }
+    callback()
+  }
+}
+const confirmPass = (rule: any, value: any, callback: any) => {
+  if (value === '') {
+    callback(new Error('Please input the password again'))
+  } else if (value !== ruleForm.password) {
+    callback(new Error("Two inputs don't match!"))
+  } else {
+    callback()
+  }
+}
+
+const rules = reactive<FormRules<typeof ruleForm>>({
+  username: [{ validator: validateUsername, trigger: 'change' }],
+  email: [{ validator: validateEmail, trigger: 'change' }],
+  contact: [{ validator: validateContact, trigger: 'change' }],
+  password: [{ validator: validatePass, trigger: 'change' }],
+  confirmPassword: [{ validator: confirmPass, trigger: 'change' }],
+})
+
+const submitForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  formEl.validate((valid) => {
+    if (valid) {
+      console.log('submit!')
+    } else {
+      console.log('error submit!')
+    }
+  })
+}
 
 const registerNavButton = () => {
   fromLogin.value = false
