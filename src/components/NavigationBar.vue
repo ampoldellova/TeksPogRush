@@ -254,9 +254,7 @@
       </el-row>
 
       <el-row>
-        <el-text :style="{ fontFamily: 'bold', color: 'black' }" style="margin-top: 10px">
-          Password
-        </el-text>
+        <el-text :style="{ fontFamily: 'bold', color: 'black' }"> Password </el-text>
         <el-col :span="24">
           <el-form-item prop="password">
             <el-input
@@ -273,9 +271,7 @@
       </el-row>
 
       <el-row>
-        <el-text :style="{ fontFamily: 'bold', color: 'black' }" style="margin-top: 10px">
-          Confirm Password
-        </el-text>
+        <el-text :style="{ fontFamily: 'bold', color: 'black' }"> Confirm Password </el-text>
         <el-col :span="24">
           <el-form-item prop="confirmPassword">
             <el-input
@@ -291,7 +287,7 @@
         </el-col>
       </el-row>
 
-      <el-row style="margin-top: 30px">
+      <el-row style="margin-top: 20px">
         <el-button
           @click="submitForm(ruleFormRef)"
           size="large"
@@ -346,7 +342,7 @@ import {
 import { onMounted, onUnmounted, ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import NavBarButton from './NavBarButton.vue'
-import type { FormInstance, FormRules } from 'element-plus'
+import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 
 const router = useRouter()
 const drawer = ref(false)
@@ -431,11 +427,32 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
-      console.log('submit!')
+      const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]')
+
+      users.push({
+        username: ruleForm.username,
+        email: ruleForm.email,
+        contact: ruleForm.contact,
+        password: ruleForm.password,
+      })
+
+      localStorage.setItem('registeredUsers', JSON.stringify(users))
+      ElMessage.success('User registered successfully!')
+      resetForm(formEl)
+      registerDialog.value = false
+      signInDialog.value = true
+      fromLogin.value = true
+      console.log('User registered successfully!')
     } else {
-      console.log('error submit!')
+      ElMessage.error('Oops, Registration failed!')
+      console.log('Error during form submission!')
     }
   })
+}
+
+const resetForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  formEl.resetFields()
 }
 
 const registerNavButton = () => {
