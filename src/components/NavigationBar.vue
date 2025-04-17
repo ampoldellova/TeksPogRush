@@ -207,16 +207,15 @@
       <el-image :src="logo" fit="cover" style="height: 100px; width: 190px" />
     </div>
 
-    <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules">
+    <el-form :model="registrationStore.ruleForm" ref="ruleFormRef" :rules="rules" status-icon>
       <el-row>
         <el-text :style="{ fontFamily: 'bold', color: 'black' }">Username</el-text>
         <el-col :span="24">
           <el-form-item prop="username">
             <el-input
+              v-model="registrationStore.ruleForm.username"
               :prefix-icon="User"
-              v-model="ruleForm.username"
-              style="width: 100%"
-              placeholder="Enter your usename"
+              placeholder="Enter your username"
               input-style="font-family:regular"
             />
           </el-form-item>
@@ -228,9 +227,8 @@
         <el-col :span="24">
           <el-form-item prop="email">
             <el-input
+              v-model="registrationStore.ruleForm.email"
               :prefix-icon="Message"
-              v-model="ruleForm.email"
-              style="width: 100%"
               placeholder="Enter your email"
               input-style="font-family:regular"
             />
@@ -243,9 +241,8 @@
         <el-col :span="24">
           <el-form-item prop="contact">
             <el-input
+              v-model="registrationStore.ruleForm.contact"
               :prefix-icon="Phone"
-              v-model="ruleForm.contact"
-              style="width: 100%"
               placeholder="Enter your contact number"
               input-style="font-family:regular"
             />
@@ -254,16 +251,15 @@
       </el-row>
 
       <el-row>
-        <el-text :style="{ fontFamily: 'bold', color: 'black' }"> Password </el-text>
+        <el-text :style="{ fontFamily: 'bold', color: 'black' }">Password</el-text>
         <el-col :span="24">
           <el-form-item prop="password">
             <el-input
+              v-model="registrationStore.ruleForm.password"
               :prefix-icon="Unlock"
-              v-model="ruleForm.password"
-              style="width: 100%"
+              type="password"
               placeholder="Enter your password"
               input-style="font-family:regular"
-              type="password"
               show-password
             />
           </el-form-item>
@@ -271,53 +267,50 @@
       </el-row>
 
       <el-row>
-        <el-text :style="{ fontFamily: 'bold', color: 'black' }"> Confirm Password </el-text>
+        <el-text :style="{ fontFamily: 'bold', color: 'black' }">Confirm Password</el-text>
         <el-col :span="24">
           <el-form-item prop="confirmPassword">
             <el-input
+              v-model="registrationStore.ruleForm.confirmPassword"
               :prefix-icon="Lock"
-              v-model="ruleForm.confirmPassword"
-              style="width: 100%"
+              type="password"
               placeholder="Confirm your password"
               input-style="font-family:regular"
-              type="password"
               show-password
             />
           </el-form-item>
         </el-col>
       </el-row>
 
-      <el-row style="margin-top: 20px">
-        <el-button
-          @click="submitForm(ruleFormRef)"
-          size="large"
-          :style="{
-            backgroundColor: COLORS.dark,
-            fontFamily: 'semiBold',
-            color: 'white',
-            borderRadius: '5px',
-          }"
-          style="width: 100%"
-        >
-          Register
-        </el-button>
+      <el-button
+        @click="submitForm(ruleFormRef)"
+        size="large"
+        :style="{
+          backgroundColor: COLORS.dark,
+          fontFamily: 'semiBold',
+          color: 'white',
+          borderRadius: '5px',
+        }"
+        style="width: 100%; margin-top: 20px"
+      >
+        Register
+      </el-button>
 
-        <div
-          v-if="fromLogin"
-          @click="backDialogButton"
-          style="display: flex; gap: 10px; align-items: center; cursor: pointer"
+      <div
+        v-if="fromLogin"
+        @click="backDialogButton"
+        style="display: flex; gap: 10px; align-items: center; cursor: pointer"
+      >
+        <el-icon :style="{ fontSize: '16px', color: COLORS.dark, marginTop: '10px' }"
+          ><Back
+        /></el-icon>
+        <el-text
+          :style="{ fontFamily: 'regular', color: COLORS.dark, fontSize: '16px' }"
+          style="margin-top: 10px"
         >
-          <el-icon :style="{ fontSize: '16px', color: COLORS.dark, marginTop: '10px' }"
-            ><Back
-          /></el-icon>
-          <el-text
-            :style="{ fontFamily: 'regular', color: COLORS.dark, fontSize: '16px' }"
-            style="margin-top: 10px"
-          >
-            Go back
-          </el-text>
-        </div>
-      </el-row>
+          Go back
+        </el-text>
+      </div>
     </el-form>
   </el-dialog>
 </template>
@@ -343,6 +336,7 @@ import { onMounted, onUnmounted, ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import NavBarButton from './NavBarButton.vue'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
+import { useRegistrationStore } from '@/stores/userStore'
 
 const router = useRouter()
 const drawer = ref(false)
@@ -353,14 +347,7 @@ const signInEmail = ref('')
 const signInPassword = ref('')
 
 const ruleFormRef = ref<FormInstance>()
-
-const ruleForm = reactive({
-  username: '',
-  email: '',
-  contact: '',
-  password: '',
-  confirmPassword: '',
-})
+const registrationStore = useRegistrationStore()
 
 const validateUsername = (rule: any, value: any, callback: any) => {
   if (value === '') {
@@ -398,7 +385,7 @@ const validatePass = (rule: any, value: any, callback: any) => {
   if (value === '') {
     callback(new Error('Please input the password'))
   } else {
-    if (ruleForm.password !== '') {
+    if (registrationStore.ruleForm.password !== '') {
       if (!ruleFormRef.value) return
       ruleFormRef.value.validateField('checkPass')
     }
@@ -409,14 +396,14 @@ const validatePass = (rule: any, value: any, callback: any) => {
 const confirmPass = (rule: any, value: any, callback: any) => {
   if (value === '') {
     callback(new Error('Please input the password again'))
-  } else if (value !== ruleForm.password) {
+  } else if (value !== registrationStore.ruleForm.confirmPassword) {
     callback(new Error("Two inputs don't match!"))
   } else {
     callback()
   }
 }
 
-const rules = reactive<FormRules<typeof ruleForm>>({
+const rules = reactive<FormRules<typeof registrationStore.ruleForm>>({
   username: [{ validator: validateUsername, trigger: 'change' }],
   email: [{ validator: validateEmail, trigger: 'change' }],
   contact: [{ validator: validateContact, trigger: 'change' }],
@@ -428,22 +415,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
-      const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]')
-
-      users.push({
-        username: ruleForm.username,
-        email: ruleForm.email,
-        contact: ruleForm.contact,
-        password: ruleForm.password,
-      })
-
-      localStorage.setItem('registeredUsers', JSON.stringify(users))
-      ElMessage({
-        message: 'User registered successfully!',
-        grouping: true,
-        type: 'success',
-      })
-      resetForm(formEl)
+      registrationStore.registerUser(formEl)
       registerDialog.value = false
       signInDialog.value = true
       fromLogin.value = true
@@ -457,10 +429,43 @@ const submitForm = (formEl: FormInstance | undefined) => {
   })
 }
 
-const resetForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return
-  formEl.resetFields()
-}
+// const submitForm = (formEl: FormInstance | undefined) => {
+//   if (!formEl) return
+//   formEl.validate((valid) => {
+//     if (valid) {
+//       const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]')
+
+//       users.push({
+//         username: ruleForm.username,
+//         email: ruleForm.email,
+//         contact: ruleForm.contact,
+//         password: ruleForm.password,
+//       })
+
+//       localStorage.setItem('registeredUsers', JSON.stringify(users))
+//       ElMessage({
+//         message: 'User registered successfully!',
+//         grouping: true,
+//         type: 'success',
+//       })
+//       resetForm(formEl)
+//       registerDialog.value = false
+//       signInDialog.value = true
+//       fromLogin.value = true
+//     } else {
+//       ElMessage({
+//         message: 'Error during form submission!',
+//         grouping: true,
+//         type: 'error',
+//       })
+//     }
+//   })
+// }
+
+// const resetForm = (formEl: FormInstance | undefined) => {
+//   if (!formEl) return
+//   formEl.resetFields()
+// }
 
 const registerNavButton = () => {
   fromLogin.value = false
