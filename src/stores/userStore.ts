@@ -54,3 +54,51 @@ export const useRegistrationStore = defineStore('registration', {
     },
   },
 })
+
+export const useAuthenticationStore = defineStore('auth', {
+  state: () => ({
+    isLoggedIn: false,
+    user: null as { email: string } | null,
+  }),
+  getters: {
+    isAuthenticated: (state) => state.isLoggedIn,
+    getUserEmail: (state) => state.user?.email || '',
+  },
+  actions: {
+    login(email: string, password: string) {
+      const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]')
+      const user = registeredUsers.find(
+        (u: { email: string; password: string }) => u.email === email && u.password === password,
+      )
+
+      if (user) {
+        this.isLoggedIn = true
+        this.user = { email: user.email }
+        localStorage.setItem('loginStatus', JSON.stringify({ email: user.email, loggedIn: true }))
+        return { success: true, message: 'Login successful!' }
+      } else {
+        return { success: false, message: 'Invalid email or password!' }
+      }
+    },
+    logout() {
+      this.isLoggedIn = false
+      this.user = null
+      localStorage.removeItem('loginStatus')
+      ElMessage({
+        message: 'Logged out successfully!',
+        grouping: true,
+        type: 'success',
+      })
+    },
+    checkLoginStatus() {
+      const loginStatus = JSON.parse(localStorage.getItem('loginStatus') || '{}')
+      if (loginStatus.loggedIn) {
+        this.isLoggedIn = true
+        this.user = { email: loginStatus.email }
+      } else {
+        this.isLoggedIn = false
+        this.user = null
+      }
+    },
+  },
+})
