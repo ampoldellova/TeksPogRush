@@ -429,44 +429,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
   })
 }
 
-// const submitForm = (formEl: FormInstance | undefined) => {
-//   if (!formEl) return
-//   formEl.validate((valid) => {
-//     if (valid) {
-//       const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]')
-
-//       users.push({
-//         username: ruleForm.username,
-//         email: ruleForm.email,
-//         contact: ruleForm.contact,
-//         password: ruleForm.password,
-//       })
-
-//       localStorage.setItem('registeredUsers', JSON.stringify(users))
-//       ElMessage({
-//         message: 'User registered successfully!',
-//         grouping: true,
-//         type: 'success',
-//       })
-//       resetForm(formEl)
-//       registerDialog.value = false
-//       signInDialog.value = true
-//       fromLogin.value = true
-//     } else {
-//       ElMessage({
-//         message: 'Error during form submission!',
-//         grouping: true,
-//         type: 'error',
-//       })
-//     }
-//   })
-// }
-
-// const resetForm = (formEl: FormInstance | undefined) => {
-//   if (!formEl) return
-//   formEl.resetFields()
-// }
-
 const registerNavButton = () => {
   fromLogin.value = false
   registerDialog.value = true
