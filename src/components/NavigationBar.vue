@@ -405,6 +405,7 @@ const validatePass = (rule: any, value: any, callback: any) => {
     callback()
   }
 }
+
 const confirmPass = (rule: any, value: any, callback: any) => {
   if (value === '') {
     callback(new Error('Please input the password again'))
@@ -437,15 +438,21 @@ const submitForm = (formEl: FormInstance | undefined) => {
       })
 
       localStorage.setItem('registeredUsers', JSON.stringify(users))
-      ElMessage.success('User registered successfully!')
+      ElMessage({
+        message: 'User registered successfully!',
+        grouping: true,
+        type: 'success',
+      })
       resetForm(formEl)
       registerDialog.value = false
       signInDialog.value = true
       fromLogin.value = true
-      console.log('User registered successfully!')
     } else {
-      ElMessage.error('Oops, Registration failed!')
-      console.log('Error during form submission!')
+      ElMessage({
+        message: 'Error during form submission!',
+        grouping: true,
+        type: 'error',
+      })
     }
   })
 }
