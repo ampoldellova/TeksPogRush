@@ -52,7 +52,7 @@
 }
 
 .totalBet{
-    margin-left: 2vh;
+    margin-left: 11vh;
     margin-top: 62.2vh;
     width: 20vw;
     border-radius: 10px;
@@ -67,6 +67,7 @@
     border-radius: 10px;
     background-color: black;
     opacity: 0.5;
+    /* border: 20px solid blue; */
 }
 
 .shadowOverlay {
