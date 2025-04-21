@@ -436,7 +436,7 @@ const validatePass = (rule: any, value: any, callback: any) => {
 const confirmPass = (rule: any, value: any, callback: any) => {
   if (value === '') {
     callback(new Error('Please input the password again'))
-  } else if (value !== registrationStore.ruleForm.confirmPassword) {
+  } else if (value !== registrationStore.ruleForm.password) {
     callback(new Error("Two inputs don't match!"))
   } else {
     callback()
