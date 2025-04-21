@@ -1,7 +1,13 @@
 <template>
   <div class="responsive-navbar">
     <el-row style="width: 100%">
-      <el-col :span="8" style="display: flex; justify-content: start; align-items: center">
+      <el-col :span="8" class="responsive-button-left">
+        <NavBarButton label="Home" to="/" />
+        <NavBarButton label="Play" to="/play" />
+        <NavBarButton label="Shop" to="/shop" />
+      </el-col>
+
+      <el-col :span="8" class="responsive-menu">
         <el-button @click="drawer = true" size="large" color="#A61F69" :icon="Menu" circle />
       </el-col>
 
@@ -11,11 +17,7 @@
         </RouterLink>
       </el-col>
 
-      <el-col :span="8" class="responsive-button">
-        <NavBarButton label="Home" to="/" />
-        <NavBarButton label="Play" to="/play" />
-        <NavBarButton label="Shop" to="/shop" />
-
+      <el-col :span="8" class="responsive-button-right">
         <el-text
           v-if="!authenticationStore.isAuthenticated"
           @click="signInDialog = true"
@@ -39,21 +41,6 @@
         >
           Logout
         </el-text>
-      </el-col>
-
-      <el-col :span="8" class="responsive-menu">
-        <el-button
-          @click="signInDialog = true"
-          size="large"
-          color="#A61F69"
-          :style="{
-            color: 'white',
-            fontFamily: 'regular',
-          }"
-          round
-        >
-          Sign In
-        </el-button>
       </el-col>
     </el-row>
   </div>
@@ -569,7 +556,14 @@ onUnmounted(() => {
   padding-right: 200px;
 }
 
-.responsive-button {
+.responsive-button-left {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 40px;
+}
+
+.responsive-button-right {
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -600,13 +594,14 @@ onUnmounted(() => {
     padding-right: 20px;
   }
 
-  .responsive-button {
+  .responsive-button-left {
     display: none;
   }
+
   .responsive-menu {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: flex-start;
   }
 }
 
