@@ -1,4 +1,5 @@
 import ForgotPasswordPage from '@/views/ForgotPasswordPage.vue'
+import GamePage from '@/views/GamePage.vue'
 import HomePage from '@/views/HomePage.vue'
 import PlayPage from '@/views/PlayPage.vue'
 import ShopPage from '@/views/ShopPage.vue'
@@ -27,6 +28,11 @@ const router = createRouter({
       name: 'shop',
       component: ShopPage,
     },
+    {
+      path: '/game-page',
+      name: 'gamePage',
+      component: GamePage
+    }
   ],
 })
 
