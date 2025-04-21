@@ -26,7 +26,7 @@
 
         <el-text
           v-if="!authenticationStore.isAuthenticated"
-          @click="signInDialog = true"
+          @click="registerDialog = true"
           :style="{ fontFamily: 'regular', fontSize: '14px', color: 'white', cursor: 'pointer' }"
         >
           Register
