@@ -1,3 +1,4 @@
+import PogsFlip from '@/components/PogsFlip.vue'
 import ForgotPasswordPage from '@/views/ForgotPasswordPage.vue'
 import GamePage from '@/views/GamePage.vue'
 import HomePage from '@/views/HomePage.vue'
@@ -32,7 +33,12 @@ const router = createRouter({
       path: '/game-page',
       name: 'gamePage',
       component: GamePage
-    }
+    },
+    {
+      path: '/flipPogs',
+      name: 'flipPogs',
+      component: PogsFlip
+    },
   ],
 })
 

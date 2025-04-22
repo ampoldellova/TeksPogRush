@@ -31,6 +31,7 @@ declare module 'vue' {
     NavBarButton: typeof import('./src/components/NavBarButton.vue')['default']
     NavigationBar: typeof import('./src/components/NavigationBar.vue')['default']
     PogCards: typeof import('./src/components/PogCards.vue')['default']
+    PogsFlip: typeof import('./src/components/PogsFlip.vue')['default']
     PogShopCard1: typeof import('./src/components/PogShopCard1.vue')['default']
     PogShopCard2: typeof import('./src/components/PogShopCard2.vue')['default']
     PogShopCard3: typeof import('./src/components/PogShopCard3.vue')['default']
