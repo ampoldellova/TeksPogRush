@@ -28,6 +28,8 @@ declare module 'vue' {
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
     ElText: typeof import('element-plus/es')['ElText']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
+    GameHistory: typeof import('./src/components/GameHistory.vue')['default']
+    GameTimer: typeof import('./src/components/GameTimer.vue')['default']
     HomePageCarousel: typeof import('./src/components/HomePageCarousel.vue')['default']
     LoginDialog: typeof import('./src/components/LoginDialog.vue')['default']
     NavBarButton: typeof import('./src/components/NavBarButton.vue')['default']

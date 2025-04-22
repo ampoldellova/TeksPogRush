@@ -16,8 +16,11 @@ const showNavbar = ref(true)
 const route = useRoute()
 
 watch(route, (newRoute) => {
-  showNavbar.value = newRoute.name !== 'gamePage'
+  showNavbar.value = newRoute.name !== 'play'
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+
+
+</style>
