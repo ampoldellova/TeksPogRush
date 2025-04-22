@@ -5,10 +5,9 @@
     :transition="{ duration: 2, ease: 'easeInOut' }"
     @click="flipCoin"
     :style="{
-      cursor: 'pointer',
       position: 'absolute',
       top: '50%',
-      left: '10%',
+      // left: '10%',
       borderWidth: '1px',
       borderColor: 'white',
       borderStyle: 'solid',
@@ -46,10 +45,9 @@
     :transition="{ duration: 2, ease: 'easeInOut' }"
     @click="flipCoin"
     :style="{
-      cursor: 'pointer',
       position: 'absolute',
       top: '55%',
-      left: '10%',
+      // left: '10%',
       borderWidth: '1px',
       borderColor: 'white',
       borderStyle: 'solid',
@@ -88,10 +86,9 @@
     :transition="{ duration: 2, ease: 'easeInOut' }"
     @click="flipCoin"
     :style="{
-      cursor: 'pointer',
       position: 'absolute',
       top: '60%',
-      left: '10%',
+      // left: '10%',
       borderWidth: '1px',
       borderColor: 'white',
       borderStyle: 'solid',
@@ -153,22 +150,26 @@ const flipCoin = () => {
     equalizer.value = Math.random() > 0.5 ? 'Tails' : 'Heads'
 
     animation1.value = {
-      x: [0, 50, 100, 150, 200, 250],
-      y: [0, -30, -60, -90, -60, -30, 0],
+      x: Array.from({ length: 251 }, (_, i) => i),
+      y: Array.from({ length: 251 }, (_, i) => (i <= 125 ? -30 * (i / 125) : -30 * (2 - i / 125))),
       rotate: 1800,
       rotateY: pog1.value === 'Tails' ? 180 : 360,
     }
 
     animation2.value = {
-      x: [0, 50, 100, 150, 200, 250, 300, 350, 400, 450],
-      y: [0, -30, -60, -90, -120, -90, -60, -45],
+      x: Array.from({ length: 451 }, (_, i) => i),
+      y: Array.from({ length: 451 }, (_, i) =>
+        i <= 225 ? -50 - 60 * (i / 225) : -50 - 60 * (2 - i / 225),
+      ),
       rotate: 1800,
       rotateY: pog2.value === 'Tails' ? 180 : 360,
     }
 
     animation3.value = {
-      x: [0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650],
-      y: [0, -30, -60, -90, -120, -150, -120, -95],
+      x: Array.from({ length: 651 }, (_, i) => i),
+      y: Array.from({ length: 651 }, (_, i) =>
+        i <= 325 ? -100 - 120 * (i / 325) : -100 - 120 * (2 - i / 325),
+      ),
       rotate: 1800,
       rotateY: equalizer.value === 'Tails' ? 180 : 360,
     }
@@ -182,7 +183,12 @@ const flipCoin = () => {
     } else {
       result.value = 'Draw!'
     }
-    console.log('Result:', result.value)
+
+    setTimeout(() => {
+      animation1.value = { x: 0, y: 0, rotate: 0, rotateY: 0 }
+      animation2.value = { x: 0, y: 0, rotate: 0, rotateY: 0 }
+      animation3.value = { x: 0, y: 0, rotate: 0, rotateY: 0 }
+    }, 15000)
   }, 3000)
 }
 </script>
