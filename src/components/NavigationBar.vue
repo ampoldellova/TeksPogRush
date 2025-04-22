@@ -343,7 +343,6 @@ import { useRouter } from 'vue-router'
 import NavBarButton from './NavBarButton.vue'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import { useAuthenticationStore, useRegistrationStore } from '@/stores/userStore'
-import { ru } from 'element-plus/es/locales.mjs'
 
 const router = useRouter()
 const drawer = ref(false)
@@ -595,6 +594,10 @@ onUnmounted(() => {
   }
 
   .responsive-button-left {
+    display: none;
+  }
+
+  .responsive-button-right {
     display: none;
   }
 
