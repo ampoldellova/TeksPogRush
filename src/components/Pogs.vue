@@ -1,5 +1,4 @@
 <template>
-   
   <motion.div
     :animate="animation1"
     :transition="{ duration: 2, ease: 'easeInOut' }"
@@ -7,10 +6,7 @@
     :style="{
       position: 'absolute',
       top: '50%',
-      // left: '10%',
-      borderWidth: '1px',
-      borderColor: 'white',
-      borderStyle: 'solid',
+      left: '20%',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
@@ -24,6 +20,10 @@
         width: '100px',
         height: '100px',
         position: 'absolute',
+        borderWidth: '1px',
+        borderColor: 'white',
+        borderStyle: 'solid',
+        borderRadius: '50%',
       }"
     />
 
@@ -36,6 +36,10 @@
         position: 'absolute',
         transform: 'rotateY(180deg)',
         backfaceVisibility: 'hidden',
+        borderWidth: '1px',
+        borderColor: 'white',
+        borderStyle: 'solid',
+        borderRadius: '50%',
       }"
     />
   </motion.div>
@@ -46,15 +50,10 @@
     @click="flipCoin"
     :style="{
       position: 'absolute',
-      top: '55%',
-      // left: '10%',
-      borderWidth: '1px',
-      borderColor: 'white',
-      borderStyle: 'solid',
+      top: '50%',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      borderRadius: '50%',
       transformStyle: 'preserve-3d',
     }"
   >
@@ -65,6 +64,10 @@
         width: '100px',
         height: '100px',
         position: 'absolute',
+        borderWidth: '1px',
+        borderColor: 'white',
+        borderStyle: 'solid',
+        borderRadius: '50%',
       }"
     />
 
@@ -77,6 +80,10 @@
         position: 'absolute',
         transform: 'rotateY(180deg)',
         backfaceVisibility: 'hidden',
+        borderWidth: '1px',
+        borderColor: 'white',
+        borderStyle: 'solid',
+        borderRadius: '50%',
       }"
     />
   </motion.div>
@@ -87,15 +94,11 @@
     @click="flipCoin"
     :style="{
       position: 'absolute',
-      top: '60%',
-      // left: '10%',
-      borderWidth: '1px',
-      borderColor: 'white',
-      borderStyle: 'solid',
+      top: '50%',
+      right: '20%',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      borderRadius: '50%',
       transformStyle: 'preserve-3d',
     }"
   >
@@ -106,6 +109,10 @@
         width: '100px',
         height: '100px',
         position: 'absolute',
+        borderWidth: '1px',
+        borderColor: 'white',
+        borderStyle: 'solid',
+        borderRadius: '50%',
       }"
     />
 
@@ -118,6 +125,10 @@
         position: 'absolute',
         transform: 'rotateY(180deg)',
         backfaceVisibility: 'hidden',
+        borderWidth: '1px',
+        borderColor: 'white',
+        borderStyle: 'solid',
+        borderRadius: '50%',
       }"
     />
   </motion.div>
@@ -129,7 +140,7 @@ import heads1 from '@/assets/pogs/Tikbalang.png'
 import heads2 from '@/assets/pogs/Jeepney.png'
 import heads3 from '@/assets/pogs/Festival.png'
 import tails from '@/assets/pogs/Tails.png'
-import { ref } from 'vue'
+import { ref, defineEmits } from 'vue'
 
 const pog1 = ref({})
 const pog2 = ref({})
@@ -139,56 +150,58 @@ const animation1 = ref({})
 const animation2 = ref({})
 const animation3 = ref({})
 
+const emit = defineEmits(['flip', 'resetHand'])
+
 const flipCoin = () => {
-  animation1.value = { x: 0, y: 0, rotate: 0, rotateY: 0 }
-  animation2.value = { x: 0, y: -50, rotate: 0, rotateY: 0 }
-  animation3.value = { x: 0, y: -100, rotate: 0, rotateY: 0 }
+  animation1.value = { x: '30vw', y: '0vh', rotate: 0, rotateY: 0 }
+  animation2.value = { x: '0vw', y: '0vh', rotate: 0, rotateY: 0 }
+  animation3.value = { x: '-30vw', y: '0vh', rotate: 0, rotateY: 0 }
 
   setTimeout(() => {
-    pog1.value = Math.random() > 0.5 ? 'Tails' : 'Heads'
-    pog2.value = Math.random() > 0.5 ? 'Tails' : 'Heads'
-    equalizer.value = Math.random() > 0.5 ? 'Tails' : 'Heads'
-
-    animation1.value = {
-      x: Array.from({ length: 251 }, (_, i) => i),
-      y: Array.from({ length: 251 }, (_, i) => (i <= 125 ? -30 * (i / 125) : -30 * (2 - i / 125))),
-      rotate: 1800,
-      rotateY: pog1.value === 'Tails' ? 180 : 360,
-    }
-
-    animation2.value = {
-      x: Array.from({ length: 451 }, (_, i) => i),
-      y: Array.from({ length: 451 }, (_, i) =>
-        i <= 225 ? -50 - 60 * (i / 225) : -50 - 60 * (2 - i / 225),
-      ),
-      rotate: 1800,
-      rotateY: pog2.value === 'Tails' ? 180 : 360,
-    }
-
-    animation3.value = {
-      x: Array.from({ length: 651 }, (_, i) => i),
-      y: Array.from({ length: 651 }, (_, i) =>
-        i <= 325 ? -100 - 120 * (i / 325) : -100 - 120 * (2 - i / 325),
-      ),
-      rotate: 1800,
-      rotateY: equalizer.value === 'Tails' ? 180 : 360,
-    }
-
-    if (pog1.value !== pog2.value && pog1.value !== equalizer.value) {
-      result.value = 'Pog1 is the winner'
-    } else if (pog2.value !== pog1.value && pog2.value !== equalizer.value) {
-      result.value = 'Pog2 is the winner'
-    } else if (equalizer.value !== pog1.value && equalizer.value !== pog2.value) {
-      result.value = 'Equalizer is the winner'
-    } else {
-      result.value = 'Draw!'
-    }
+    animation1.value = { x: '30vw', y: '18vh', rotate: 0, rotateY: 0 }
+    animation2.value = { x: '0vw', y: '18vh', rotate: 0, rotateY: 0 }
+    animation3.value = { x: '-30vw', y: '18vh', rotate: 0, rotateY: 0 }
 
     setTimeout(() => {
-      animation1.value = { x: 0, y: 0, rotate: 0, rotateY: 0 }
-      animation2.value = { x: 0, y: 0, rotate: 0, rotateY: 0 }
-      animation3.value = { x: 0, y: 0, rotate: 0, rotateY: 0 }
-    }, 15000)
+      pog1.value = Math.random() > 0.5 ? 'Tails' : 'Heads'
+      pog2.value = Math.random() > 0.5 ? 'Tails' : 'Heads'
+      equalizer.value = Math.random() > 0.5 ? 'Tails' : 'Heads'
+      animation1.value = {
+        x: Math.random() * 100 - Math.random(),
+        y: Math.random() * 100 - Math.random(),
+        rotate: 1800,
+        rotateY: pog1.value === 'Tails' ? 180 : 360,
+      }
+      animation2.value = {
+        x: Math.random() * 100 - Math.random(),
+        y: Math.random() * 100 - Math.random(),
+        rotate: 1800,
+        rotateY: pog2.value === 'Tails' ? 180 : 360,
+      }
+      animation3.value = {
+        x: Math.random() * 100 - Math.random(),
+        y: Math.random() * 100 - Math.random(),
+        rotate: 1800,
+        rotateY: equalizer.value === 'Tails' ? 180 : 360,
+      }
+      if (pog1.value !== pog2.value && pog1.value !== equalizer.value) {
+        result.value = 'Pog1 is the winner'
+      } else if (pog2.value !== pog1.value && pog2.value !== equalizer.value) {
+        result.value = 'Pog2 is the winner'
+      } else if (equalizer.value !== pog1.value && equalizer.value !== pog2.value) {
+        result.value = 'Equalizer is the winner'
+      } else {
+        result.value = 'Draw!'
+      }
+      emit('flip')
+      console.log('Result:', result.value)
+      setTimeout(() => {
+        animation1.value = { x: 0, y: 0, rotate: 0, rotateY: 0 }
+        animation2.value = { x: 0, y: 0, rotate: 0, rotateY: 0 }
+        animation3.value = { x: 0, y: 0, rotate: 0, rotateY: 0 }
+        emit('resetHand')
+      }, 15000)
+    }, 2000)
   }, 3000)
 }
 </script>
