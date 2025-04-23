@@ -25,6 +25,7 @@
             </el-row>
             <!-- <button>Confirm</button> -->
             <motion.button
+            @click="handleCashIn"
             :whileHover="{
               scale: 1.2,
               transition: { duration: 0.3 },
@@ -46,22 +47,45 @@
           </motion.button>
    </template>
    
-<script setup lang="ts">
-   
-import { ref } from 'vue'
+   <script setup lang="ts">
+   import { useMoneyTransactionsStore } from '@/stores/moneyTransactions'
 import { motion } from 'motion-v'
-
-const value = ref('Mon')
-
-const options = [
-'Gcash',
-'Bank Account'
-]
-
-const accountNumberInput = ref();
-const accountNameInput = ref()
-const valueContainerInput = ref()
-</script>
+import { ref } from 'vue'
+   
+   const value = ref('Gcash') // Default transaction method
+   const options = ['Gcash', 'Bank Account']
+   
+   const accountNumberInput = ref('')
+   const accountNameInput = ref('')
+   const valueContainerInput = ref(0) // Amount to cash in
+   
+   const moneyStore = useMoneyTransactionsStore()
+   
+   const handleCashIn = () => {
+     if (!valueContainerInput.value || !accountNumberInput.value || !accountNameInput.value) {
+       alert('Please fill in all fields.')
+       return
+     }
+   
+     try {
+       moneyStore.addTransaction(
+         'cash-in', // Transaction type
+         valueContainerInput.value, // Amount
+         accountNumberInput.value, // Account number
+         accountNameInput.value, // Account name
+         value.value // Method (Gcash or Bank Account)
+       )
+       alert('Cash-in successful!')
+       console.log(moneyStore.transactions)
+       // Clear the form inputs
+       valueContainerInput.value = 0
+       accountNumberInput.value = ''
+       accountNameInput.value = ''
+     } catch (error) {
+       alert(error.message)
+     }
+   }
+   </script>
 
 <style scoped>
 .valueContainer{

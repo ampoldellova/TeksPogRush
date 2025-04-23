@@ -113,6 +113,13 @@ export interface userRegistration {
   contact?: string
   password?: string
   confirmPassword?: string
+  balance?: number // New balance field
+}
+
+export interface User {
+  email: string
+  password: string
+  balance: number // New balance field
 }
 
 export const userRegistration = defineStore('registration', {
@@ -140,41 +147,48 @@ export const userRegistration = defineStore('registration', {
       const newUser = {
         ...this.ruleForm,
         Id: crypto.randomUUID(),
+        balance: 0, // Initialize balance to 0
       }
       this.users.push(newUser)
-
+    
       localStorage.setItem('users', JSON.stringify(this.users))
     },
 
     loadUsers() {
       const storedUsers = JSON.parse(localStorage.getItem('users') || '[]')
-      this.users = storedUsers
+      this.users = storedUsers.map((user: userRegistration) => ({
+        ...user,
+        balance: user.balance ?? 0, // Ensure balance is initialized
+      }))
     },
   },
 })
 
 export const useAuthenticationStore = defineStore('auth', {
   state: () => ({
-    isLoggedIn: JSON.parse(localStorage.getItem('loginStatus') || '{}').loggedIn || false, 
+    isLoggedIn: JSON.parse(localStorage.getItem('loginStatus') || '{}').loggedIn || false,
     user: JSON.parse(localStorage.getItem('loginStatus') || '{}').email
-      ? { email: JSON.parse(localStorage.getItem('loginStatus') || '{}').email }
+      ? JSON.parse(localStorage.getItem('users') || '[]').find(
+          (u: User) => u.email === JSON.parse(localStorage.getItem('loginStatus') || '{}').email,
+        )
       : null,
   }),
 
   getters: {
     isAuthenticated: (state) => state.isLoggedIn,
     getUserEmail: (state) => state.user?.email || '',
+   getUserBalance: (state) => state.user?.balance ?? 0, // Default to 0 if balance is undefined
   },
 
   actions: {
     login(email: string, password: string) {
       const registeredUsers = JSON.parse(localStorage.getItem('users') || '[]')
       const user = registeredUsers.find(
-        (u: { email: string; password: string }) => u.email === email && u.password === password,
+        (u: User) => u.email === email && u.password === password,
       )
       if (user) {
         this.isLoggedIn = true
-        this.user = { email: user.email }
+        this.user = { ...user, balance: user.balance ?? 0 } // Ensure balance is initialized
         localStorage.setItem('loginStatus', JSON.stringify({ email: user.email, loggedIn: true }))
         return { success: true, message: 'Login successful!' }
       } else {
@@ -192,10 +206,24 @@ export const useAuthenticationStore = defineStore('auth', {
       const loginStatus = JSON.parse(localStorage.getItem('loginStatus') || '{}')
       if (loginStatus.loggedIn) {
         this.isLoggedIn = true
-        this.user = { email: loginStatus.email }
+        this.user = JSON.parse(localStorage.getItem('users') || '[]').find(
+          (u: User) => u.email === loginStatus.email,
+        )
       } else {
         this.isLoggedIn = false
         this.user = null
+      }
+    },
+
+    updateBalance(amount: number) {
+      if (this.user) {
+        this.user.balance = (this.user.balance ?? 0) + amount // Ensure balance is initialized
+        const users = JSON.parse(localStorage.getItem('users') || '[]')
+        const userIndex = users.findIndex((u: User) => u.email === this.user?.email)
+        if (userIndex !== -1) {
+          users[userIndex].balance = this.user.balance
+          localStorage.setItem('users', JSON.stringify(users)) // Save updated balance to localStorage
+        }
       }
     },
   },
