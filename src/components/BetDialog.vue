@@ -157,7 +157,7 @@
       <motion.button
         @click="changeBetChip"
         :whilePress="{ scale: 0.9 }"
-        :whileHover="{ scale: 1.2, transition: { duration: 0.3 } }"
+        :whileHover="{ scale: 1.1, transition: { duration: 0.3 } }"
         :style="{
           backgroundColor: 'transparent',
           border: 'none',
@@ -175,6 +175,48 @@
           :transition="{ duration: 0.5, ease: 'easeInOut' }"
           :style="{ width: '100px', height: '100px' }"
         />
+      </motion.button>
+
+      <motion.button
+        @click="undoBet"
+        :whilePress="{ scale: 0.9 }"
+        :whileHover="{ scale: 1.1, transition: { duration: 0.3 } }"
+        :style="{
+          backgroundColor: COLORS.dark,
+          borderRadius: '99px',
+          borderWidth: '1px',
+          borderColor: '#2a2c32',
+          borderStyle: 'solid',
+          cursor: 'pointer',
+          position: 'absolute',
+          bottom: '-10px',
+          left: '140px',
+          padding: '10px',
+          zIndex: 1,
+        }"
+      >
+        <motion.img :src="undo" :style="{ width: '30px', height: '30px' }" />
+      </motion.button>
+
+      <motion.button
+        @click="clearBets"
+        :whilePress="{ scale: 0.9 }"
+        :whileHover="{ scale: 1.1, transition: { duration: 0.3 } }"
+        :style="{
+          backgroundColor: COLORS.dark,
+          borderRadius: '99px',
+          borderWidth: '1px',
+          borderColor: '#2a2c32',
+          borderStyle: 'solid',
+          cursor: 'pointer',
+          position: 'absolute',
+          bottom: '-10px',
+          right: '140px',
+          padding: '10px',
+          zIndex: 1,
+        }"
+      >
+        <motion.img :src="clear" :style="{ width: '30px', height: '30px' }" />
       </motion.button>
     </div>
 
@@ -209,11 +251,18 @@ import chip50 from '@/assets/chips/50.png'
 import chip100 from '@/assets/chips/100.png'
 import chip200 from '@/assets/chips/200.png'
 import chip500 from '@/assets/chips/500.png'
+import clear from '@/assets/chips/clear.png'
+import undo from '@/assets/chips/undo.png'
 import heads1 from '@/assets/pogs/Tikbalang.png'
 import heads2 from '@/assets/pogs/Jeepney.png'
 import heads3 from '@/assets/pogs/Festival.png'
 import { COLORS } from '@/assets/theme'
 import { ElMessage } from 'element-plus'
+
+interface Bet {
+  type: 'Pog1' | 'Equalizer' | 'Pog2'
+  value: number
+}
 
 const betDialog = ref(false)
 const currentBet = ref(chip10)
@@ -221,6 +270,8 @@ const currentBetValue = ref(10)
 const Pog1BetDisplay = ref(0)
 const EqualizerBetDisplay = ref(0)
 const Pog2BetDisplay = ref(0)
+
+const betHistory = ref<Bet[]>([])
 
 const isReset = ref(false)
 const chips = reactive([
@@ -230,6 +281,7 @@ const chips = reactive([
     action: () => {
       currentBet.value = chip10
       currentBetValue.value = 10
+      closeChipsOptions()
       console.log(currentBetValue.value)
     },
   },
@@ -248,6 +300,7 @@ const chips = reactive([
     action: () => {
       currentBet.value = chip50
       currentBetValue.value = 50
+      closeChipsOptions()
       console.log(currentBetValue.value)
     },
   },
@@ -257,6 +310,7 @@ const chips = reactive([
     action: () => {
       currentBet.value = chip100
       currentBetValue.value = 100
+      closeChipsOptions()
       console.log(currentBetValue.value)
     },
   },
@@ -266,6 +320,7 @@ const chips = reactive([
     action: () => {
       currentBet.value = chip200
       currentBetValue.value = 200
+      closeChipsOptions()
       console.log(currentBetValue.value)
     },
   },
@@ -275,6 +330,7 @@ const chips = reactive([
     action: () => {
       currentBet.value = chip500
       currentBetValue.value = 500
+      closeChipsOptions()
       console.log(currentBetValue.value)
     },
   },
@@ -311,6 +367,7 @@ const closeChipsOptions = () => {
 const placeBetPog1 = () => {
   if (Pog1BetDisplay.value + currentBetValue.value <= 500) {
     Pog1BetDisplay.value += currentBetValue.value
+    betHistory.value.push({ type: 'Pog1', value: currentBetValue.value })
   } else {
     ElMessage({
       message: 'You can only bet a maximum of ₱500',
@@ -323,6 +380,7 @@ const placeBetPog1 = () => {
 const placeBetEqualizer = () => {
   if (EqualizerBetDisplay.value + currentBetValue.value <= 500) {
     EqualizerBetDisplay.value += currentBetValue.value
+    betHistory.value.push({ type: 'Equalizer', value: currentBetValue.value })
   } else {
     ElMessage({
       message: 'You can only bet a maximum of ₱500',
@@ -335,6 +393,7 @@ const placeBetEqualizer = () => {
 const placeBetPog2 = () => {
   if (Pog2BetDisplay.value + currentBetValue.value <= 500) {
     Pog2BetDisplay.value += currentBetValue.value
+    betHistory.value.push({ type: 'Pog2', value: currentBetValue.value })
   } else {
     ElMessage({
       message: 'You can only bet a maximum of ₱500',
@@ -342,6 +401,37 @@ const placeBetPog2 = () => {
       type: 'error',
     })
   }
+}
+
+const undoBet = () => {
+  const lastBet = betHistory.value.pop()
+  if (lastBet) {
+    if (lastBet.type === 'Pog1') {
+      Pog1BetDisplay.value -= lastBet.value
+    } else if (lastBet.type === 'Equalizer') {
+      EqualizerBetDisplay.value -= lastBet.value
+    } else if (lastBet.type === 'Pog2') {
+      Pog2BetDisplay.value -= lastBet.value
+    }
+  } else {
+    ElMessage({
+      message: 'No bets to undo!',
+      grouping: true,
+      type: 'warning',
+    })
+  }
+}
+
+const clearBets = () => {
+  Pog1BetDisplay.value = 0
+  EqualizerBetDisplay.value = 0
+  Pog2BetDisplay.value = 0
+  betHistory.value = []
+  ElMessage({
+    message: 'All bets cleared!',
+    grouping: true,
+    type: 'success',
+  })
 }
 </script>
 
