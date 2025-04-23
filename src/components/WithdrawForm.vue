@@ -48,8 +48,8 @@
 
 <script setup lang="ts">
 
-import { ref } from 'vue'
-import { motion } from 'motion-v'
+import { motion } from 'motion-v';
+import { ref } from 'vue';
 
 const value = ref('Mon')
 
@@ -128,7 +128,4 @@ margin-bottom: 8%;
 background-color: #F2921D;
 border-color: gray;
 }
-
-
-
 </style>

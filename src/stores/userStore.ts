@@ -103,28 +103,26 @@
 //   },
 // })
 
-import {defineStore} from 'pinia'
+import { defineStore } from 'pinia'
 import { reactive } from 'vue'
 
 export interface userRegistration {
-  Id?:string
+  Id?: string
   username?: string
   email?: string
   contact?: string
   password?: string
-  confirmPassword?:string
+  confirmPassword?: string
 }
-
-
 
 export const userRegistration = defineStore('registration', {
   state: () => ({
-    users: [] as userRegistration[],
+    users: JSON.parse(localStorage.getItem('users') || '[]') as userRegistration[], // Load users from localStorage
     currentUser: '',
     isLoggedIn: false,
 
     ruleForm: reactive({
-      Id:'',
+      Id: '',
       username: '',
       email: '',
       contact: '',
@@ -132,14 +130,73 @@ export const userRegistration = defineStore('registration', {
       confirmPassword: '',
     }),
   }),
-  
+
+  getters: {
+    getUsers: (state) => state.users,
+  },
 
   actions: {
-    AddUser(){      
-      this.users.push({
-        ...this.ruleForm, Id:crypto.randomUUID(),
+    AddUser() {
+      const newUser = {
+        ...this.ruleForm,
+        Id: crypto.randomUUID(),
+      }
+      this.users.push(newUser)
 
-      })
-    }
-  }
+      localStorage.setItem('users', JSON.stringify(this.users))
+    },
+
+    loadUsers() {
+      const storedUsers = JSON.parse(localStorage.getItem('users') || '[]')
+      this.users = storedUsers
+    },
+  },
+})
+
+export const useAuthenticationStore = defineStore('auth', {
+  state: () => ({
+    isLoggedIn: JSON.parse(localStorage.getItem('loginStatus') || '{}').loggedIn || false, 
+    user: JSON.parse(localStorage.getItem('loginStatus') || '{}').email
+      ? { email: JSON.parse(localStorage.getItem('loginStatus') || '{}').email }
+      : null,
+  }),
+
+  getters: {
+    isAuthenticated: (state) => state.isLoggedIn,
+    getUserEmail: (state) => state.user?.email || '',
+  },
+
+  actions: {
+    login(email: string, password: string) {
+      const registeredUsers = JSON.parse(localStorage.getItem('users') || '[]')
+      const user = registeredUsers.find(
+        (u: { email: string; password: string }) => u.email === email && u.password === password,
+      )
+      if (user) {
+        this.isLoggedIn = true
+        this.user = { email: user.email }
+        localStorage.setItem('loginStatus', JSON.stringify({ email: user.email, loggedIn: true }))
+        return { success: true, message: 'Login successful!' }
+      } else {
+        return { success: false, message: 'Invalid email or password!' }
+      }
+    },
+
+    logout() {
+      this.isLoggedIn = false
+      this.user = null
+      localStorage.removeItem('loginStatus')
+    },
+
+    checkLoginStatus() {
+      const loginStatus = JSON.parse(localStorage.getItem('loginStatus') || '{}')
+      if (loginStatus.loggedIn) {
+        this.isLoggedIn = true
+        this.user = { email: loginStatus.email }
+      } else {
+        this.isLoggedIn = false
+        this.user = null
+      }
+    },
+  },
 })

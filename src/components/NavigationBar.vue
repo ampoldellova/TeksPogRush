@@ -17,21 +17,13 @@
         </RouterLink>
       </el-col>
 
-      <!-- <el-col :span="8" class="responsive-button-right">
+      <el-col :span="8" class="responsive-button-right">
         <el-text
           v-if="!authenticationStore.isAuthenticated"
           @click="signInDialog = true"
           :style="{ fontFamily: 'regular', fontSize: '14px', color: 'white', cursor: 'pointer' }"
         >
           Login
-        </el-text>
-
-        <el-text
-          v-if="!authenticationStore.isAuthenticated"
-          @click="registerDialog = true"
-          :style="{ fontFamily: 'regular', fontSize: '14px', color: 'white', cursor: 'pointer' }"
-        >
-          Register
         </el-text>
 
         <el-text
@@ -57,17 +49,15 @@
         >
           Cash Out
         </el-text>
-        
-        
-      </el-col> -->
-
       
       <el-text
+          v-if="!authenticationStore.isAuthenticated"
           @click="registerDialog = true"
           :style="{ fontFamily: 'regular', fontSize: '14px', color: 'white', cursor: 'pointer' }"
         >
           Register
         </el-text>
+      </el-col>
     </el-row>
   </div>
 
@@ -104,20 +94,19 @@
 </template>
 
 <script setup lang="ts">
-import logo from '@/assets/TeksPogRush-Logo-small.png'
-import { COLORS } from '@/assets/theme'
-import {Menu,} from '@element-plus/icons-vue'
-import {ref} from 'vue'
-import { useRouter } from 'vue-router'
-import NavBarButton from './NavBarButton.vue'
-import {  userRegistration } from '@/stores/userStore'
-import NavBarDrawer from './NavBarDrawer.vue'
-import SignInForm from './SignInForm.vue'
-import RegisterForm from './RegisterForm.vue'
-import CashInForm from './CashInForm.vue'
 import depositNoBg from '@/assets/DEPOSITNOBG2.png'
-import WithdrawForm from './WithdrawForm.vue'
+import logo from '@/assets/TeksPogRush-Logo-small.png'
+import { useAuthenticationStore } from '@/stores/userStore'
+import { Menu, } from '@element-plus/icons-vue'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import withdrawNoBg from '../assets/WithdrawNoBg.png'
+import CashInForm from './CashInForm.vue'
+import NavBarButton from './NavBarButton.vue'
+import NavBarDrawer from './NavBarDrawer.vue'
+import RegisterForm from './RegisterForm.vue'
+import SignInForm from './SignInForm.vue'
+import WithdrawForm from './WithdrawForm.vue'
 
 const router = useRouter()
 const signInDialog = ref(false)
@@ -125,7 +114,7 @@ const registerDialog = ref(false)
 const cashInDialog = ref(false)
 const cashOutDialog = ref(false)
 
-// const authenticationStore = useAuthenticationStore()
+const authenticationStore = useAuthenticationStore()
 const isDrawerOpen = ref(false)
 
 
