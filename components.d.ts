@@ -8,6 +8,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    CashInForm: typeof import('./src/components/CashInForm.vue')['default']
     Coin: typeof import('./src/components/Coin.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElButton: typeof import('element-plus/es')['ElButton']
@@ -20,17 +21,21 @@ declare module 'vue' {
     ElDrawer: typeof import('element-plus/es')['ElDrawer']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
+    ElHeader: typeof import('element-plus/es')['ElHeader']
     ElIcon: typeof import('element-plus/es')['ElIcon']
     ElImage: typeof import('element-plus/es')['ElImage']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElMain: typeof import('element-plus/es')['ElMain']
     ElRow: typeof import('element-plus/es')['ElRow']
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
+    ElSegmented: typeof import('element-plus/es')['ElSegmented']
     ElText: typeof import('element-plus/es')['ElText']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     HomePageCarousel: typeof import('./src/components/HomePageCarousel.vue')['default']
     LoginDialog: typeof import('./src/components/LoginDialog.vue')['default']
+    LogInForm: typeof import('./src/components/LogInForm.vue')['default']
     NavBarButton: typeof import('./src/components/NavBarButton.vue')['default']
+    NavBarDrawer: typeof import('./src/components/NavBarDrawer.vue')['default']
     NavigationBar: typeof import('./src/components/NavigationBar.vue')['default']
     PogCards: typeof import('./src/components/PogCards.vue')['default']
     Pogs: typeof import('./src/components/Pogs.vue')['default']
@@ -41,8 +46,10 @@ declare module 'vue' {
     PogShopCard4: typeof import('./src/components/PogShopCard4.vue')['default']
     PogShopCards: typeof import('./src/components/PogShopCards.vue')['default']
     RegisterDialog: typeof import('./src/components/RegisterDialog.vue')['default']
+    RegisterForm: typeof import('./src/components/RegisterForm.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SignInDialog: typeof import('./src/components/SignInDialog.vue')['default']
+    SignInForm: typeof import('./src/components/SignInForm.vue')['default']
   }
 }
