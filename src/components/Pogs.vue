@@ -5,32 +5,6 @@
     :transition="{ duration: 0.5, ease: 'easeInOut' }"
     style="width: 100px; height: 100px; position: absolute; top: 20%"
   >
-    <svg
-      viewBox="0 0 36 36"
-      style="
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        transform: rotate(-90deg);
-      "
-    >
-      <circle cx="18" cy="18" r="15.915" fill="transparent" stroke="#e6e6e6" stroke-width="2" />
-      <circle
-        cx="18"
-        cy="18"
-        r="15.915"
-        fill="transparent"
-        :stroke="progressColor"
-        stroke-width="2"
-        stroke-dasharray="100, 100"
-        :stroke-dashoffset="progress"
-        stroke-linecap="round"
-        :animate="{ strokeDashoffset: progress }"
-        :transition="{ duration: 12, ease: 'linear' }"
-      />
-    </svg>
     <motion.div
       :animate="{ opacity: 1 }"
       :initial="{ opacity: 0 }"
@@ -200,8 +174,6 @@ import timer10 from '@/assets/Timer/10.png'
 import timer11 from '@/assets/Timer/11.png'
 import timer12 from '@/assets/Timer/12.png'
 import { ref, defineEmits, onMounted } from 'vue'
-import { defineProps } from 'vue'
-import { COLORS } from '@/assets/theme'
 
 const pog1 = ref({})
 const pog2 = ref({})
@@ -229,42 +201,44 @@ const timerImages = [
 ]
 
 const progress = ref(0)
-const progressColor = ref(COLORS.secondary)
 
-const emit = defineEmits(['flip', 'resetHand'])
+const emit = defineEmits(['flip', 'resetHand', 'openBetDialog', 'closeBetDialog'])
 
 const flipCoin = () => {
-  animation1.value = { x: '30vw', y: '0vh', rotate: 0, rotateY: 0 }
-  animation2.value = { x: '0vw', y: '0vh', rotate: 0, rotateY: 0 }
-  animation3.value = { x: '-30vw', y: '0vh', rotate: 0, rotateY: 0 }
+  // emit('closeBetDialog')
+  animation1.value = { x: '30vw', y: '0vh', rotate: 0, rotateY: 180 }
+  animation2.value = { x: '0vw', y: '0vh', rotate: 0, rotateY: 180 }
+  animation3.value = { x: '-30vw', y: '0vh', rotate: 0, rotateY: 180 }
 
   setTimeout(() => {
-    animation1.value = { x: '30vw', y: '18vh', rotate: 0, rotateY: 0 }
-    animation2.value = { x: '0vw', y: '18vh', rotate: 0, rotateY: 0 }
-    animation3.value = { x: '-30vw', y: '18vh', rotate: 0, rotateY: 0 }
+    animation1.value = { x: '30vw', y: '18vh', rotate: 0, rotateY: 180 }
+    animation2.value = { x: '0vw', y: '18vh', rotate: 0, rotateY: 180 }
+    animation3.value = { x: '-30vw', y: '18vh', rotate: 0, rotateY: 180 }
 
     setTimeout(() => {
       pog1.value = Math.random() > 0.5 ? 'Tails' : 'Heads'
       pog2.value = Math.random() > 0.5 ? 'Tails' : 'Heads'
       equalizer.value = Math.random() > 0.5 ? 'Tails' : 'Heads'
+
       animation1.value = {
         x: Math.random() * 100 - Math.random(),
         y: Math.random() * 100 - Math.random(),
         rotate: 1800,
-        rotateY: pog1.value === 'Tails' ? 180 : 360,
+        rotateY: pog1.value === 'Tails' ? 360 : 540,
       }
       animation2.value = {
         x: Math.random() * 100 - Math.random(),
         y: Math.random() * 100 - Math.random(),
         rotate: 1800,
-        rotateY: pog2.value === 'Tails' ? 180 : 360,
+        rotateY: equalizer.value === 'Tails' ? 360 : 540,
       }
       animation3.value = {
         x: Math.random() * 100 - Math.random(),
         y: Math.random() * 100 - Math.random(),
         rotate: 1800,
-        rotateY: equalizer.value === 'Tails' ? 180 : 360,
+        rotateY: pog2.value === 'Tails' ? 360 : 540,
       }
+
       if (pog1.value !== pog2.value && pog1.value !== equalizer.value) {
         result.value = 'Pog1 is the winner'
       } else if (pog2.value !== pog1.value && pog2.value !== equalizer.value) {
@@ -288,6 +262,7 @@ const flipCoin = () => {
 }
 
 const startTimer = () => {
+  emit('openBetDialog')
   let remainingTime = 13
   const timerInterval = setInterval(() => {
     if (remainingTime > 0) {
