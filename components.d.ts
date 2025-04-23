@@ -44,5 +44,6 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SignInDialog: typeof import('./src/components/SignInDialog.vue')['default']
+    Timer: typeof import('./src/components/Timer.vue')['default']
   }
 }

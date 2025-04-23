@@ -1,17 +1,60 @@
 <template>
-   
+  <motion.div
+    :animate="{ opacity: 1, scale: 1 }"
+    :initial="{ opacity: 0, scale: 0.8 }"
+    :transition="{ duration: 0.5, ease: 'easeInOut' }"
+    style="width: 100px; height: 100px; position: absolute; top: 20%"
+  >
+    <svg
+      viewBox="0 0 36 36"
+      style="
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transform: rotate(-90deg);
+      "
+    >
+      <circle cx="18" cy="18" r="15.915" fill="transparent" stroke="#e6e6e6" stroke-width="2" />
+      <circle
+        cx="18"
+        cy="18"
+        r="15.915"
+        fill="transparent"
+        :stroke="progressColor"
+        stroke-width="2"
+        stroke-dasharray="100, 100"
+        :stroke-dashoffset="progress"
+        stroke-linecap="round"
+        :animate="{ strokeDashoffset: progress }"
+        :transition="{ duration: 12, ease: 'linear' }"
+      />
+    </svg>
+    <motion.div
+      :animate="{ opacity: 1 }"
+      :initial="{ opacity: 0 }"
+      :transition="{ duration: 0.5, ease: 'easeInOut' }"
+      style="position: relative; z-index: 1; width: 100%; height: 100%"
+    >
+      <motion.img
+        :key="currentTimerImage"
+        :src="currentTimerImage"
+        :animate="{ opacity: 1, scale: 1 }"
+        :initial="{ opacity: 0, scale: 0.8 }"
+        :transition="{ duration: 0.5, ease: 'easeInOut' }"
+        style="width: 100px; height: 100px"
+      />
+    </motion.div>
+  </motion.div>
+
   <motion.div
     :animate="animation1"
     :transition="{ duration: 2, ease: 'easeInOut' }"
-    @click="flipCoin"
     :style="{
-      cursor: 'pointer',
       position: 'absolute',
       top: '50%',
-      left: '10%',
-      borderWidth: '1px',
-      borderColor: 'white',
-      borderStyle: 'solid',
+      left: '20%',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
@@ -25,6 +68,10 @@
         width: '100px',
         height: '100px',
         position: 'absolute',
+        borderWidth: '1px',
+        borderColor: 'white',
+        borderStyle: 'solid',
+        borderRadius: '50%',
       }"
     />
 
@@ -37,6 +84,10 @@
         position: 'absolute',
         transform: 'rotateY(180deg)',
         backfaceVisibility: 'hidden',
+        borderWidth: '1px',
+        borderColor: 'white',
+        borderStyle: 'solid',
+        borderRadius: '50%',
       }"
     />
   </motion.div>
@@ -44,19 +95,12 @@
   <motion.div
     :animate="animation2"
     :transition="{ duration: 2, ease: 'easeInOut' }"
-    @click="flipCoin"
     :style="{
-      cursor: 'pointer',
       position: 'absolute',
-      top: '55%',
-      left: '10%',
-      borderWidth: '1px',
-      borderColor: 'white',
-      borderStyle: 'solid',
+      top: '50%',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      borderRadius: '50%',
       transformStyle: 'preserve-3d',
     }"
   >
@@ -67,6 +111,10 @@
         width: '100px',
         height: '100px',
         position: 'absolute',
+        borderWidth: '1px',
+        borderColor: 'white',
+        borderStyle: 'solid',
+        borderRadius: '50%',
       }"
     />
 
@@ -79,6 +127,10 @@
         position: 'absolute',
         transform: 'rotateY(180deg)',
         backfaceVisibility: 'hidden',
+        borderWidth: '1px',
+        borderColor: 'white',
+        borderStyle: 'solid',
+        borderRadius: '50%',
       }"
     />
   </motion.div>
@@ -86,19 +138,13 @@
   <motion.div
     :animate="animation3"
     :transition="{ duration: 2, ease: 'easeInOut' }"
-    @click="flipCoin"
     :style="{
-      cursor: 'pointer',
       position: 'absolute',
-      top: '60%',
-      left: '10%',
-      borderWidth: '1px',
-      borderColor: 'white',
-      borderStyle: 'solid',
+      top: '50%',
+      right: '20%',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      borderRadius: '50%',
       transformStyle: 'preserve-3d',
     }"
   >
@@ -109,6 +155,10 @@
         width: '100px',
         height: '100px',
         position: 'absolute',
+        borderWidth: '1px',
+        borderColor: 'white',
+        borderStyle: 'solid',
+        borderRadius: '50%',
       }"
     />
 
@@ -121,6 +171,10 @@
         position: 'absolute',
         transform: 'rotateY(180deg)',
         backfaceVisibility: 'hidden',
+        borderWidth: '1px',
+        borderColor: 'white',
+        borderStyle: 'solid',
+        borderRadius: '50%',
       }"
     />
   </motion.div>
@@ -132,7 +186,22 @@ import heads1 from '@/assets/pogs/Tikbalang.png'
 import heads2 from '@/assets/pogs/Jeepney.png'
 import heads3 from '@/assets/pogs/Festival.png'
 import tails from '@/assets/pogs/Tails.png'
-import { ref } from 'vue'
+import timer0 from '@/assets/Timer/0.png'
+import timer1 from '@/assets/Timer/1.png'
+import timer2 from '@/assets/Timer/2.png'
+import timer3 from '@/assets/Timer/3.png'
+import timer4 from '@/assets/Timer/4.png'
+import timer5 from '@/assets/Timer/5.png'
+import timer6 from '@/assets/Timer/6.png'
+import timer7 from '@/assets/Timer/7.png'
+import timer8 from '@/assets/Timer/8.png'
+import timer9 from '@/assets/Timer/9.png'
+import timer10 from '@/assets/Timer/10.png'
+import timer11 from '@/assets/Timer/11.png'
+import timer12 from '@/assets/Timer/12.png'
+import { ref, defineEmits, onMounted } from 'vue'
+import { defineProps } from 'vue'
+import { COLORS } from '@/assets/theme'
 
 const pog1 = ref({})
 const pog2 = ref({})
@@ -142,49 +211,100 @@ const animation1 = ref({})
 const animation2 = ref({})
 const animation3 = ref({})
 
+const currentTimerImage = ref(timer12)
+const timerImages = [
+  timer0,
+  timer1,
+  timer2,
+  timer3,
+  timer4,
+  timer5,
+  timer6,
+  timer7,
+  timer8,
+  timer9,
+  timer10,
+  timer11,
+  timer12,
+]
+
+const progress = ref(0)
+const progressColor = ref(COLORS.secondary)
+
+const emit = defineEmits(['flip', 'resetHand'])
+
 const flipCoin = () => {
-  animation1.value = { x: 0, y: 0, rotate: 0, rotateY: 0 }
-  animation2.value = { x: 0, y: -50, rotate: 0, rotateY: 0 }
-  animation3.value = { x: 0, y: -100, rotate: 0, rotateY: 0 }
+  animation1.value = { x: '30vw', y: '0vh', rotate: 0, rotateY: 0 }
+  animation2.value = { x: '0vw', y: '0vh', rotate: 0, rotateY: 0 }
+  animation3.value = { x: '-30vw', y: '0vh', rotate: 0, rotateY: 0 }
 
   setTimeout(() => {
-    pog1.value = Math.random() > 0.5 ? 'Tails' : 'Heads'
-    pog2.value = Math.random() > 0.5 ? 'Tails' : 'Heads'
-    equalizer.value = Math.random() > 0.5 ? 'Tails' : 'Heads'
+    animation1.value = { x: '30vw', y: '18vh', rotate: 0, rotateY: 0 }
+    animation2.value = { x: '0vw', y: '18vh', rotate: 0, rotateY: 0 }
+    animation3.value = { x: '-30vw', y: '18vh', rotate: 0, rotateY: 0 }
 
-    animation1.value = {
-      x: [0, 50, 100, 150, 200, 250],
-      y: [0, -30, -60, -90, -60, -30, 0],
-      rotate: 1800,
-      rotateY: pog1.value === 'Tails' ? 180 : 360,
-    }
-
-    animation2.value = {
-      x: [0, 50, 100, 150, 200, 250, 300, 350, 400, 450],
-      y: [0, -30, -60, -90, -120, -90, -60, -45],
-      rotate: 1800,
-      rotateY: pog2.value === 'Tails' ? 180 : 360,
-    }
-
-    animation3.value = {
-      x: [0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650],
-      y: [0, -30, -60, -90, -120, -150, -120, -95],
-      rotate: 1800,
-      rotateY: equalizer.value === 'Tails' ? 180 : 360,
-    }
-
-    if (pog1.value !== pog2.value && pog1.value !== equalizer.value) {
-      result.value = 'Pog1 is the winner'
-    } else if (pog2.value !== pog1.value && pog2.value !== equalizer.value) {
-      result.value = 'Pog2 is the winner'
-    } else if (equalizer.value !== pog1.value && equalizer.value !== pog2.value) {
-      result.value = 'Equalizer is the winner'
-    } else {
-      result.value = 'Draw!'
-    }
-    console.log('Result:', result.value)
+    setTimeout(() => {
+      pog1.value = Math.random() > 0.5 ? 'Tails' : 'Heads'
+      pog2.value = Math.random() > 0.5 ? 'Tails' : 'Heads'
+      equalizer.value = Math.random() > 0.5 ? 'Tails' : 'Heads'
+      animation1.value = {
+        x: Math.random() * 100 - Math.random(),
+        y: Math.random() * 100 - Math.random(),
+        rotate: 1800,
+        rotateY: pog1.value === 'Tails' ? 180 : 360,
+      }
+      animation2.value = {
+        x: Math.random() * 100 - Math.random(),
+        y: Math.random() * 100 - Math.random(),
+        rotate: 1800,
+        rotateY: pog2.value === 'Tails' ? 180 : 360,
+      }
+      animation3.value = {
+        x: Math.random() * 100 - Math.random(),
+        y: Math.random() * 100 - Math.random(),
+        rotate: 1800,
+        rotateY: equalizer.value === 'Tails' ? 180 : 360,
+      }
+      if (pog1.value !== pog2.value && pog1.value !== equalizer.value) {
+        result.value = 'Pog1 is the winner'
+      } else if (pog2.value !== pog1.value && pog2.value !== equalizer.value) {
+        result.value = 'Pog2 is the winner'
+      } else if (equalizer.value !== pog1.value && equalizer.value !== pog2.value) {
+        result.value = 'Equalizer is the winner'
+      } else {
+        result.value = 'Draw!'
+      }
+      emit('flip')
+      console.log('Result:', result.value)
+      setTimeout(() => {
+        animation1.value = { x: 0, y: 0, rotate: 0, rotateY: 0 }
+        animation2.value = { x: 0, y: 0, rotate: 0, rotateY: 0 }
+        animation3.value = { x: 0, y: 0, rotate: 0, rotateY: 0 }
+        emit('resetHand')
+        startTimer()
+      }, 5000)
+    }, 2000)
   }, 3000)
 }
+
+const startTimer = () => {
+  let remainingTime = 13
+  const timerInterval = setInterval(() => {
+    if (remainingTime > 0) {
+      currentTimerImage.value = timerImages[remainingTime - 1]
+      progress.value = (remainingTime / 13) * 100
+      remainingTime--
+    } else {
+      flipCoin()
+      clearInterval(timerInterval)
+      progress.value = 0
+    }
+  }, 1000)
+}
+
+onMounted(() => {
+  startTimer()
+})
 </script>
 
 <style scoped></style>
