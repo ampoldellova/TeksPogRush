@@ -32,7 +32,7 @@
           }"
           style="display: flex; justify-content: center; align-items: center"
         >
-          <el-image :src="logo" fill="cover" style="width: 100%; height: 70vh" />
+            <el-image :src="logo" fill="cover" style="width: 100%; height: 70vh" />
         </motion.div>
 
         <RouterLink to="/play">
