@@ -52,6 +52,7 @@
 
         <el-text
           v-if="authenticationStore.isAuthenticated"
+          @click="cashOutDialog = true"
           :style="{ fontFamily: 'regular', fontSize: '14px', color: 'white', cursor: 'pointer' }"
         >
           Cash Out
@@ -70,6 +71,14 @@
     </div>
   <CashInForm/>
   </el-dialog>
+
+  <el-dialog v-model="cashOutDialog" width="600" align-center style="border-radius: 28px;">
+    <div style="display: flex; align-items: center; justify-content: center; ">
+      <el-image :src='withdrawNoBg' fit="cover" style="height: auto; width: 300px; padding-bottom: 20px;"  />
+    </div>
+  <WithdrawForm/>
+  </el-dialog>
+
 
   <el-dialog v-model="signInDialog" width="300" align-center>
     <div style="display: flex; align-items: center; justify-content: center">
@@ -99,11 +108,14 @@ import SignInForm from './SignInForm.vue'
 import RegisterForm from './RegisterForm.vue'
 import CashInForm from './CashInForm.vue'
 import depositNoBg from '@/assets/DEPOSITNOBG2.png'
+import WithdrawForm from './WithdrawForm.vue'
+import withdrawNoBg from '../assets/WithdrawNoBg.png'
 
 const router = useRouter()
 const signInDialog = ref(false)
 const registerDialog = ref(false)
 const cashInDialog = ref(false)
+const cashOutDialog = ref(false)
 
 const authenticationStore = useAuthenticationStore()
 const isDrawerOpen = ref(false)

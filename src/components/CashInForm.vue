@@ -88,7 +88,7 @@ const valueContainerInput = ref()
     align-items: center;
     margin: auto;
     margin-top: 8%;
-    gap: 50px;
+    gap: 20px;
 }
 
 :deep(.el-input__wrapper){

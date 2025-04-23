@@ -51,5 +51,6 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SignInDialog: typeof import('./src/components/SignInDialog.vue')['default']
     SignInForm: typeof import('./src/components/SignInForm.vue')['default']
+    WithdrawForm: typeof import('./src/components/WithdrawForm.vue')['default']
   }
 }
