@@ -9,26 +9,47 @@
                 </el-row>
                 <el-segmented v-model="value" :options="options" block size="large" style="width: 100vw;"/>
                 <el-col>
-                    <el-input v-model="valueContainerInput" class="valueContainer">
+                    <el-input v-model="valueContainerInput" class="valueContainer" placeholder="Enter Amount">
                     </el-input>
                 </el-col>
                 <el-row>
                     <el-col>
-                        <el-input v-model="accountNumberInput"></el-input>
+                        <el-input v-model="accountNumberInput" placeholder="Enter Account Number"></el-input>
                         <el-text>Account Number</el-text>
                     </el-col>
                     <el-col>
-                        <el-input v-model="accountNameInput"></el-input>
+                        <el-input v-model="accountNameInput" placeholder="Enter Account Name"></el-input>
                         <el-text>Account Name</el-text>
                     </el-col>
                 </el-row>
             </el-row>
-            <button>Confirm</button>
+            <!-- <button>Confirm</button> -->
+            <motion.button
+            :whileHover="{
+              scale: 1.2,
+              transition: { duration: 0.3 },
+            }"
+            :whilePress="{ scale: 0.9 }"
+            :style="{
+              fontFamily: 'bold',
+              width: '200px',
+              backgroundColor: '#ffd200',
+              color: 'black',
+              borderWidth: 0,
+              height: '50px',
+              borderRadius: '15px',
+              cursor: 'pointer',
+              boxShadow: '5px 8px 0px 1px rgba(0, 0, 0, 1)',
+            }"
+          >
+            CONFIRM
+          </motion.button>
    </template>
    
 <script setup lang="ts">
    
 import { ref } from 'vue'
+import { motion } from 'motion-v'
 
 const value = ref('Mon')
 
@@ -86,6 +107,10 @@ const valueContainerInput = ref()
     color: black;
 }
 
+:deep(.el-input__inner){
+    color: black;
+}
+
 img{
     margin-bottom: 8%;
 }
@@ -103,5 +128,7 @@ button{
     background-color: #F2921D;
     border-color: gray;
 }
+
+
 
 </style>

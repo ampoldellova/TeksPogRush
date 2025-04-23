@@ -64,10 +64,9 @@
 
   <NavBarDrawer :isOpen="isDrawerOpen" @closeDrawer="handleCloseDrawer"/>
 
-  
   <el-dialog v-model="cashInDialog" width="600" align-center style="border-radius: 28px;">
     <div style="display: flex; align-items: center; justify-content: center; ">
-      <!-- <el-image :src="logo" fit="cover" style="height: 100px; width: 190px" /> -->
+      <el-image :src='depositNoBg' fit="cover" style="height: auto; width: 300px; padding-bottom: 20px;"  />
     </div>
   <CashInForm/>
   </el-dialog>
@@ -99,6 +98,7 @@ import NavBarDrawer from './NavBarDrawer.vue'
 import SignInForm from './SignInForm.vue'
 import RegisterForm from './RegisterForm.vue'
 import CashInForm from './CashInForm.vue'
+import depositNoBg from '@/assets/DEPOSITNOBG2.png'
 
 const router = useRouter()
 const signInDialog = ref(false)
