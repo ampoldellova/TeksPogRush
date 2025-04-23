@@ -17,7 +17,7 @@
         </RouterLink>
       </el-col>
 
-      <el-col :span="8" class="responsive-button-right">
+      <!-- <el-col :span="8" class="responsive-button-right">
         <el-text
           v-if="!authenticationStore.isAuthenticated"
           @click="signInDialog = true"
@@ -59,7 +59,15 @@
         </el-text>
         
         
-      </el-col>
+      </el-col> -->
+
+      
+      <el-text
+          @click="registerDialog = true"
+          :style="{ fontFamily: 'regular', fontSize: '14px', color: 'white', cursor: 'pointer' }"
+        >
+          Register
+        </el-text>
     </el-row>
   </div>
 
@@ -102,7 +110,7 @@ import {Menu,} from '@element-plus/icons-vue'
 import {ref} from 'vue'
 import { useRouter } from 'vue-router'
 import NavBarButton from './NavBarButton.vue'
-import { useAuthenticationStore, useRegistrationStore } from '@/stores/userStore'
+import {  userRegistration } from '@/stores/userStore'
 import NavBarDrawer from './NavBarDrawer.vue'
 import SignInForm from './SignInForm.vue'
 import RegisterForm from './RegisterForm.vue'
@@ -117,7 +125,7 @@ const registerDialog = ref(false)
 const cashInDialog = ref(false)
 const cashOutDialog = ref(false)
 
-const authenticationStore = useAuthenticationStore()
+// const authenticationStore = useAuthenticationStore()
 const isDrawerOpen = ref(false)
 
 

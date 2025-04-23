@@ -120,7 +120,9 @@ import {
 import { onMounted, onUnmounted, ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
-import { useAuthenticationStore, useRegistrationStore } from '@/stores/userStore'
+// import { useAuthenticationStore, useRegistrationStore } from '@/stores/userStore'
+import { userRegistration } from '@/stores/userStore'
+
 
 const router = useRouter()
 const fromLogin = ref(false)
@@ -128,8 +130,8 @@ const signInDialog = ref(false)
 const registerDialog = ref(false)
 
 const ruleFormRef = ref<FormInstance>()
-const authenticationStore = useAuthenticationStore()
-const registrationStore = useRegistrationStore()
+// const authenticationStore = useAuthenticationStore()
+const registrationStore = userRegistration()
 
 
 const validateUsername = (rule: any, value: any, callback: any) => {
@@ -200,7 +202,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
-      registrationStore.registerUser(formEl)
+      registrationStore.AddUser()
       registerDialog.value = false
       signInDialog.value = true
       fromLogin.value = true
@@ -237,7 +239,7 @@ const updateDrawerSize = () => {
 }
 
 onMounted(() => {
-  authenticationStore.checkLoginStatus()
+  // authenticationStore.checkLoginStatus()
   updateDrawerSize()
   window.addEventListener('resize', updateDrawerSize)
 })

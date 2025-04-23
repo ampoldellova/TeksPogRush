@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
 
  <el-form :model="ruleForm" ref="ruleFormRef" :rules="loginRules" status-icon>
       <el-row style="margin-top: 20px">
@@ -98,7 +98,8 @@ import {
 import { onMounted, onUnmounted, ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
-import { useAuthenticationStore, useRegistrationStore } from '@/stores/userStore'
+import { userRegistration } from '@/stores/userStore'
+
 
 const emits = defineEmits(['SignInForm'])
 const router = useRouter()
@@ -106,8 +107,8 @@ const fromLogin = ref(false)
 const signInDialog = ref(false)
 const registerDialog = ref(false)
 const ruleFormRef = ref<FormInstance>()
-const authenticationStore = useAuthenticationStore()
-const registrationStore = useRegistrationStore()
+// const authenticationStore = useAuthenticationStore()
+const registrationStore = userRegistration()
 
 
 const ruleForm = reactive({
@@ -173,23 +174,23 @@ const loginForm = (formEl: FormInstance | undefined) => {
   })
 }
 
-// const submitForm = (formEl: FormInstance | undefined) => {
-//   if (!formEl) return
-//   formEl.validate((valid) => {
-//     if (valid) {
-//       registrationStore.registerUser(formEl)
-//       registerDialog.value = false
-//       signInDialog.value = true
-//       fromLogin.value = true
-//     } else {
-//       ElMessage({
-//         message: 'Error during form submission!',
-//         grouping: true,
-//         type: 'error',
-//       })
-//     }
-//   })
-// }
+const submitForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  formEl.validate((valid) => {
+    if (valid) {
+      registrationStore.registerUser(formEl)
+      registerDialog.value = false
+      signInDialog.value = true
+      fromLogin.value = true
+    } else {
+      ElMessage({
+        message: 'Error during form submission!',
+        grouping: true,
+        type: 'error',
+      })
+    }
+  })
+}
 
 const registerDialogButton = () => {
   signInDialog.value = false
@@ -206,4 +207,8 @@ onMounted(() => {
   authenticationStore.checkLoginStatus()
 })
 
-</script>
+</script> -->
+
+<template>
+  
+</template>
