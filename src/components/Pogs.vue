@@ -205,7 +205,7 @@ const progress = ref(0)
 const emit = defineEmits(['flip', 'resetHand', 'openBetDialog', 'closeBetDialog'])
 
 const flipCoin = () => {
-  // emit('closeBetDialog')
+  emit('closeBetDialog')
   animation1.value = { x: '30vw', y: '0vh', rotate: 0, rotateY: 180 }
   animation2.value = { x: '0vw', y: '0vh', rotate: 0, rotateY: 180 }
   animation3.value = { x: '-30vw', y: '0vh', rotate: 0, rotateY: 180 }
