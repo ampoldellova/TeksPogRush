@@ -47,10 +47,13 @@
 </template>
 
 <script setup lang="ts">
+import BetDialog from '@/components/Play/BetDialog.vue'
+import Hand from '@/components/Play/Hand.vue'
+import BetButton from '@/components/Play/BetButton.vue'
 import backgrounds from '@/assets/Background.png'
 import hand1 from '@/assets/hand1.png'
 import hand2 from '@/assets/hand2.png'
-import Pogs from '@/components/Pogs.vue'
+import Pogs from '@/components/Play/Pogs.vue'
 import chip10 from '@/assets/chips/10.png'
 import chip20 from '@/assets/chips/20.png'
 import chip50 from '@/assets/chips/50.png'
@@ -58,10 +61,7 @@ import chip100 from '@/assets/chips/100.png'
 import chip200 from '@/assets/chips/200.png'
 import chip500 from '@/assets/chips/500.png'
 import { reactive, ref } from 'vue'
-import BetDialog from '@/components/BetDialog.vue'
 import { ElMessage } from 'element-plus'
-import Hand from '@/components/Hand.vue'
-import BetButton from '@/components/BetButton.vue'
 
 interface Bet {
   type: 'Pog1' | 'Equalizer' | 'Pog2'

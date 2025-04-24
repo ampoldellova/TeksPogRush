@@ -8,8 +8,8 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    BetButton: typeof import('./src/components/BetButton.vue')['default']
-    BetDialog: typeof import('./src/components/BetDialog.vue')['default']
+    BetButton: typeof import('./src/components/Play/BetButton.vue')['default']
+    BetDialog: typeof import('./src/components/Play/BetDialog.vue')['default']
     Coin: typeof import('./src/components/Coin.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElButton: typeof import('element-plus/es')['ElButton']
@@ -30,13 +30,13 @@ declare module 'vue' {
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
     ElText: typeof import('element-plus/es')['ElText']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
-    Hand: typeof import('./src/components/Hand.vue')['default']
+    Hand: typeof import('./src/components/Play/Hand.vue')['default']
     HomePageCarousel: typeof import('./src/components/HomePageCarousel.vue')['default']
     LoginDialog: typeof import('./src/components/LoginDialog.vue')['default']
     NavBarButton: typeof import('./src/components/NavigationBar/NavBarButton.vue')['default']
     NavigationBar: typeof import('./src/components/NavigationBar/NavigationBar.vue')['default']
     PogCards: typeof import('./src/components/PogCards.vue')['default']
-    Pogs: typeof import('./src/components/Pogs.vue')['default']
+    Pogs: typeof import('./src/components/Play/Pogs.vue')['default']
     PogsFlip: typeof import('./src/components/PogsFlip.vue')['default']
     PogShopCard1: typeof import('./src/components/Shop/PogShopCard1.vue')['default']
     PogShopCard2: typeof import('./src/components/Shop/PogShopCard2.vue')['default']
