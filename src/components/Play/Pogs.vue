@@ -152,6 +152,22 @@
       }"
     />
   </motion.div>
+
+  <el-dialog
+    v-model="showWinner"
+    width="300"
+    align-center
+    :style="{
+      backgroundImage: `url(${winnerImage})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      height: '300px',
+      backgroundColor: 'transparent',
+    }"
+    :show-close="false"
+    :close-on-click-modal="false"
+  >
+  </el-dialog>
 </template>
 
 <script setup lang="ts">
@@ -160,6 +176,7 @@ import heads1 from '@/assets/pogs/Tikbalang.png'
 import heads2 from '@/assets/pogs/Jeepney.png'
 import heads3 from '@/assets/pogs/Festival.png'
 import tails from '@/assets/pogs/Tails.png'
+import draw from '@/assets/pogs/Draw.png'
 import timer0 from '@/assets/Timer/0.png'
 import timer1 from '@/assets/Timer/1.png'
 import timer2 from '@/assets/Timer/2.png'
@@ -178,14 +195,16 @@ import { ref, defineEmits, onMounted } from 'vue'
 const emit = defineEmits(['flip', 'resetHand', 'openBetDialog', 'closeBetDialog'])
 
 const pog1 = ref({})
-const pog2 = ref({})
 const equalizer = ref({})
+const pog2 = ref({})
 const result = ref('')
 const animation1 = ref({})
 const animation2 = ref({})
 const animation3 = ref({})
 const progress = ref(0)
 const currentTimerImage = ref(timer12)
+const showWinner = ref(false)
+const winnerImage = ref(tails)
 
 const timerImages = [
   timer0,
@@ -219,6 +238,8 @@ const flipCoin = () => {
       pog2.value = Math.random() > 0.5 ? 'Tails' : 'Heads'
       equalizer.value = Math.random() > 0.5 ? 'Tails' : 'Heads'
 
+      emit('flip')
+
       animation1.value = {
         x: Math.random() * 100 - Math.random(),
         y: Math.random() * 100 - Math.random(),
@@ -238,24 +259,34 @@ const flipCoin = () => {
         rotateY: pog2.value === 'Tails' ? 360 : 540,
       }
 
-      if (pog1.value !== pog2.value && pog1.value !== equalizer.value) {
-        result.value = 'Pog1 is the winner'
-      } else if (pog2.value !== pog1.value && pog2.value !== equalizer.value) {
-        result.value = 'Pog2 is the winner'
-      } else if (equalizer.value !== pog1.value && equalizer.value !== pog2.value) {
-        result.value = 'Equalizer is the winner'
-      } else {
-        result.value = 'Draw!'
-      }
-      emit('flip')
-      console.log('Result:', result.value)
       setTimeout(() => {
-        animation1.value = { x: 0, y: 0, rotate: 0, rotateY: 0 }
-        animation2.value = { x: 0, y: 0, rotate: 0, rotateY: 0 }
-        animation3.value = { x: 0, y: 0, rotate: 0, rotateY: 0 }
-        emit('resetHand')
-        startTimer()
-      }, 5000)
+        if (pog1.value !== pog2.value && pog1.value !== equalizer.value) {
+          winnerImage.value = heads1
+          showWinner.value = true
+          result.value = 'Pog1 is the winner'
+        } else if (equalizer.value !== pog1.value && equalizer.value !== pog2.value) {
+          winnerImage.value = heads2
+          showWinner.value = true
+          result.value = 'Equalizer is the winner'
+        } else if (pog2.value !== pog1.value && pog2.value !== equalizer.value) {
+          winnerImage.value = heads3
+          showWinner.value = true
+          result.value = 'Pog2 is the winner'
+        } else {
+          winnerImage.value = draw
+          showWinner.value = true
+          result.value = 'Draw!'
+        }
+        console.log('Result:', result.value)
+        setTimeout(() => {
+          showWinner.value = false
+          animation1.value = { x: 0, y: 0, rotate: 0, rotateY: 0 }
+          animation2.value = { x: 0, y: 0, rotate: 0, rotateY: 0 }
+          animation3.value = { x: 0, y: 0, rotate: 0, rotateY: 0 }
+          emit('resetHand')
+          startTimer()
+        }, 5000)
+      }, 2000)
     }, 2000)
   }, 3000)
 }
