@@ -24,7 +24,7 @@
 
   <motion.div
     :animate="animation1"
-    :transition="{ duration: 2, ease: 'easeInOut' }"
+    :transition="{ duration: 1, ease: 'easeInOut' }"
     :style="{
       position: 'absolute',
       top: '50%',
@@ -68,7 +68,7 @@
 
   <motion.div
     :animate="animation2"
-    :transition="{ duration: 2, ease: 'easeInOut' }"
+    :transition="{ duration: 1, ease: 'easeInOut' }"
     :style="{
       position: 'absolute',
       top: '50%',
@@ -111,7 +111,7 @@
 
   <motion.div
     :animate="animation3"
-    :transition="{ duration: 2, ease: 'easeInOut' }"
+    :transition="{ duration: 1, ease: 'easeInOut' }"
     :style="{
       position: 'absolute',
       top: '50%',
@@ -175,6 +175,8 @@ import timer11 from '@/assets/Timer/11.png'
 import timer12 from '@/assets/Timer/12.png'
 import { ref, defineEmits, onMounted } from 'vue'
 
+const emit = defineEmits(['flip', 'resetHand', 'openBetDialog', 'closeBetDialog'])
+
 const pog1 = ref({})
 const pog2 = ref({})
 const equalizer = ref({})
@@ -182,8 +184,9 @@ const result = ref('')
 const animation1 = ref({})
 const animation2 = ref({})
 const animation3 = ref({})
-
+const progress = ref(0)
 const currentTimerImage = ref(timer12)
+
 const timerImages = [
   timer0,
   timer1,
@@ -199,10 +202,6 @@ const timerImages = [
   timer11,
   timer12,
 ]
-
-const progress = ref(0)
-
-const emit = defineEmits(['flip', 'resetHand', 'openBetDialog', 'closeBetDialog'])
 
 const flipCoin = () => {
   emit('closeBetDialog')
