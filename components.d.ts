@@ -8,6 +8,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    BetButton: typeof import('./src/components/BetButton.vue')['default']
     BetDialog: typeof import('./src/components/BetDialog.vue')['default']
     Coin: typeof import('./src/components/Coin.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
@@ -29,6 +30,7 @@ declare module 'vue' {
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
     ElText: typeof import('element-plus/es')['ElText']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
+    Hand: typeof import('./src/components/Hand.vue')['default']
     HomePageCarousel: typeof import('./src/components/HomePageCarousel.vue')['default']
     LoginDialog: typeof import('./src/components/LoginDialog.vue')['default']
     NavBarButton: typeof import('./src/components/NavBarButton.vue')['default']

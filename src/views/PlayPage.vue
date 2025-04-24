@@ -24,47 +24,8 @@
         @openBetDialog="openBetDialog"
         @closeBetDialog="closeBetDialog"
       />
-      <motion.div
-        :animate="{ opacity: 1, scale: 1 }"
-        :initial="{ opacity: 0, scale: 0.8 }"
-        :transition="{ duration: 0.5, ease: 'easeInOut' }"
-        style="position: absolute; bottom: 0"
-      >
-        <motion.img
-          :src="currentHand"
-          :animate="{ opacity: 1, scale: 1 }"
-          :initial="{ opacity: 0, scale: 0.8 }"
-          :transition="{ duration: 0.5, ease: 'easeInOut' }"
-          style="width: 350px; height: 350px; position: relative"
-        />
-      </motion.div>
-
-      <motion.button
-        @click="openBetDialog"
-        :whileHover="{
-          scale: 1,
-          transition: { duration: 0.3 },
-        }"
-        :whilePress="{ scale: 0.9 }"
-        :style="{
-          display: betButtonDisplay,
-          justifyContent: 'center',
-          alignItems: 'center',
-          fontFamily: 'bold',
-          width: '100px',
-          backgroundColor: '#ffd200',
-          color: 'black',
-          borderWidth: 0,
-          height: '50px',
-          borderRadius: '15px',
-          cursor: 'pointer',
-          boxShadow: '5px 8px 0px 1px rgba(0, 0, 0, 1)',
-          position: 'absolute',
-          bottom: '50px',
-        }"
-      >
-        B E T
-      </motion.button>
+      <Hand :currentHand="currentHand" />
+      <BetButton @openBetDialog="openBetDialog" :betButtonDisplay="betButtonDisplay" />
     </div>
   </div>
 
@@ -96,10 +57,11 @@ import chip50 from '@/assets/chips/50.png'
 import chip100 from '@/assets/chips/100.png'
 import chip200 from '@/assets/chips/200.png'
 import chip500 from '@/assets/chips/500.png'
-import { motion } from 'motion-v'
 import { reactive, ref } from 'vue'
 import BetDialog from '@/components/BetDialog.vue'
 import { ElMessage } from 'element-plus'
+import Hand from '@/components/Hand.vue'
+import BetButton from '@/components/BetButton.vue'
 
 interface Bet {
   type: 'Pog1' | 'Equalizer' | 'Pog2'
