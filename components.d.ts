@@ -11,6 +11,7 @@ declare module 'vue' {
     BetButton: typeof import('./src/components/Play/BetButton.vue')['default']
     BetDialog: typeof import('./src/components/Play/BetDialog.vue')['default']
     Coin: typeof import('./src/components/Coin.vue')['default']
+    Drawer: typeof import('./src/components/NavigationBar/Drawer.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
