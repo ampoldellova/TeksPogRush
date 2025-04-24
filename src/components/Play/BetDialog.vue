@@ -13,11 +13,11 @@
     :show-close="false"
     @close="closeChipsOptions"
   >
-    <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px">
+    <el-row style="display: flex; justify-content: center; align-items: center; margin-top: 20px">
       <el-text :style="{ fontFamily: 'bold', color: 'white', fontSize: '20px' }">
         PLACE YOUR BET
       </el-text>
-    </div>
+    </el-row>
 
     <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px">
       <BetPogButton
