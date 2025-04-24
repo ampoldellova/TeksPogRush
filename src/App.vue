@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 import { RouterView, useRoute } from 'vue-router'
-import NavigationBar from './components/NavigationBar.vue'
+import NavigationBar from './components/NavigationBar/NavigationBar.vue'
 import { ref, watch } from 'vue'
 
 const showNavbar = ref(true)

@@ -340,7 +340,6 @@ import {
 } from '@element-plus/icons-vue'
 import { onMounted, onUnmounted, ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import NavBarButton from './NavBarButton.vue'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import { useAuthenticationStore, useRegistrationStore } from '@/stores/userStore'
 

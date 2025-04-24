@@ -103,10 +103,10 @@
 
 <script setup lang="ts">
 import { COLORS } from '@/assets/theme'
-import PogShopCard1 from '@/components/PogShopCard1.vue'
-import PogShopCard2 from '@/components/PogShopCard2.vue'
-import PogShopCard3 from '@/components/PogShopCard3.vue'
-import PogShopCard4 from '@/components/PogShopCard4.vue'
+import PogShopCard1 from '@/components/Shop/PogShopCard1.vue'
+import PogShopCard2 from '@/components/Shop/PogShopCard2.vue'
+import PogShopCard3 from '@/components/Shop/PogShopCard3.vue'
+import PogShopCard4 from '@/components/Shop/PogShopCard4.vue'
 import { Search, Sort } from '@element-plus/icons-vue'
 import { ref } from 'vue'
 
