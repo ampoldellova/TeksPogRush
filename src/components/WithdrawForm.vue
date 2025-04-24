@@ -62,7 +62,7 @@ import { useMoneyTransactionsStore } from '@/stores/moneyTransactions'
 import { motion } from 'motion-v'
 import { ref } from 'vue'
 
-const value = ref('Gcash') // Default transaction method
+const value = ref<'Gcash' | 'Bank Account'>('Gcash')  
 const options = ['Gcash', 'Bank Account']
 
 const accountNumberInput = ref('')
@@ -98,8 +98,7 @@ const handleWithdraw = () => {
     accountNumberInput.value = ''
     accountNameInput.value = ''
   } catch (error) {
-    alert(error.message)
-  }
+    alert(error instanceof Error ? error.message : 'An unknown error occurred')  }
 }
 </script>
   

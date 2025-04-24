@@ -2,14 +2,14 @@
 
  <el-form :model="ruleForm" ref="ruleFormRef" :rules="loginRules" status-icon>
       <el-row style="margin-top: 20px">
-        <el-text :style="{ fontFamily: 'bold', color: 'black' }">Email</el-text>
+        <el-text :style="{ fontFamily: 'bold', color: 'black' }">Username</el-text>
         <el-col :span="24">
-          <el-form-item prop="signInEmail" :style="{ margin: 0 }">
+          <el-form-item prop="signInUsername" :style="{ margin: 0 }">
             <el-input
-              :prefix-icon="Message"
-              v-model="ruleForm.signInEmail"
+              :prefix-icon="User"
+              v-model="ruleForm.signInUsername"
               style="width: 100%"
-              placeholder="Enter your email"
+              placeholder="Enter your Username"
               input-style="font-family:regular"
             />
           </el-form-item>
@@ -94,6 +94,7 @@ import { useAuthenticationStore, userRegistration } from '@/stores/userStore'
 import {
   Lock,
   Message,
+  User,
 } from '@element-plus/icons-vue'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import { onMounted, reactive, ref } from 'vue'
@@ -111,13 +112,13 @@ const registrationStore = userRegistration()
 
 
 const ruleForm = reactive({
-  signInEmail: '',
+  signInUsername: '',
   signInPassword: '',
 })
 
-const validateSignInEmail = (rule: any, value: any, callback: any) => {
+const validateSignInUsername = (rule: any, value: any, callback: any) => {
   if (value === '') {
-    callback(new Error('Please input your email'))
+    callback(new Error('Please input your username'))
   } else {
     callback()
   }
@@ -132,7 +133,7 @@ const validateSignInPassword = (rule: any, value: any, callback: any) => {
 }
 
 const loginRules = reactive<FormRules<typeof ruleForm>>({
-  signInEmail: [{ validator: validateSignInEmail, trigger: 'change' }],
+  signInUsername: [{ validator: validateSignInUsername, trigger: 'change' }],
   signInPassword: [{ validator: validateSignInPassword, trigger: 'change' }],
 })
 
@@ -143,7 +144,7 @@ const loginForm = (formEl: FormInstance | undefined) => {
   formEl.validate((valid) => {
     if (valid) {
       const { success, message } = authenticationStore.login(
-        ruleForm.signInEmail,
+        ruleForm.signInUsername,
         ruleForm.signInPassword,
       )
       if (success) {
@@ -153,7 +154,7 @@ const loginForm = (formEl: FormInstance | undefined) => {
           type: 'success',
         })
         signInDialog.value = false
-        ruleForm.signInEmail = ''
+        ruleForm.signInUsername = ''
         ruleForm.signInPassword = ''
         formEl.resetFields()
       } else {

@@ -117,7 +117,7 @@ export interface userRegistration {
 }
 
 export interface User {
-  email: string
+  username: string
   password: string
   balance: number // New balance field
 }
@@ -169,7 +169,7 @@ export const useAuthenticationStore = defineStore('auth', {
     isLoggedIn: JSON.parse(localStorage.getItem('loginStatus') || '{}').loggedIn || false,
     user: JSON.parse(localStorage.getItem('loginStatus') || '{}').email
       ? JSON.parse(localStorage.getItem('users') || '[]').find(
-          (u: User) => u.email === JSON.parse(localStorage.getItem('loginStatus') || '{}').email,
+          (u: User) => u.username === JSON.parse(localStorage.getItem('loginStatus') || '{}').email,
         )
       : null,
   }),
@@ -184,7 +184,7 @@ export const useAuthenticationStore = defineStore('auth', {
     login(email: string, password: string) {
       const registeredUsers = JSON.parse(localStorage.getItem('users') || '[]')
       const user = registeredUsers.find(
-        (u: User) => u.email === email && u.password === password,
+        (u: User) => u.username === email && u.password === password,
       )
       if (user) {
         this.isLoggedIn = true
@@ -207,7 +207,7 @@ export const useAuthenticationStore = defineStore('auth', {
       if (loginStatus.loggedIn) {
         this.isLoggedIn = true
         this.user = JSON.parse(localStorage.getItem('users') || '[]').find(
-          (u: User) => u.email === loginStatus.email,
+          (u: User) => u.username === loginStatus.email,
         )
       } else {
         this.isLoggedIn = false
@@ -219,7 +219,7 @@ export const useAuthenticationStore = defineStore('auth', {
       if (this.user) {
         this.user.balance = (this.user.balance ?? 0) + amount // Ensure balance is initialized
         const users = JSON.parse(localStorage.getItem('users') || '[]')
-        const userIndex = users.findIndex((u: User) => u.email === this.user?.email)
+        const userIndex = users.findIndex((u: User) => u.username === this.user?.email)
         if (userIndex !== -1) {
           users[userIndex].balance = this.user.balance
           localStorage.setItem('users', JSON.stringify(users)) // Save updated balance to localStorage
