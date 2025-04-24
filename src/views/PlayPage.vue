@@ -163,12 +163,12 @@ const changeBetChip = () => {
     chips[4].animation = { x: '0px', y: '0px' }
     chips[5].animation = { x: '0px', y: '0px' }
   } else {
-    chips[0].animation = { x: '-172px', y: '-32px' }
-    chips[1].animation = { x: '-154px', y: '65px' }
-    chips[2].animation = { x: '-86px', y: '130px' }
-    chips[3].animation = { x: '86px', y: '130px' }
-    chips[4].animation = { x: '154px', y: '65px' }
-    chips[5].animation = { x: '172px', y: '-32px' }
+    chips[0].animation = { x: '-172px', y: '-10px' }
+    chips[1].animation = { x: '-154px', y: '87px' }
+    chips[2].animation = { x: '-86px', y: '152px' }
+    chips[3].animation = { x: '86px', y: '152px' }
+    chips[4].animation = { x: '154px', y: '87px' }
+    chips[5].animation = { x: '172px', y: '-10px' }
   }
   isReset.value = !isReset.value
 }

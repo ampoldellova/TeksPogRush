@@ -495,11 +495,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
   })
 }
 
-const registerNavButton = () => {
-  fromLogin.value = false
-  registerDialog.value = true
-}
-
 const registerDialogButton = () => {
   signInDialog.value = false
   fromLogin.value = true
