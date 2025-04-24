@@ -20,137 +20,24 @@
     </div>
 
     <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px">
-      <motion.button
+      <BetPogButton
+        icon="heads1"
+        label="POG 1"
+        :displayValue="props.pog1BetDisplay"
         @click="placeBetPog1"
-        :whileHover="{ scale: 1.1, transition: { duration: 0.3 } }"
-        :whilePress="{ scale: 0.9 }"
-        :style="{ backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }"
-      >
-        <el-row>
-          <el-col :span="24">
-            <el-image
-              :src="heads1"
-              fit="contain"
-              :style="{
-                width: '100px',
-                height: '100px',
-                borderWidth: '1px',
-                borderColor: 'white',
-                borderStyle: 'solid',
-                borderRadius: '50%',
-              }"
-            />
-          </el-col>
-          <el-col :span="24" style="margin-top: 10px">
-            <el-text :style="{ fontFamily: 'regular', color: 'white' }"> POG 1 </el-text>
-          </el-col>
-          <el-col :span="24" style="margin-top: 10px; display: flex; justify-content: center">
-            <div
-              :style="{
-                backgroundColor: COLORS.dark,
-                height: '20px',
-                width: '100px',
-                borderRadius: '99px',
-                borderWidth: '1px',
-                borderColor: '#2a2c32',
-                borderStyle: 'solid',
-              }"
-            >
-              <el-text :style="{ fontFamily: 'regular', color: 'white' }">
-                ₱ {{ props.pog1BetDisplay }}
-              </el-text>
-            </div>
-          </el-col>
-        </el-row>
-      </motion.button>
-
-      <motion.button
+      />
+      <BetPogButton
+        icon="heads2"
+        label="EQUALIZER"
+        :displayValue="props.equalizerBetDisplay"
         @click="placeBetEqualizer"
-        :whileHover="{ scale: 1.1, transition: { duration: 0.3 } }"
-        :whilePress="{ scale: 0.9 }"
-        :style="{ backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }"
-      >
-        <el-row>
-          <el-col :span="24">
-            <el-image
-              :src="heads2"
-              fit="contain"
-              :style="{
-                width: '100px',
-                height: '100px',
-                borderWidth: '1px',
-                borderColor: 'white',
-                borderStyle: 'solid',
-                borderRadius: '50%',
-              }"
-            />
-          </el-col>
-          <el-col :span="24" style="margin-top: 10px">
-            <el-text :style="{ fontFamily: 'regular', color: 'white' }"> EQUALIZER </el-text>
-          </el-col>
-          <el-col :span="24" style="margin-top: 10px; display: flex; justify-content: center">
-            <div
-              :style="{
-                backgroundColor: COLORS.dark,
-                height: '20px',
-                width: '100px',
-                borderRadius: '99px',
-                borderWidth: '1px',
-                borderColor: '#2a2c32',
-                borderStyle: 'solid',
-              }"
-            >
-              <el-text :style="{ fontFamily: 'regular', color: 'white' }">
-                ₱ {{ props.equalizerBetDisplay }}
-              </el-text>
-            </div>
-          </el-col>
-        </el-row>
-      </motion.button>
-
-      <motion.button
+      />
+      <BetPogButton
+        icon="heads3"
+        label="POG 2"
+        :displayValue="props.pog2BetDisplay"
         @click="placeBetPog2"
-        :whileHover="{ scale: 1.1, transition: { duration: 0.3 } }"
-        :whilePress="{ scale: 0.9 }"
-        :style="{ backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }"
-      >
-        <el-row>
-          <el-col :span="24">
-            <el-image
-              :src="heads3"
-              fit="contain"
-              :style="{
-                width: '100px',
-                height: '100px',
-                borderWidth: '1px',
-                borderColor: 'white',
-                borderStyle: 'solid',
-                borderRadius: '50%',
-              }"
-            />
-          </el-col>
-          <el-col :span="24" style="margin-top: 10px">
-            <el-text :style="{ fontFamily: 'regular', color: 'white' }"> POG 2 </el-text>
-          </el-col>
-          <el-col :span="24" style="margin-top: 10px; display: flex; justify-content: center">
-            <div
-              :style="{
-                backgroundColor: COLORS.dark,
-                height: '20px',
-                width: '100px',
-                borderRadius: '99px',
-                borderWidth: '1px',
-                borderColor: '#2a2c32',
-                borderStyle: 'solid',
-              }"
-            >
-              <el-text :style="{ fontFamily: 'regular', color: 'white' }">
-                ₱ {{ props.pog2BetDisplay }}
-              </el-text>
-            </div>
-          </el-col>
-        </el-row>
-      </motion.button>
+      />
     </div>
 
     <div style="display: flex; justify-content: center; align-items: center">
@@ -228,7 +115,6 @@
         :transition="{ duration: 0.5, ease: 'easeInOut' }"
         style="position: absolute; bottom: -50px"
       >
-        {{ console.log('Chip:', chip.animation) }}
         <motion.button
           @click="chip.action"
           :whilePress="{ scale: 0.9 }"
@@ -249,9 +135,7 @@ import BetDialog from '@/assets/BetDialog.png'
 import { COLORS } from '@/assets/theme'
 import clear from '@/assets/chips/clear.png'
 import undo from '@/assets/chips/undo.png'
-import heads1 from '@/assets/pogs/Tikbalang.png'
-import heads2 from '@/assets/pogs/Jeepney.png'
-import heads3 from '@/assets/pogs/Festival.png'
+import BetPogButton from './BetPogButton.vue'
 
 const betDialog = ref(false)
 
