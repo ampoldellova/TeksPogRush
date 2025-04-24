@@ -44,7 +44,7 @@ declare module 'vue' {
     PogShopCard3: typeof import('./src/components/Shop/PogShopCard3.vue')['default']
     PogShopCard4: typeof import('./src/components/Shop/PogShopCard4.vue')['default']
     PogShopCards: typeof import('./src/components/PogShopCards.vue')['default']
-    RegisterDialog: typeof import('./src/components/RegisterDialog.vue')['default']
+    RegisterDialog: typeof import('./src/components/NavigationBar/RegisterDialog.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SignInDialog: typeof import('./src/components/NavigationBar/SignInDialog.vue')['default']
