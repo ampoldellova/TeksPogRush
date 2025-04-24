@@ -38,6 +38,33 @@
           style="width: 350px; height: 350px; position: relative"
         />
       </motion.div>
+
+      <motion.button
+        @click="openBetDialog"
+        :whileHover="{
+          scale: 1,
+          transition: { duration: 0.3 },
+        }"
+        :whilePress="{ scale: 0.9 }"
+        :style="{
+          display: betButtonDisplay,
+          justifyContent: 'center',
+          alignItems: 'center',
+          fontFamily: 'bold',
+          width: '100px',
+          backgroundColor: '#ffd200',
+          color: 'black',
+          borderWidth: 0,
+          height: '50px',
+          borderRadius: '15px',
+          cursor: 'pointer',
+          boxShadow: '5px 8px 0px 1px rgba(0, 0, 0, 1)',
+          position: 'absolute',
+          bottom: '50px',
+        }"
+      >
+        B E T
+      </motion.button>
     </div>
   </div>
 
@@ -88,6 +115,7 @@ const isReset = ref(false)
 const Pog1BetDisplay = ref(0)
 const EqualizerBetDisplay = ref(0)
 const Pog2BetDisplay = ref(0)
+const betButtonDisplay = ref('flex')
 
 const chips = reactive([
   {
@@ -156,10 +184,12 @@ const resetHand = () => {
 
 const openBetDialog = () => {
   betDialog.value = true
+  betButtonDisplay.value = 'flex'
 }
 
 const closeBetDialog = () => {
   betDialog.value = false
+  betButtonDisplay.value = 'none'
 }
 
 const changeBetChip = () => {
