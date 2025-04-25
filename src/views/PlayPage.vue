@@ -190,6 +190,7 @@ const chips = reactive([
   },
 ])
 
+//Winner Dialog
 const showWinner = ref(false)
 const winnerImage = ref(tails)
 
