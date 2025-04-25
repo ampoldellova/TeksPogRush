@@ -43,7 +43,7 @@
       </el-row>
 
       <el-row
-        @click="navigateTo('/play')"
+        @click="navigateTo('/mode')"
         style="display: flex; justify-content: center; align-items: center; cursor: pointer"
       >
         <el-icon :style="{ fontSize: '20px', marginRight: '10px', color: 'white' }">

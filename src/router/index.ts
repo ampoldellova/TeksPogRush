@@ -1,4 +1,5 @@
 import ForgotPasswordPage from '@/views/ForgotPasswordPage.vue'
+import GameMode from '@/views/GameMode.vue'
 import HomePage from '@/views/HomePage.vue'
 import PlayPage from '@/views/PlayPage.vue'
 import ShopPage from '@/views/ShopPage.vue'
@@ -20,6 +21,11 @@ const router = createRouter({
     {
       path: '/play',
       name: 'play',
+      component: GameMode,
+    },
+    {
+      path: '/arena',
+      name: 'arena',
       component: PlayPage,
     },
     {
