@@ -14,17 +14,17 @@
   >
     <el-row :style="rowStyle">
       <el-image
-        :src="bayanihan"
+        :src="buy150"
         :style="{ borderRadius: 99, width: '150px', height: '150px' }"
         fit="contain"
       />
     </el-row>
 
     <el-row :style="bottomRowStyle">
-      <el-col :span="18">
+      <el-col :span="24">
         <el-row>
           <el-col :span="24">
-            <el-text :style="{ fontFamily: 'regular', color: 'white' }">002 | Bayanihan</el-text>
+            <el-text :style="{ fontFamily: 'regular', color: 'white' }">002 | 150 Chips</el-text>
           </el-col>
           <el-col :span="24">
             <el-text :style="{ fontFamily: 'bold', color: '#f2cd5c' }">Php.</el-text>
@@ -35,11 +35,11 @@
         </el-row>
       </el-col>
 
-      <el-col :span="6">
+      <!-- <el-col :span="6">
         <el-row>
           <el-image :src="epic" :style="{ width: '45px', height: '45px' }" />
         </el-row>
-      </el-col>
+      </el-col> -->
 
       <el-col :span="24" style="margin-top: 5px">
         <el-button :style="buyButton">Buy Now</el-button>
@@ -49,13 +49,8 @@
 </template>
 
 <script setup lang="ts">
-import tikbalang from '@/assets/pogs/Tikbalang.png'
-import jeepney from '@/assets/pogs/Jeepney.png'
-import bayanihan from '@/assets/pogs/Bayanihan.png'
-import festival from '@/assets/pogs/Festival.png'
-import rare from '@/assets/rarities/Rare.png'
+import buy150 from '@/assets/shop/150.png'
 import epic from '@/assets/rarities/Epic.png'
-import { COLORS } from '@/assets/theme'
 import { motion } from 'motion-v'
 import { computed, ref } from 'vue'
 
