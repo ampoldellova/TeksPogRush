@@ -18,12 +18,13 @@
         alignItems: 'center',
       }"
     >
-      <Pogs
+      <Timer :currentTimerImage="currentTimerImage" />
+      <!-- <Pogs
         @flip="changeHand"
         @resetHand="resetHand"
         @openBetDialog="openBetDialog"
         @closeBetDialog="closeBetDialog"
-      />
+      /> -->
       <Hand :currentHand="currentHand" />
       <BetButton @openBetDialog="openBetDialog" :betButtonDisplay="betButtonDisplay" />
     </div>
@@ -47,6 +48,19 @@
 </template>
 
 <script setup lang="ts">
+import timer0 from '@/assets/Timer/0.png'
+import timer1 from '@/assets/Timer/1.png'
+import timer2 from '@/assets/Timer/2.png'
+import timer3 from '@/assets/Timer/3.png'
+import timer4 from '@/assets/Timer/4.png'
+import timer5 from '@/assets/Timer/5.png'
+import timer6 from '@/assets/Timer/6.png'
+import timer7 from '@/assets/Timer/7.png'
+import timer8 from '@/assets/Timer/8.png'
+import timer9 from '@/assets/Timer/9.png'
+import timer10 from '@/assets/Timer/10.png'
+import timer11 from '@/assets/Timer/11.png'
+import timer12 from '@/assets/Timer/12.png'
 import BetDialog from '@/components/Play/BetDialog.vue'
 import Hand from '@/components/Play/Hand.vue'
 import BetButton from '@/components/Play/BetButton.vue'
@@ -60,8 +74,27 @@ import chip50 from '@/assets/chips/50.png'
 import chip100 from '@/assets/chips/100.png'
 import chip200 from '@/assets/chips/200.png'
 import chip500 from '@/assets/chips/500.png'
-import { reactive, ref } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
+import Timer from '@/components/Play/Timer.vue'
+
+const progress = ref(0)
+const currentTimerImage = ref(timer12)
+const timerImages = [
+  timer0,
+  timer1,
+  timer2,
+  timer3,
+  timer4,
+  timer5,
+  timer6,
+  timer7,
+  timer8,
+  timer9,
+  timer10,
+  timer11,
+  timer12,
+]
 
 interface Bet {
   type: 'Pog1' | 'Equalizer' | 'Pog2'
@@ -256,6 +289,26 @@ const clearBets = () => {
   })
   console.log('Bet History:', betHistory.value)
 }
+
+const startTimer = () => {
+  openBetDialog()
+  let remainingTime = 13
+  const timerInterval = setInterval(() => {
+    if (remainingTime > 0) {
+      currentTimerImage.value = timerImages[remainingTime - 1]
+      progress.value = (remainingTime / 13) * 100
+      remainingTime--
+    } else {
+      //   flipCoin()
+      clearInterval(timerInterval)
+      progress.value = 0
+    }
+  }, 1000)
+}
+
+onMounted(() => {
+  startTimer()
+})
 </script>
 
 <style scoped></style>
