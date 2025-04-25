@@ -19,12 +19,7 @@
       }"
     >
       <Timer :currentTimerImage="currentTimerImage" />
-      <!-- <Pogs
-        @flip="changeHand"
-        @resetHand="resetHand"
-        @openBetDialog="openBetDialog"
-        @closeBetDialog="closeBetDialog"
-      /> -->
+      <Pogs :animation1="animation1" :animation2="animation2" :animation3="animation3" />
       <Hand :currentHand="currentHand" />
       <BetButton @openBetDialog="openBetDialog" :betButtonDisplay="betButtonDisplay" />
     </div>
@@ -45,9 +40,13 @@
     @undoBet="undoBet"
     @clearBets="clearBets"
   />
+
+  <WinnerDialog v-model="showWinner" :winnerImage="winnerImage" />
 </template>
 
 <script setup lang="ts">
+import backgrounds from '@/assets/Background.png'
+import Timer from '@/components/Play/Timer.vue'
 import timer0 from '@/assets/Timer/0.png'
 import timer1 from '@/assets/Timer/1.png'
 import timer2 from '@/assets/Timer/2.png'
@@ -61,23 +60,39 @@ import timer9 from '@/assets/Timer/9.png'
 import timer10 from '@/assets/Timer/10.png'
 import timer11 from '@/assets/Timer/11.png'
 import timer12 from '@/assets/Timer/12.png'
-import BetDialog from '@/components/Play/BetDialog.vue'
+
+import Pogs from '@/components/Play/Pogs.vue'
+import heads1 from '@/assets/pogs/Tikbalang.png'
+import heads2 from '@/assets/pogs/Jeepney.png'
+import heads3 from '@/assets/pogs/Festival.png'
+import tails from '@/assets/pogs/Tails.png'
+import draw from '@/assets/pogs/Draw.png'
+
 import Hand from '@/components/Play/Hand.vue'
-import BetButton from '@/components/Play/BetButton.vue'
-import backgrounds from '@/assets/Background.png'
 import hand1 from '@/assets/hand1.png'
 import hand2 from '@/assets/hand2.png'
-import Pogs from '@/components/Play/Pogs.vue'
+
+import BetButton from '@/components/Play/BetButton.vue'
+
+import BetDialog from '@/components/Play/BetDialog.vue'
 import chip10 from '@/assets/chips/10.png'
 import chip20 from '@/assets/chips/20.png'
 import chip50 from '@/assets/chips/50.png'
 import chip100 from '@/assets/chips/100.png'
 import chip200 from '@/assets/chips/200.png'
 import chip500 from '@/assets/chips/500.png'
+
+import WinnerDialog from '@/components/Play/WinnerDialog.vue'
+
 import { reactive, ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
-import Timer from '@/components/Play/Timer.vue'
 
+interface Bet {
+  type: 'Pog1' | 'Equalizer' | 'Pog2'
+  value: number
+}
+
+//Timer
 const progress = ref(0)
 const currentTimerImage = ref(timer12)
 const timerImages = [
@@ -96,22 +111,28 @@ const timerImages = [
   timer12,
 ]
 
-interface Bet {
-  type: 'Pog1' | 'Equalizer' | 'Pog2'
-  value: number
-}
-
-const betHistory = ref<Bet[]>([])
+//Pogs
+const pog1 = ref({})
+const equalizer = ref({})
+const pog2 = ref({})
+const animation1 = ref({})
+const animation2 = ref({})
+const animation3 = ref({})
 const currentHand = ref(hand1)
+const result = ref('')
+
+//Bet Button
+const betButtonDisplay = ref('flex')
+
+//Bet Dialog
+const Pog1BetDisplay = ref(0)
+const EqualizerBetDisplay = ref(0)
+const Pog2BetDisplay = ref(0)
+const betHistory = ref<Bet[]>([])
 const betDialog = ref(false)
 const currentBet = ref(chip10)
 const currentBetValue = ref(10)
 const isReset = ref(false)
-const Pog1BetDisplay = ref(0)
-const EqualizerBetDisplay = ref(0)
-const Pog2BetDisplay = ref(0)
-const betButtonDisplay = ref('flex')
-
 const chips = reactive([
   {
     src: chip10,
@@ -169,13 +190,8 @@ const chips = reactive([
   },
 ])
 
-const changeHand = () => {
-  currentHand.value = hand2
-}
-
-const resetHand = () => {
-  currentHand.value = hand1
-}
+const showWinner = ref(false)
+const winnerImage = ref(tails)
 
 const openBetDialog = () => {
   betDialog.value = true
@@ -299,11 +315,80 @@ const startTimer = () => {
       progress.value = (remainingTime / 13) * 100
       remainingTime--
     } else {
-      //   flipCoin()
+      flipCoin()
       clearInterval(timerInterval)
       progress.value = 0
     }
   }, 1000)
+}
+
+const flipCoin = () => {
+  closeBetDialog()
+  animation1.value = { x: '30vw', y: '0vh', rotate: 0, rotateY: 180 }
+  animation2.value = { x: '0vw', y: '0vh', rotate: 0, rotateY: 180 }
+  animation3.value = { x: '-30vw', y: '0vh', rotate: 0, rotateY: 180 }
+
+  setTimeout(() => {
+    animation1.value = { x: '30vw', y: '18vh', rotate: 0, rotateY: 180 }
+    animation2.value = { x: '0vw', y: '18vh', rotate: 0, rotateY: 180 }
+    animation3.value = { x: '-30vw', y: '18vh', rotate: 0, rotateY: 180 }
+
+    setTimeout(() => {
+      currentHand.value = hand2
+
+      pog1.value = Math.random() > 0.5 ? 'Tails' : 'Heads'
+      pog2.value = Math.random() > 0.5 ? 'Tails' : 'Heads'
+      equalizer.value = Math.random() > 0.5 ? 'Tails' : 'Heads'
+
+      animation1.value = {
+        x: Math.random() * 100 - Math.random(),
+        y: Math.random() * 100 - Math.random(),
+        rotate: 1800,
+        rotateY: pog1.value === 'Tails' ? 360 : 540,
+      }
+      animation2.value = {
+        x: Math.random() * 100 - Math.random(),
+        y: Math.random() * 100 - Math.random(),
+        rotate: 1800,
+        rotateY: equalizer.value === 'Tails' ? 360 : 540,
+      }
+      animation3.value = {
+        x: Math.random() * 100 - Math.random(),
+        y: Math.random() * 100 - Math.random(),
+        rotate: 1800,
+        rotateY: pog2.value === 'Tails' ? 360 : 540,
+      }
+
+      setTimeout(() => {
+        if (pog1.value !== pog2.value && pog1.value !== equalizer.value) {
+          winnerImage.value = heads1
+          showWinner.value = true
+          result.value = 'Pog1 is the winner'
+        } else if (equalizer.value !== pog1.value && equalizer.value !== pog2.value) {
+          winnerImage.value = heads2
+          showWinner.value = true
+          result.value = 'Equalizer is the winner'
+        } else if (pog2.value !== pog1.value && pog2.value !== equalizer.value) {
+          winnerImage.value = heads3
+          showWinner.value = true
+          result.value = 'Pog2 is the winner'
+        } else {
+          winnerImage.value = draw
+          showWinner.value = true
+          result.value = 'Draw!'
+        }
+        console.log('Result:', result.value)
+        setTimeout(() => {
+          showWinner.value = false
+          currentHand.value = hand1
+          animation1.value = { x: 0, y: 0, rotate: 0, rotateY: 0 }
+          animation2.value = { x: 0, y: 0, rotate: 0, rotateY: 0 }
+          animation3.value = { x: 0, y: 0, rotate: 0, rotateY: 0 }
+          startTimer()
+        }, 5000)
+      }, 2000)
+    }, 2000)
+  }, 3000)
 }
 
 onMounted(() => {
