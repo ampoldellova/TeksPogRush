@@ -41,7 +41,12 @@
     @clearBets="clearBets"
   />
 
-  <WinnerDialog v-model="showWinner" :winnerImage="winnerImage" />
+  <WinnerDialog
+    v-model="showWinner"
+    :winnerImage="winnerImage"
+    :result="result"
+    :textImageDisplay="textImageDisplay"
+  />
 </template>
 
 <script setup lang="ts">
@@ -83,6 +88,9 @@ import chip200 from '@/assets/chips/200.png'
 import chip500 from '@/assets/chips/500.png'
 
 import WinnerDialog from '@/components/Play/WinnerDialog.vue'
+import pog1Win from '@/assets/play/pog1Win.png'
+import pog2Win from '@/assets/play/pog2Win.png'
+import equalizerWin from '@/assets/play/equalizerWin.png'
 
 import { reactive, ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
@@ -193,6 +201,7 @@ const chips = reactive([
 //Winner Dialog
 const showWinner = ref(false)
 const winnerImage = ref(tails)
+const textImageDisplay = ref('')
 
 const openBetDialog = () => {
   betDialog.value = true
@@ -364,21 +373,24 @@ const flipCoin = () => {
         if (pog1.value !== pog2.value && pog1.value !== equalizer.value) {
           winnerImage.value = heads1
           showWinner.value = true
-          result.value = 'Pog1 is the winner'
+          result.value = pog1Win
+          textImageDisplay.value = 'flex'
         } else if (equalizer.value !== pog1.value && equalizer.value !== pog2.value) {
           winnerImage.value = heads2
           showWinner.value = true
-          result.value = 'Equalizer is the winner'
+          result.value = equalizerWin
+          textImageDisplay.value = 'flex'
         } else if (pog2.value !== pog1.value && pog2.value !== equalizer.value) {
           winnerImage.value = heads3
           showWinner.value = true
-          result.value = 'Pog2 is the winner'
+          result.value = pog2Win
+          textImageDisplay.value = 'flex'
         } else {
           winnerImage.value = draw
           showWinner.value = true
-          result.value = 'Draw!'
+          result.value = ''
+          textImageDisplay.value = 'none'
         }
-        console.log('Result:', result.value)
         setTimeout(() => {
           showWinner.value = false
           currentHand.value = hand1

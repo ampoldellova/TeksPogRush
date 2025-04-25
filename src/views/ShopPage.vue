@@ -10,7 +10,37 @@
       flexDirection: 'column',
     }"
   >
-    <el-row
+    <!-- <motion.div
+      style="
+        width: 220px;
+        height: 330px;
+        border-width: 2px;
+        border-color: #2a2c32;
+        border-radius: 15px;
+        margin: 10px;
+      "
+    >
+      <el-row>
+        <el-col
+          :span="24"
+          :style="{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+
+            background: 'linear-gradient(to bottom, transparent, rgba(239, 176, 7, 0.5))',
+          }"
+        >
+          <el-image
+            :src="buy50"
+            :style="{ borderRadius: 99, width: '150px', height: '150px' }"
+            fit="contain"
+          />
+        </el-col>
+      </el-row>
+    </motion.div> -->
+
+    <!-- <el-row
       :gutter="20"
       style="width: 100%; justify-content: center; align-items: center; margin-bottom: 20px"
     >
@@ -91,23 +121,23 @@
           }"
         />
       </el-col>
-    </el-row>
-    <div style="width: 100%; display: flex; justify-content: center; align-items: center">
+    </el-row> -->
+    <!-- <div style="width: 100%; display: flex; justify-content: center; align-items: center">
       <PogShopCard1 />
       <PogShopCard2 />
       <PogShopCard3 />
       <PogShopCard4 />
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import { COLORS } from '@/assets/theme'
-import PogShopCard1 from '@/components/Shop/PogShopCard1.vue'
-import PogShopCard2 from '@/components/Shop/PogShopCard2.vue'
-import PogShopCard3 from '@/components/Shop/PogShopCard3.vue'
-import PogShopCard4 from '@/components/Shop/PogShopCard4.vue'
-import { Search, Sort } from '@element-plus/icons-vue'
+import buy50 from '@/assets/shop/50.png'
+import buy150 from '@/assets/shop/150.png'
+import buy350 from '@/assets/shop/350.png'
+import buy500 from '@/assets/shop/500.png'
+
+import { motion } from 'motion-v'
 import { ref } from 'vue'
 
 const search = ref('')

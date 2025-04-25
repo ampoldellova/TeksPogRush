@@ -9,10 +9,21 @@
       backgroundPosition: 'center',
       height: '300px',
       backgroundColor: 'transparent',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
     }"
     :show-close="false"
     :close-on-click-modal="false"
   >
+    <el-image
+      :src="result"
+      :style="{
+        display: textImageDisplay,
+        width: '200px',
+        height: '200px',
+      }"
+    />
   </el-dialog>
 </template>
 
@@ -23,6 +34,8 @@ const showWinner = ref(false)
 
 const props = defineProps<{
   winnerImage: string
+  result: string
+  textImageDisplay: string
 }>()
 </script>
 
