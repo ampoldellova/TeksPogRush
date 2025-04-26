@@ -162,7 +162,7 @@
   
   <style scoped>
   .valueContainer {
-    width: 75%;
+    width: 70%;
     height: 4vh;
     background-color: rgba(133, 130, 130, 0.048);
     border-radius: 12px;
