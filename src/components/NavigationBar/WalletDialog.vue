@@ -160,7 +160,6 @@ const handleWithdraw = () => {
   }
 }
 
-
 </script>
 
 <style scoped>

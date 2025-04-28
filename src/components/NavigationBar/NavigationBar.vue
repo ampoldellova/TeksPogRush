@@ -120,7 +120,7 @@
             <el-icon :style="{ fontSize: '16px', color: 'white' }">
               <Wallet />
             </el-icon>
-            {{ userWalletBalance }}
+            ₱{{ userWalletBalance }}
           </span>
         </el-text>
       </el-col>
@@ -176,6 +176,7 @@ const userWalletBalance = computed(() => {
   const user = registrationStore.registeredUsers.find(
     (u) => u.email === authenticationStore.user?.email,
   )
+  console.log('User:', user)
   return user ? `${user.wallet}` : '₱0.00'
 })
 

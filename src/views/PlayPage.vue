@@ -18,6 +18,7 @@
         alignItems: 'center',
       }"
     >
+      <div class="wallet-balance">Wallet Balance: ₱{{ walletStore.userWalletBalance }}</div>
       <Timer :currentTimerImage="currentTimerImage" />
       <Pogs :animation1="animation1" :animation2="animation2" :animation3="animation3" />
       <Hand v-if="showHand" :currentHand="currentHand" />
@@ -94,6 +95,11 @@ import equalizerWin from '@/assets/play/equalizerWin.png'
 
 import { reactive, ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
+
+import { useWalletStore } from '@/stores/walletStore'
+
+const walletStore = useWalletStore()
+console.log('User Wallet Balance:', walletStore.userWalletBalance)
 
 interface Bet {
   type: 'Pog1' | 'Equalizer' | 'Pog2'
@@ -199,7 +205,6 @@ const chips = reactive([
   },
 ])
 
-
 //Winner Dialog
 const showWinner = ref(false)
 const winnerImage = ref(tails)
@@ -245,9 +250,18 @@ const closeChipsOptions = () => {
 
 const placeBetPog1 = () => {
   if (Pog1BetDisplay.value + currentBetValue.value <= 500) {
-    Pog1BetDisplay.value += currentBetValue.value
-    betHistory.value.push({ type: 'Pog1', value: currentBetValue.value })
-    console.log('Bet History:', betHistory.value)
+    if (walletStore.userWalletBalance >= currentBetValue.value) {
+      walletStore.updateUserWalletBalance(-currentBetValue.value)
+      Pog1BetDisplay.value += currentBetValue.value
+      betHistory.value.push({ type: 'Pog1', value: currentBetValue.value })
+      console.log('Bet History:', betHistory.value)
+    } else {
+      ElMessage({
+        message: 'Insufficient wallet balance!',
+        grouping: true,
+        type: 'error',
+      })
+    }
   } else {
     ElMessage({
       message: 'You can only bet a maximum of ₱500',
@@ -259,9 +273,18 @@ const placeBetPog1 = () => {
 
 const placeBetEqualizer = () => {
   if (EqualizerBetDisplay.value + currentBetValue.value <= 500) {
-    EqualizerBetDisplay.value += currentBetValue.value
-    betHistory.value.push({ type: 'Equalizer', value: currentBetValue.value })
-    console.log('Bet History:', betHistory.value)
+    if (walletStore.userWalletBalance >= currentBetValue.value) {
+      walletStore.updateUserWalletBalance(-currentBetValue.value)
+      EqualizerBetDisplay.value += currentBetValue.value
+      betHistory.value.push({ type: 'Equalizer', value: currentBetValue.value })
+      console.log('Bet History:', betHistory.value)
+    } else {
+      ElMessage({
+        message: 'Insufficient wallet balance!',
+        grouping: true,
+        type: 'error',
+      })
+    }
   } else {
     ElMessage({
       message: 'You can only bet a maximum of ₱500',
@@ -271,11 +294,29 @@ const placeBetEqualizer = () => {
   }
 }
 
+const addWinnings = (amount: number) => {
+  walletStore.updateUserWalletBalance(amount)
+  ElMessage({
+    message: `You won ₱${amount}!`,
+    grouping: true,
+    type: 'success',
+  })
+}
+
 const placeBetPog2 = () => {
   if (Pog2BetDisplay.value + currentBetValue.value <= 500) {
-    Pog2BetDisplay.value += currentBetValue.value
-    betHistory.value.push({ type: 'Pog2', value: currentBetValue.value })
-    console.log('Bet History:', betHistory.value)
+    if (walletStore.userWalletBalance >= currentBetValue.value) {
+      walletStore.updateUserWalletBalance(-currentBetValue.value)
+      Pog2BetDisplay.value += currentBetValue.value
+      betHistory.value.push({ type: 'Pog2', value: currentBetValue.value })
+      console.log('Bet History:', betHistory.value)
+    } else {
+      ElMessage({
+        message: 'Insufficient wallet balance!',
+        grouping: true,
+        type: 'error',
+      })
+    }
   } else {
     ElMessage({
       message: 'You can only bet a maximum of ₱500',
@@ -374,16 +415,19 @@ const flipCoin = () => {
 
       setTimeout(() => {
         if (pog1.value !== pog2.value && pog1.value !== equalizer.value) {
+          addWinnings(Pog1BetDisplay.value * 2)
           winnerImage.value = heads1
           showWinner.value = true
           result.value = pog1Win
           textImageDisplay.value = 'flex'
         } else if (equalizer.value !== pog1.value && equalizer.value !== pog2.value) {
+          addWinnings(EqualizerBetDisplay.value * 2)
           winnerImage.value = heads2
           showWinner.value = true
           result.value = equalizerWin
           textImageDisplay.value = 'flex'
         } else if (pog2.value !== pog1.value && pog2.value !== equalizer.value) {
+          addWinnings(Pog2BetDisplay.value * 2)
           winnerImage.value = heads3
           showWinner.value = true
           result.value = pog2Win
@@ -413,4 +457,13 @@ onMounted(() => {
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+.wallet-balance {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+}
+</style>

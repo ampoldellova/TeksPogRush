@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import { useAuthenticationStore } from './userStore'
 import { useRegistrationStore } from './userStore'
 import { v4 as uuidv4 } from 'uuid'
-import { useWalletStore } from './wallet'
 
 export interface Transaction {
   id: string
@@ -39,7 +38,6 @@ export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
     ) {
       const authStore = useAuthenticationStore()
       const registrationStore = useRegistrationStore()
-      const walletStore = useWalletStore()
 
       if (!authStore.isLoggedIn) {
         throw new Error('User must be logged in to perform a transaction.')
@@ -51,8 +49,32 @@ export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
         throw new Error('User not found.')
       }
 
-      if (type === 'withdrawal' && user.wallet < amount) {
-        throw new Error('Insufficient balance for withdrawal.')
+      const MIN_CASH_IN = 100
+      const MAX_CASH_IN = 10000
+      const MIN_WITHDRAWAL = 100
+      const MAX_WITHDRAWAL = 50000
+
+      // Validate minimum and maximum cash-in
+      if (type === 'cash-in') {
+        if (amount < MIN_CASH_IN) {
+          throw new Error(`Minimum cash-in amount is ${MIN_CASH_IN}.`)
+        }
+        if (amount > MAX_CASH_IN) {
+          throw new Error(`Maximum cash-in amount is ${MAX_CASH_IN}.`)
+        }
+      }
+
+      // Validate minimum and maximum withdrawal
+      if (type === 'withdrawal') {
+        if (amount < MIN_WITHDRAWAL) {
+          throw new Error(`Minimum withdrawal amount is ${MIN_WITHDRAWAL}.`)
+        }
+        if (amount > MAX_WITHDRAWAL) {
+          throw new Error(`Maximum withdrawal amount is ${MAX_WITHDRAWAL}.`)
+        }
+        if (user.wallet < amount) {
+          throw new Error('Insufficient balance for withdrawal.')
+        }
       }
 
       const newTransaction: Transaction = {
@@ -73,15 +95,8 @@ export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
       const balanceChange = type === 'cash-in' ? +amount : -amount
       user.wallet += balanceChange
 
-      // Notify wallet store of the new transaction
-      walletStore.updateWallet(newTransaction)
-
       // Save updated users to localStorage
       localStorage.setItem('registeredUsers', JSON.stringify(registrationStore.registeredUsers))
-    },
-
-    loadTransactions() {
-      this.transactions = JSON.parse(localStorage.getItem('transactions') || '[]')
     },
   },
 })
