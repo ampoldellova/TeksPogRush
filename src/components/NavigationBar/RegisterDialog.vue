@@ -123,6 +123,7 @@ import { reactive, ref } from 'vue'
 const registerDialog = ref(false)
 const ruleFormRef = ref<FormInstance>()
 const registrationStore = useRegistrationStore()
+
 const emit = defineEmits(['backDialogButton', 'openSignInDialog'])
 
 const props = defineProps<{

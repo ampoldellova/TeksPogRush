@@ -24,12 +24,14 @@ declare module 'vue' {
     ElDrawer: typeof import('element-plus/es')['ElDrawer']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
+    ElHeader: typeof import('element-plus/es')['ElHeader']
     ElIcon: typeof import('element-plus/es')['ElIcon']
     ElImage: typeof import('element-plus/es')['ElImage']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElMain: typeof import('element-plus/es')['ElMain']
     ElRow: typeof import('element-plus/es')['ElRow']
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
+    ElSegmented: typeof import('element-plus/es')['ElSegmented']
     ElText: typeof import('element-plus/es')['ElText']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     Hand: typeof import('./src/components/Play/Hand.vue')['default']
@@ -50,6 +52,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SignInDialog: typeof import('./src/components/NavigationBar/SignInDialog.vue')['default']
     Timer: typeof import('./src/components/Play/Timer.vue')['default']
+    WalletDialog: typeof import('./src/components/NavigationBar/WalletDialog.vue')['default']
     WinnerDialog: typeof import('./src/components/Play/WinnerDialog.vue')['default']
   }
 }
