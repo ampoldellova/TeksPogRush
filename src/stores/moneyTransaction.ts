@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { useAuthenticationStore } from './userStore'
 import { useRegistrationStore } from './userStore'
 import { v4 as uuidv4 } from 'uuid'
+import { useWalletStore } from './wallet'
 
 export interface Transaction {
   id: string
@@ -38,6 +39,7 @@ export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
     ) {
       const authStore = useAuthenticationStore()
       const registrationStore = useRegistrationStore()
+      const walletStore = useWalletStore()
 
       if (!authStore.isLoggedIn) {
         throw new Error('User must be logged in to perform a transaction.')
@@ -70,6 +72,9 @@ export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
       // Update the user's wallet balance
       const balanceChange = type === 'cash-in' ? +amount : -amount
       user.wallet += balanceChange
+
+      // Notify wallet store of the new transaction
+      walletStore.updateWallet(newTransaction)
 
       // Save updated users to localStorage
       localStorage.setItem('registeredUsers', JSON.stringify(registrationStore.registeredUsers))

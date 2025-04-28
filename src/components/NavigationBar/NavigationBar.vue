@@ -49,7 +49,7 @@
           Register
         </el-text>
 
-        <div
+        <!-- <div
           v-if="authenticationStore.isAuthenticated"
           :style="{
             width: 'auto',
@@ -74,10 +74,11 @@
             }"
           >
             <el-col
+              @click="openWalletDialog"
               :span="10"
               style="display: flex; justify-content: flex-start; align-items: flex-start"
             >
-              <el-image :src="currency" fit="cover" style="height: 20px; width: 20px" />
+              <el-image :src="currency" fit="cover" style="height: 20px; width: 25px" />
             </el-col>
             <el-col :span="14">
               <el-text
@@ -91,7 +92,7 @@
               </el-text>
             </el-col>
           </el-row>
-        </div>
+        </div> -->
 
         <el-text
           v-if="authenticationStore.isAuthenticated"

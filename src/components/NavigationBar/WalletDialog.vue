@@ -1,7 +1,7 @@
 <template>
   <el-dialog v-model="visible" width="500px">
     <el-header style="font-weight: bold; font-size: 16px; color: black"> 
-      <el-button>Transaction History</el-button>
+      <el-button >Transaction History</el-button>
     </el-header>
     <div v-if="!showForm" style="text-align: center">
       <p>
@@ -13,7 +13,7 @@
       </div>
     </div>
 
-    <div v-else>
+    <div v-else-if="showForm">
       <el-header style="font-weight: bold; font-size: 16px; color: black">
         {{ formType === 'deposit' ? 'Deposit Funds' : 'Withdraw Funds' }}: ₱{{ userWalletBalance }}
       </el-header>
@@ -65,6 +65,7 @@
       <el-button @click="closeForm" type="text" style="margin-top: 10px">Cancel</el-button>
 
     </div>
+   
   </el-dialog>
 </template>
 
@@ -79,7 +80,7 @@ import { motion } from 'motion-v'
 
 const visible = ref(false)
 const showForm = ref(false)
-const showTransactionHistory = ref(false)
+
 const formType = ref<'deposit' | 'withdraw'>('deposit')
 
 const value = ref<'Gcash' | 'Bank Account'>('Gcash')
@@ -159,14 +160,7 @@ const handleWithdraw = () => {
   }
 }
 
-const openTransactionHistory = () => {
-  showTransactionHistory.value = true
-  showForm.value = false
-}
 
-const closeTransactionHistory = () => {
-  showTransactionHistory.value = false
-}
 </script>
 
 <style scoped>
