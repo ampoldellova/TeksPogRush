@@ -1,14 +1,19 @@
 import { defineStore } from 'pinia'
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
+import { v4 as uuidv4 } from 'uuid' // Import UUID library for unique ID generation
+
+
 
 export const useRegistrationStore = defineStore('registration', {
   state: () => ({
     registeredUsers: JSON.parse(localStorage.getItem('registeredUsers') || '[]') as Array<{
+      id: string
       username: string
       email: string
       contact: string
       password: string
+      wallet: number
     }>,
     ruleForm: reactive({
       username: '',
@@ -25,8 +30,14 @@ export const useRegistrationStore = defineStore('registration', {
     registerUser(formEl: any) {
       const { username, email, contact, password } = this.ruleForm
 
+      // Generate a unique ID for the user
+      const id = uuidv4()
+
+      // Initialize wallet balance to 0
+      const wallet = 0
+
       // Add the new user to the registeredUsers array
-      this.registeredUsers.push({ username, email, contact, password })
+      this.registeredUsers.push({ id, username, email, contact, password, wallet })
 
       // Save the updated array to localStorage
       localStorage.setItem('registeredUsers', JSON.stringify(this.registeredUsers))
@@ -37,7 +48,6 @@ export const useRegistrationStore = defineStore('registration', {
         grouping: true,
         type: 'success',
       })
-
       // Reset the form and validators
       this.resetForm(formEl)
     },
@@ -52,13 +62,19 @@ export const useRegistrationStore = defineStore('registration', {
         formEl.resetFields()
       }
     },
+    logUserWallets() {
+      this.registeredUsers.forEach(user => {
+        console.log(`User: ${user.username}, Wallet: ${user.wallet}`);
+      });
+    },
+
   },
 })
 
 export const useAuthenticationStore = defineStore('auth', {
   state: () => ({
     isLoggedIn: false,
-    user: null as { email: string } | null,
+    user: ref<{ email: string; wallet: number } | null>(null),
   }),
   getters: {
     isAuthenticated: (state) => state.isLoggedIn,
@@ -73,8 +89,11 @@ export const useAuthenticationStore = defineStore('auth', {
 
       if (user) {
         this.isLoggedIn = true
-        this.user = { email: user.email }
-        localStorage.setItem('loginStatus', JSON.stringify({ email: user.email, loggedIn: true }))
+        this.user = { email: user.email, wallet: user.wallet } // Include wallet property
+        localStorage.setItem(
+          'loginStatus',
+          JSON.stringify({ email: user.email, wallet: user.wallet, loggedIn: true }),
+        )
         return { success: true, message: 'Login successful!' }
       } else {
         return { success: false, message: 'Invalid email or password!' }
@@ -94,7 +113,7 @@ export const useAuthenticationStore = defineStore('auth', {
       const loginStatus = JSON.parse(localStorage.getItem('loginStatus') || '{}')
       if (loginStatus.loggedIn) {
         this.isLoggedIn = true
-        this.user = { email: loginStatus.email }
+        this.user = { email: loginStatus.email, wallet: loginStatus.wallet } // Include wallet property
       } else {
         this.isLoggedIn = false
         this.user = null

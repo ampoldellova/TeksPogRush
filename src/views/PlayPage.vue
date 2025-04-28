@@ -20,7 +20,7 @@
     >
       <Timer :currentTimerImage="currentTimerImage" />
       <Pogs :animation1="animation1" :animation2="animation2" :animation3="animation3" />
-      <Hand :currentHand="currentHand" />
+      <Hand v-if="showHand" :currentHand="currentHand" />
       <BetButton @openBetDialog="openBetDialog" :betButtonDisplay="betButtonDisplay" />
     </div>
   </div>
@@ -134,6 +134,7 @@ const betButtonDisplay = ref('flex')
 
 //Bet Dialog
 const Pog1BetDisplay = ref(0)
+const showHand = ref(false)
 const EqualizerBetDisplay = ref(0)
 const Pog2BetDisplay = ref(0)
 const betHistory = ref<Bet[]>([])
@@ -197,6 +198,7 @@ const chips = reactive([
     },
   },
 ])
+
 
 //Winner Dialog
 const showWinner = ref(false)
@@ -328,6 +330,7 @@ const startTimer = () => {
       flipCoin()
       clearInterval(timerInterval)
       progress.value = 0
+      showHand.value = true
     }
   }, 1000)
 }
@@ -397,6 +400,7 @@ const flipCoin = () => {
           animation1.value = { x: 0, y: 0, rotate: 0, rotateY: 0 }
           animation2.value = { x: 0, y: 0, rotate: 0, rotateY: 0 }
           animation3.value = { x: 0, y: 0, rotate: 0, rotateY: 0 }
+          showHand.value = false
           startTimer()
         }, 5000)
       }, 2000)
