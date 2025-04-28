@@ -6,7 +6,6 @@
       border-width: 2px;
       border-color: #2a2c32;
       border-radius: 15px;
-      display: inline-block;
       margin: 10px;
     "
     @mouseover="isHovered = true"
@@ -14,7 +13,7 @@
   >
     <el-row :style="rowStyle">
       <el-image
-        :src="buy50"
+        :src="props.chip.image"
         :style="{ borderRadius: 99, width: '150px', height: '150px' }"
         fit="contain"
       />
@@ -24,22 +23,18 @@
       <el-col :span="24">
         <el-row>
           <el-col :span="24">
-            <el-text :style="{ fontFamily: 'regular', color: 'white' }">001 | 50 Chips</el-text>
+            <el-text :style="{ fontFamily: 'regular', color: 'white' }"
+              >{{ props.chip.id }} | {{ props.chip.name }}</el-text
+            >
           </el-col>
           <el-col :span="24">
             <el-text :style="{ fontFamily: 'bold', color: '#f2cd5c' }">Php.</el-text>
-            <el-text :style="{ fontFamily: 'bold', color: 'white', marginLeft: '3px' }"
-              >100.00</el-text
-            >
+            <el-text :style="{ fontFamily: 'bold', color: 'white', marginLeft: '3px' }">
+              {{ props.chip.price }}.00
+            </el-text>
           </el-col>
         </el-row>
       </el-col>
-
-      <!-- <el-col :span="6">
-        <el-row>
-          <el-image :src="rare" :style="{ width: '50px', height: '30px' }" />
-        </el-row>
-      </el-col> -->
 
       <el-col :span="24" style="margin-top: 5px">
         <el-button :style="buyButton">Buy Now</el-button>
@@ -53,6 +48,15 @@ import buy50 from '@/assets/shop/50.png'
 import rare from '@/assets/rarities/Rare.png'
 import { motion } from 'motion-v'
 import { computed, ref } from 'vue'
+
+const props = defineProps<{
+  chip: {
+    id: string
+    name: string
+    price: number
+    image: string
+  }
+}>()
 
 const isHovered = ref(false)
 

@@ -7,137 +7,48 @@
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      flexDirection: 'column',
     }"
   >
-    <!-- <motion.div
-      style="
-        width: 220px;
-        height: 330px;
-        border-width: 2px;
-        border-color: #2a2c32;
-        border-radius: 15px;
-        display: 'flex';
-        justify-content: center;
-        align-items: center;
-        background: linear-gradient(to bottom, #141414, rgba(239, 176, 7, 0.5));
-        margin: 10px;
-        flex-direction: column;
-      "
-    > -->
-    <!-- <el-row>
-      <el-col
-      :span="24"
-      :style="{ display: 'flex', justifyContent: 'center', alignItems: 'center' }"
-      >
-      <el-image
-      :src="buy50"
-      :style="{ borderRadius: 99, width: '150px', height: '150px' }"
-      fit="contain"
-      />
-    </el-col>
-  </el-row> -->
-
-    <!-- <el-row
-  :gutter="20"
-      style="width: 100%; justify-content: center; align-items: center; margin-bottom: 20px"
-    >
-      <el-col :span="4.5">
-        <el-button
-          size="large"
-          :style="{
-            width: '100%',
-            backgroundColor: COLORS.dark,
-            borderRadius: '15px',
-            fontFamily: 'bold',
-            color: 'white',
-            borderColor: '#2a2c32',
-          }"
-          >Common
-        </el-button>
-      </el-col>
-      <el-col :span="4.5">
-        <el-button
-          size="large"
-          :style="{
-            width: '100%',
-            backgroundColor: COLORS.dark,
-            borderRadius: '15px',
-            fontFamily: 'bold',
-            color: 'white',
-            borderColor: '#2a2c32',
-          }"
-          >Rare
-        </el-button>
-      </el-col>
-      <el-col :span="4.5">
-        <el-button
-          size="large"
-          :style="{
-            width: '100%',
-            backgroundColor: COLORS.dark,
-            borderRadius: '15px',
-            fontFamily: 'bold',
-            color: 'white',
-            borderColor: '#2a2c32',
-          }"
-          >Epic
-        </el-button>
-      </el-col>
-      <el-col :span="4.5">
-        <el-button
-          size="large"
-          :style="{
-            width: '100%',
-            backgroundColor: COLORS.dark,
-            borderRadius: '15px',
-            fontFamily: 'bold',
-            color: 'white',
-            borderColor: '#2a2c32',
-          }"
-          >Legendary
-        </el-button>
-      </el-col>
-      <el-col :span="4">
-        <el-input
-          v-model="search"
-          :style="{ width: '100%', backgroundColor: '#C0C0C0', borderRadius: '15px' }"
-          placeholder="Search..."
-          :input-style="{ fontFamily: 'regular', color: COLORS.dark }"
-          :prefix-icon="Search"
-        />
-      </el-col>
-      <el-col :span="2">
-        <el-button
-          size="large"
-          :icon="Sort"
-          circle
-          :style="{
-            backgroundColor: COLORS.dark,
-            color: 'white',
-            borderColor: '#2a2c32',
-          }"
-        />
-      </el-col>
-    </el-row> -->
-    <div style="width: 100%; display: flex; justify-content: center; align-items: center">
-      <PogShopCard1 />
-      <PogShopCard2 />
-      <PogShopCard3 />
-      <PogShopCard4 />
+    <div v-for="chip in chips">
+      <PogShopCard :chip="chip" />
     </div>
-    <!-- </motion.div> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import PogShopCard1 from '@/components/Shop/PogShopCard1.vue'
-import PogShopCard2 from '@/components/Shop/PogShopCard2.vue'
-import PogShopCard3 from '@/components/Shop/PogShopCard3.vue'
-import PogShopCard4 from '@/components/Shop/PogShopCard4.vue'
+import PogShopCard from '@/components/Shop/PogShopCard.vue'
+import buy50 from '@/assets/shop/50.png'
+import buy150 from '@/assets/shop/150.png'
+import buy350 from '@/assets/shop/350.png'
+import buy500 from '@/assets/shop/500.png'
 import { ref } from 'vue'
 
-const search = ref('')
+const chips = ref([
+  {
+    id: '001',
+    name: '50 Chips',
+    price: 100,
+    image: buy50,
+  },
+  {
+    id: '002',
+    name: '150 Chips',
+    price: 150,
+    image: buy150,
+  },
+  {
+    id: '003',
+    name: '350 Chips',
+    price: 350,
+    image: buy350,
+  },
+  {
+    id: '004',
+    name: '500 Chips',
+    price: 500,
+    image: buy500,
+  },
+])
 </script>
 
 <style scoped></style>

@@ -3,8 +3,6 @@ import { reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { v4 as uuidv4 } from 'uuid' // Import UUID library for unique ID generation
 
-
-
 export const useRegistrationStore = defineStore('registration', {
   state: () => ({
     registeredUsers: JSON.parse(localStorage.getItem('registeredUsers') || '[]') as Array<{
@@ -63,11 +61,10 @@ export const useRegistrationStore = defineStore('registration', {
       }
     },
     logUserWallets() {
-      this.registeredUsers.forEach(user => {
-        console.log(`User: ${user.username}, Wallet: ${user.wallet}`);
-      });
+      this.registeredUsers.forEach((user) => {
+        console.log(`User: ${user.username}, Wallet: ${user.wallet}`)
+      })
     },
-
   },
 })
 
@@ -113,7 +110,7 @@ export const useAuthenticationStore = defineStore('auth', {
       const loginStatus = JSON.parse(localStorage.getItem('loginStatus') || '{}')
       if (loginStatus.loggedIn) {
         this.isLoggedIn = true
-        this.user = { email: loginStatus.email, wallet: loginStatus.wallet } // Include wallet property
+        this.user = { email: loginStatus.email, wallet: loginStatus.wallet }
       } else {
         this.isLoggedIn = false
         this.user = null

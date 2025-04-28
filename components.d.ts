@@ -42,6 +42,7 @@ declare module 'vue' {
     PogCards: typeof import('./src/components/PogCards.vue')['default']
     Pogs: typeof import('./src/components/Play/Pogs.vue')['default']
     PogsFlip: typeof import('./src/components/PogsFlip.vue')['default']
+    PogShopCard: typeof import('./src/components/Shop/PogShopCard.vue')['default']
     PogShopCard1: typeof import('./src/components/Shop/PogShopCard1.vue')['default']
     PogShopCard2: typeof import('./src/components/Shop/PogShopCard2.vue')['default']
     PogShopCard3: typeof import('./src/components/Shop/PogShopCard3.vue')['default']
