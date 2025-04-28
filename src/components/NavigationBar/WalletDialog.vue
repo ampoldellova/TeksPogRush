@@ -1,8 +1,11 @@
 <template>
-  <el-dialog v-model="visible" title="Your Wallet" width="500px">
+  <el-dialog v-model="visible" width="500px">
+    <el-header style="font-weight: bold; font-size: 16px; color: black"> 
+      <el-button>Transaction History</el-button>
+    </el-header>
     <div v-if="!showForm" style="text-align: center">
       <p>
-        Your current balance: <strong>₱{{ userWalletBalance }}</strong>
+        Your current balance: <h3 style="font-weight: bold;">₱{{ userWalletBalance }}</h3>
       </p>
       <div style="display: inline-flex; gap: 10px">
         <el-button @click="openDepositForm" type="success">Deposit</el-button>
@@ -60,6 +63,7 @@
         CONFIRM
       </motion.button>
       <el-button @click="closeForm" type="text" style="margin-top: 10px">Cancel</el-button>
+
     </div>
   </el-dialog>
 </template>
@@ -69,11 +73,13 @@ import { ref, computed } from 'vue'
 import { useMoneyTransactionsStore } from '@/stores/moneyTransaction'
 import { useAuthenticationStore, useRegistrationStore } from '@/stores/userStore'
 import { motion } from 'motion-v'
-import GCash from '../assets/Gcash.png'
-import MasterCard from '../assets/MasterCard.png'
+
+
+// import TransactionHistory from '../TransactionHistory.vue'
 
 const visible = ref(false)
 const showForm = ref(false)
+const showTransactionHistory = ref(false)
 const formType = ref<'deposit' | 'withdraw'>('deposit')
 
 const value = ref<'Gcash' | 'Bank Account'>('Gcash')
@@ -81,9 +87,9 @@ const options = ['Gcash', 'Bank Account']
 
 const accountNumberInput = ref('')
 const accountNameInput = ref('')
-const valueContainerInput = ref(0) // Amount to deposit/withdraw
+const valueContainerInput = ref(0) 
 
-const registrationStore = useRegistrationStore() // Initialize the store
+const registrationStore = useRegistrationStore() 
 const moneyStore = useMoneyTransactionsStore()
 const authenticationStore = useAuthenticationStore()
 
@@ -151,6 +157,15 @@ const handleWithdraw = () => {
   } catch (error) {
     alert(error instanceof Error ? error.message : 'An unknown error occurred')
   }
+}
+
+const openTransactionHistory = () => {
+  showTransactionHistory.value = true
+  showForm.value = false
+}
+
+const closeTransactionHistory = () => {
+  showTransactionHistory.value = false
 }
 </script>
 

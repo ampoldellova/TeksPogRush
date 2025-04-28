@@ -2,9 +2,24 @@
   <div class="responsive-navbar">
     <el-row style="width: 100%">
       <el-col :span="8" class="responsive-button-left">
-        <NavBarButton label="Home" to="/" />
-        <NavBarButton label="Play" to="/play" />
-        <NavBarButton label="Shop" to="/shop" />
+        <el-text
+          @click="router.push('/')"
+          :style="{ fontFamily: 'regular', fontSize: '16px', color: 'white', cursor: 'pointer' }"
+        >
+          Home
+        </el-text>
+        <el-text
+          @click="router.push('/play')"
+          :style="{ fontFamily: 'regular', fontSize: '16px', color: 'white', cursor: 'pointer' }"
+        >
+          Play
+        </el-text>
+        <el-text
+          @click="router.push('/Shop')"
+          :style="{ fontFamily: 'regular', fontSize: '16px', color: 'white', cursor: 'pointer' }"
+        >
+          Shop
+        </el-text>
       </el-col>
 
       <el-col :span="8" class="responsive-menu">
@@ -21,7 +36,7 @@
         <el-text
           v-if="!authenticationStore.isAuthenticated"
           @click="signInDialog = true"
-          :style="{ fontFamily: 'regular', fontSize: '14px', color: 'white', cursor: 'pointer' }"
+          :style="{ fontFamily: 'regular', fontSize: '16px', color: 'white', cursor: 'pointer' }"
         >
           Login
         </el-text>
@@ -29,7 +44,7 @@
         <el-text
           v-if="!authenticationStore.isAuthenticated"
           @click="openRegisterDialog"
-          :style="{ fontFamily: 'regular', fontSize: '14px', color: 'white', cursor: 'pointer' }"
+          :style="{ fontFamily: 'regular', fontSize: '16px', color: 'white', cursor: 'pointer' }"
         >
           Register
         </el-text>
@@ -37,21 +52,32 @@
         <el-text
           v-if="authenticationStore.isAuthenticated"
           @click="authenticationStore.logout"
-          :style="{ fontFamily: 'regular', fontSize: '14px', color: 'white', cursor: 'pointer' }"
+          :style="{ fontFamily: 'regular', fontSize: '16px', color: 'white', cursor: 'pointer' }"
         >
           Logout
         </el-text>
         <el-text
-            v-if="authenticationStore.isAuthenticated"
-            :style="{ fontFamily: 'regular', fontSize: '14px', color: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px' }"
+          v-if="authenticationStore.isAuthenticated"
+          :style="{
+            fontFamily: 'regular',
+            fontSize: '14px',
+            color: 'white',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '5px',
+          }"
+        >
+          <span
+            @click="openWalletDialog"
+            style="display: flex; align-items: center; gap: 5px; cursor: pointer"
           >
-            <span @click="openWalletDialog" style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
-              <el-icon :style="{ fontSize: '16px', color: 'white' }">
-                <Wallet />
-              </el-icon>
-              {{ userWalletBalance }}
-            </span>
-          </el-text>
+            <el-icon :style="{ fontSize: '19px', color: 'white' }">
+              <Wallet />
+            </el-icon>
+            {{ userWalletBalance }}
+          </span>
+        </el-text>
       </el-col>
     </el-row>
   </div>
@@ -140,10 +166,6 @@ const backDialogButton = () => {
   registerDialog.value = false
   signInDialog.value = true
 }
-
-onMounted(() => {
-  authenticationStore.checkLoginStatus()
-})
 </script>
 
 <style scoped>
@@ -166,11 +188,21 @@ onMounted(() => {
   gap: 40px;
 }
 
+.responsive-button-left .el-text:hover {
+  color: #ffd200 !important;
+  font-weight: bold;
+}
+
 .responsive-button-right {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 40px;
+}
+
+.responsive-button-right .el-text:hover {
+  color: #ffd200 !important;
+  font-weight: bold;
 }
 
 .responsive-menu {

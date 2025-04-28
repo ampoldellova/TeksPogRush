@@ -52,6 +52,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SignInDialog: typeof import('./src/components/NavigationBar/SignInDialog.vue')['default']
     Timer: typeof import('./src/components/Play/Timer.vue')['default']
+    TransactionHistory: typeof import('./src/components/NavigationBar/TransactionHistory.vue')['default']
     WalletDialog: typeof import('./src/components/NavigationBar/WalletDialog.vue')['default']
     WinnerDialog: typeof import('./src/components/Play/WinnerDialog.vue')['default']
   }
