@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { useAuthenticationStore } from './userStore'
 import { useRegistrationStore } from './userStore'
+import { v4 as uuidv4 } from 'uuid'
 
 export interface Transaction {
   id: string
@@ -55,7 +56,7 @@ export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
       }
 
       const newTransaction: Transaction = {
-        id: Date.now().toString(),
+        id: uuidv4(),
         userName: user.email,
         type,
         amount,

@@ -141,9 +141,7 @@ const backDialogButton = () => {
   signInDialog.value = true
 }
 
-onMounted(() => {
-  authenticationStore.checkLoginStatus()
-})
+
 </script>
 
 <style scoped>
