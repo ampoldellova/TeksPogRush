@@ -34,6 +34,50 @@
           Register
         </el-text>
 
+        <div
+          v-if="authenticationStore.isAuthenticated"
+          :style="{
+            width: 'auto',
+            height: '35px',
+            backgroundColor: '#141414',
+            borderRadius: '10px',
+            border: '2px solid #2a2c32',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: '0 10px',
+          }"
+        >
+          <el-row
+            @click="openWalletDialog"
+            :gutter="10"
+            :style="{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              cursor: 'pointer',
+            }"
+          >
+            <el-col
+              :span="10"
+              style="display: flex; justify-content: flex-start; align-items: flex-start"
+            >
+              <el-image :src="currency" fit="cover" style="height: 20px; width: 20px" />
+            </el-col>
+            <el-col :span="14">
+              <el-text
+                :style="{
+                  fontFamily: 'regular',
+                  fontSize: '14px',
+                  color: 'white',
+                }"
+              >
+                {{ userWalletBalance }}
+              </el-text>
+            </el-col>
+          </el-row>
+        </div>
+
         <el-text
           v-if="authenticationStore.isAuthenticated"
           @click="authenticationStore.logout"
@@ -41,17 +85,6 @@
         >
           Logout
         </el-text>
-        <el-text
-            v-if="authenticationStore.isAuthenticated"
-            :style="{ fontFamily: 'regular', fontSize: '14px', color: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px' }"
-          >
-            <span @click="openWalletDialog" style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
-              <el-icon :style="{ fontSize: '16px', color: 'white' }">
-                <Wallet />
-              </el-icon>
-              {{ userWalletBalance }}
-            </span>
-          </el-text>
       </el-col>
     </el-row>
   </div>
@@ -75,8 +108,9 @@
 </template>
 
 <script setup lang="ts">
+import currency from '@/assets/currency.png'
 import logo from '@/assets/TeksPogRush-Logo-small.png'
-import { Menu, Wallet } from '@element-plus/icons-vue'
+import { Menu, Plus, Wallet } from '@element-plus/icons-vue'
 import { onMounted, ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthenticationStore } from '@/stores/userStore'
@@ -85,6 +119,7 @@ import WalletDialog from './WalletDialog.vue'
 import Drawer from './Drawer.vue'
 import SignInDialog from './SignInDialog.vue'
 import RegisterDialog from './RegisterDialog.vue'
+import NavBarButton from './NavBarButton.vue'
 
 const router = useRouter()
 const drawer = ref(false)
@@ -93,7 +128,7 @@ const signInDialog = ref(false)
 const registerDialog = ref(false)
 const authenticationStore = useAuthenticationStore()
 const walletDialog = ref(false)
-const registrationStore = useRegistrationStore() // Initialize the store
+const registrationStore = useRegistrationStore()
 
 const openWalletDialog = () => {
   walletDialog.value = true
@@ -103,7 +138,7 @@ const userWalletBalance = computed(() => {
   const user = registrationStore.registeredUsers.find(
     (u) => u.email === authenticationStore.user?.email,
   )
-  return user ? `₱${user.wallet.toFixed(2)}` : '₱0.00'
+  return user ? `${user.wallet}` : '₱0.00'
 })
 
 const closeDrawer = () => {
