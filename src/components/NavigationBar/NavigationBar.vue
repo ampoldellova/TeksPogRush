@@ -34,7 +34,7 @@
           Register
         </el-text>
 
-        <div
+        <!-- <div
           v-if="authenticationStore.isAuthenticated"
           :style="{
             width: 'auto',
@@ -48,34 +48,53 @@
             padding: '0 10px',
           }"
         >
-          <el-row
+          <div
             @click="openWalletDialog"
             :gutter="10"
             :style="{
+              width: '100%',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
               cursor: 'pointer',
             }"
           >
-            <el-col
-              :span="10"
-              style="display: flex; justify-content: flex-start; align-items: flex-start"
+            <el-image :src="currency" fit="cover" style="height: 20px; width: 20px" />
+
+            <el-text
+              :style="{
+                fontFamily: 'regular',
+                fontSize: '14px',
+                color: 'white',
+              }"
             >
-              <el-image :src="currency" fit="cover" style="height: 20px; width: 20px" />
-            </el-col>
-            <el-col :span="14">
-              <el-text
-                :style="{
-                  fontFamily: 'regular',
-                  fontSize: '14px',
-                  color: 'white',
-                }"
-              >
-                {{ userWalletBalance }}
-              </el-text>
-            </el-col>
-          </el-row>
+              {{ userWalletBalance }}
+            </el-text>
+          </div>
+        </div> -->
+
+        <div
+          v-if="authenticationStore.isAuthenticated"
+          @click="openWalletDialog"
+          :style="{
+            backgroundColor: COLORS.dark,
+            height: '30px',
+            width: 'auto',
+            borderRadius: '99px',
+            borderWidth: '1px',
+            borderColor: '#2a2c32',
+            borderStyle: 'solid',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: '0 10px',
+            gap: '10px',
+          }"
+        >
+          <el-image :src="currency" fit="cover" style="height: 20px; width: 20px" />
+          <el-text :style="{ fontFamily: 'regular', color: 'white' }">
+            {{ userWalletBalance }}
+          </el-text>
         </div>
 
         <el-text
@@ -120,6 +139,7 @@ import Drawer from './Drawer.vue'
 import SignInDialog from './SignInDialog.vue'
 import RegisterDialog from './RegisterDialog.vue'
 import NavBarButton from './NavBarButton.vue'
+import { COLORS } from '@/assets/theme'
 
 const router = useRouter()
 const drawer = ref(false)
