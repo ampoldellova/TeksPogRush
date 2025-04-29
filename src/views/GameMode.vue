@@ -81,7 +81,7 @@
             :xl="12"
             style="display: flex; justify-content: center; align-items: center"
           >
-            <RouterLink to="/friendly">
+            <RouterLink to="/">
               <motion.button
                 :whileHover="{
                   scale: 1.2,
@@ -114,7 +114,7 @@
 
 <script setup lang="ts">
 import backgrounds from '@/assets/Background.png'
-import logo from '@/assets/TeksPogRush-Logo.png'
+import logo from '@/assets/TeksPogBattle.png'
 import { motion } from 'motion-v'
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <motion.button
-    @click="onClick"
+    @click="emit('click')"
     :whileHover="{ scale: 1.1, transition: { duration: 0.3 } }"
     :whilePress="{ scale: 0.9 }"
     :style="{ backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }"
@@ -27,16 +27,22 @@
         <div
           :style="{
             backgroundColor: COLORS.dark,
-            height: '20px',
-            width: '100px',
+            height: '30px',
+            width: 'auto',
             borderRadius: '99px',
             borderWidth: '1px',
             borderColor: '#2a2c32',
             borderStyle: 'solid',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: '0 10px',
+            gap: '10px',
           }"
         >
+          <el-image :src="currency" fit="cover" style="height: 20px; width: 20px" />
           <el-text :style="{ fontFamily: 'regular', color: 'white' }">
-            ₱ {{ displayValue }}
+            {{ displayValue }}
           </el-text>
         </div>
       </el-col>
@@ -45,6 +51,7 @@
 </template>
 
 <script setup lang="ts">
+import currency from '@/assets/currency.png'
 import { COLORS } from '@/assets/theme'
 import { motion } from 'motion-v'
 import heads1 from '@/assets/pogs/Tikbalang.png'
@@ -70,10 +77,6 @@ const iconSrc = computed(() => {
 })
 
 const emit = defineEmits(['click'])
-
-const onClick = () => {
-  emit('click')
-}
 </script>
 
 <style scoped></style>

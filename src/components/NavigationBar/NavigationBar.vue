@@ -2,9 +2,24 @@
   <div class="responsive-navbar">
     <el-row style="width: 100%">
       <el-col :span="8" class="responsive-button-left">
-        <NavBarButton label="Home" to="/" />
-        <NavBarButton label="Play" to="/play" />
-        <NavBarButton label="Shop" to="/shop" />
+        <el-text
+          @click="router.push('/')"
+          :style="{ fontFamily: 'regular', fontSize: '16px', color: 'white', cursor: 'pointer' }"
+        >
+          Home
+        </el-text>
+        <el-text
+          @click="router.push('/play')"
+          :style="{ fontFamily: 'regular', fontSize: '16px', color: 'white', cursor: 'pointer' }"
+        >
+          Play
+        </el-text>
+        <el-text
+          @click="router.push('/Shop')"
+          :style="{ fontFamily: 'regular', fontSize: '16px', color: 'white', cursor: 'pointer' }"
+        >
+          Shop
+        </el-text>
       </el-col>
 
       <el-col :span="8" class="responsive-menu">
@@ -21,7 +36,7 @@
         <el-text
           v-if="!authenticationStore.isAuthenticated"
           @click="signInDialog = true"
-          :style="{ fontFamily: 'regular', fontSize: '14px', color: 'white', cursor: 'pointer' }"
+          :style="{ fontFamily: 'regular', fontSize: '16px', color: 'white', cursor: 'pointer' }"
         >
           Login
         </el-text>
@@ -29,29 +44,42 @@
         <el-text
           v-if="!authenticationStore.isAuthenticated"
           @click="openRegisterDialog"
-          :style="{ fontFamily: 'regular', fontSize: '14px', color: 'white', cursor: 'pointer' }"
+          :style="{ fontFamily: 'regular', fontSize: '16px', color: 'white', cursor: 'pointer' }"
         >
           Register
         </el-text>
 
+        <div
+          v-if="authenticationStore.isAuthenticated"
+          @click="openWalletDialog"
+          :style="{
+            backgroundColor: COLORS.dark,
+            height: '30px',
+            width: 'auto',
+            borderRadius: '99px',
+            borderWidth: '1px',
+            borderColor: '#2a2c32',
+            borderStyle: 'solid',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: '0 10px',
+            gap: '10px',
+          }"
+        >
+          <el-image :src="currency" fit="cover" style="height: 20px; width: 20px" />
+          <el-text :style="{ fontFamily: 'regular', color: 'white' }">
+            {{ userWalletBalance }}
+          </el-text>
+        </div>
+
         <el-text
           v-if="authenticationStore.isAuthenticated"
           @click="authenticationStore.logout"
-          :style="{ fontFamily: 'regular', fontSize: '14px', color: 'white', cursor: 'pointer' }"
+          :style="{ fontFamily: 'regular', fontSize: '16px', color: 'white', cursor: 'pointer' }"
         >
           Logout
         </el-text>
-        <el-text
-            v-if="authenticationStore.isAuthenticated"
-            :style="{ fontFamily: 'regular', fontSize: '14px', color: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px' }"
-          >
-            <span @click="openWalletDialog" style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
-              <el-icon :style="{ fontSize: '16px', color: 'white' }">
-                <Wallet />
-              </el-icon>
-              {{ userWalletBalance }}
-            </span>
-          </el-text>
       </el-col>
     </el-row>
   </div>
@@ -75,8 +103,9 @@
 </template>
 
 <script setup lang="ts">
+import currency from '@/assets/currency.png'
 import logo from '@/assets/TeksPogRush-Logo-small.png'
-import { Menu, Wallet } from '@element-plus/icons-vue'
+import { Menu, Plus, Wallet } from '@element-plus/icons-vue'
 import { onMounted, ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthenticationStore } from '@/stores/userStore'
@@ -85,7 +114,8 @@ import WalletDialog from './WalletDialog.vue'
 import Drawer from './Drawer.vue'
 import SignInDialog from './SignInDialog.vue'
 import RegisterDialog from './RegisterDialog.vue'
-import WalletDialog2 from './WalletDialog2.vue'
+import NavBarButton from './NavBarButton.vue'
+import { COLORS } from '@/assets/theme'
 
 const router = useRouter()
 const drawer = ref(false)
@@ -93,7 +123,7 @@ const fromLogin = ref(false)
 const signInDialog = ref(false)
 const registerDialog = ref(false)
 const authenticationStore = useAuthenticationStore()
-const walletDialog2 = ref(false)
+const walletDialog = ref(false)
 const registrationStore = useRegistrationStore() // Initialize the store
 
 const openWalletDialog = () => {
@@ -104,7 +134,8 @@ const userWalletBalance = computed(() => {
   const user = registrationStore.registeredUsers.find(
     (u) => u.email === authenticationStore.user?.email,
   )
-  return user ? `₱${user.wallet.toFixed(2)}` : '₱0.00'
+  console.log('User:', user)
+  return user ? `${user.wallet}` : '₱0.00'
 })
 
 const closeDrawer = () => {
@@ -142,7 +173,9 @@ const backDialogButton = () => {
   signInDialog.value = true
 }
 
-
+onMounted(() => {
+  authenticationStore.checkLoginStatus()
+})
 </script>
 
 <style scoped>
@@ -165,11 +198,21 @@ const backDialogButton = () => {
   gap: 40px;
 }
 
+.responsive-button-left .el-text:hover {
+  color: #ffd200 !important;
+  font-weight: bold;
+}
+
 .responsive-button-right {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 40px;
+}
+
+.responsive-button-right .el-text:hover {
+  color: #ffd200 !important;
+  font-weight: bold;
 }
 
 .responsive-menu {

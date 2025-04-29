@@ -56,11 +56,10 @@ export const useRegistrationStore = defineStore('registration', {
       }
     },
     logUserWallets() {
-      this.registeredUsers.forEach(user => {
-        console.log(`User: ${user.username}, Wallet: ${user.wallet}`);
-      });
+      this.registeredUsers.forEach((user) => {
+        console.log(`User: ${user.username}, Wallet: ${user.wallet}`)
+      })
     },
-
   },
 })
 
