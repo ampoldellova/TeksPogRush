@@ -11,9 +11,11 @@ declare module 'vue' {
     BetButton: typeof import('./src/components/Play/BetButton.vue')['default']
     BetDialog: typeof import('./src/components/Play/BetDialog.vue')['default']
     BetPogButton: typeof import('./src/components/Play/BetPogButton.vue')['default']
+    CashInDialog: typeof import('./src/components/CashInDialog.vue')['default']
     Coin: typeof import('./src/components/Coin.vue')['default']
     Drawer: typeof import('./src/components/NavigationBar/Drawer.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
+    ElBody: typeof import('element-plus/es')['ElBody']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
     ElCarousel: typeof import('element-plus/es')['ElCarousel']
@@ -53,7 +55,10 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SignInDialog: typeof import('./src/components/NavigationBar/SignInDialog.vue')['default']
     Timer: typeof import('./src/components/Play/Timer.vue')['default']
+    TransactionMethod: typeof import('./src/components/TransactionMethod.vue')['default']
     WalletDialog: typeof import('./src/components/NavigationBar/WalletDialog.vue')['default']
+    WalletDialog2: typeof import('./src/components/NavigationBar/WalletDialog2.vue')['default']
     WinnerDialog: typeof import('./src/components/Play/WinnerDialog.vue')['default']
+    WithdrawDialog: typeof import('./src/components/WithdrawDialog.vue')['default']
   }
 }
