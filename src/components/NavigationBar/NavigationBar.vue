@@ -49,7 +49,7 @@
           Register
         </el-text>
 
-        <!-- <div
+        <div
           v-if="authenticationStore.isAuthenticated"
           @click="openWalletDialog"
           :style="{
