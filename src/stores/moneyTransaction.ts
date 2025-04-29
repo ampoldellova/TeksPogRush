@@ -14,8 +14,28 @@ export interface Transaction {
   method: 'Gcash' | 'Bank Account'
 }
 
+export interface GCashTransaction {
+  id: string
+  userName: string
+  amount: number
+  date: string
+  mobileNumber: string
+}
+
+export interface CardTransaction {
+  id: string
+  userName: string
+  amount: number
+  date: string
+  cardNumber: string
+  expiryDate: string
+  securityCode: string
+}
+
 export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
   state: () => ({
+    gcashPayments: JSON.parse(localStorage.getItem('gcashPayments') || '[]') as GCashTransaction[],
+    cardPayments: JSON.parse(localStorage.getItem('cardPayments') || '[]') as CardTransaction[],
     transactions: JSON.parse(localStorage.getItem('transactions') || '[]') as Transaction[],
   }),
 
@@ -29,6 +49,72 @@ export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
   },
 
   actions: {
+    gCashPayment(amount: number, chips: number, mobileNumber: string) {
+      const authStore = useAuthenticationStore()
+      const registrationStore = useRegistrationStore()
+
+      if (!authStore.isLoggedIn) {
+        throw new Error('User must be logged in to perform a transaction.')
+      }
+
+      const user = registrationStore.registeredUsers.find((u) => u.email === authStore.user?.email)
+
+      if (!user) {
+        throw new Error('User not found.')
+      }
+
+      const newGCashTransaction: GCashTransaction = {
+        id: Date.now().toString(),
+        userName: user.email,
+        amount,
+        date: new Date().toISOString(),
+        mobileNumber: mobileNumber,
+      }
+
+      this.gcashPayments.push(newGCashTransaction)
+      localStorage.setItem('gCashPayments', JSON.stringify(this.gcashPayments))
+      const balanceChange = +chips
+      user.wallet += balanceChange
+      localStorage.setItem('registeredUsers', JSON.stringify(registrationStore.registeredUsers))
+    },
+
+    cardPayment(
+      amount: number,
+      chips: number,
+      cardNumber: string,
+      expiryDate: string,
+      securityCode: string,
+    ) {
+      const authStore = useAuthenticationStore()
+      const registrationStore = useRegistrationStore()
+
+      if (!authStore.isLoggedIn) {
+        throw new Error('User must be logged in to perform a transaction.')
+      }
+
+      const user = registrationStore.registeredUsers.find((u) => u.email === authStore.user?.email)
+
+      if (!user) {
+        throw new Error('User not found.')
+      }
+
+      const newCardTransaction: CardTransaction = {
+        id: Date.now().toString(),
+        userName: user.email,
+        amount,
+        date: new Date().toISOString(),
+        cardNumber: cardNumber,
+        expiryDate: expiryDate,
+        securityCode: securityCode,
+      }
+
+      this.cardPayments.push(newCardTransaction)
+      localStorage.setItem('cardPayments', JSON.stringify(this.cardPayments))
+      const balanceChange = +chips
+      user.wallet += balanceChange
+      localStorage.setItem('registeredUsers', JSON.stringify(registrationStore.registeredUsers))
+    },
+
     addTransaction(
       type: 'cash-in' | 'withdrawal',
       amount: number,

@@ -36,33 +36,133 @@
       </div>
     </div>
 
-    <!-- <el-text :style="{ fontFamily: 'regular', fontSize: '12px', color: COLORS.gray }">
-      Amount Due: Php.{{ props.chip.price }}.00
-    </el-text> -->
+    <el-text :style="{ fontFamily: 'bold', fontSize: '12px', color: COLORS.dark }">
+      Amount Due: Php. {{ props.chip.price }}.00
+    </el-text>
 
     <el-divider :style="{ margin: 0, marginBottom: '10px' }" />
     <div v-if="paymentSelected === 'GCash'">
       <el-text :style="{ fontFamily: 'regular', fontSize: '12px', color: COLORS.dark }">
         Login to pay with GCash
       </el-text>
+
+      <el-form
+        ref="ruleFormRef"
+        :model="gCashRuleForm"
+        :rules="gCashRules"
+        style="margin-top: 10px"
+      >
+        <el-text :style="{ fontFamily: 'regular', fontSize: '10px', color: COLORS.dark }">
+          * Mobile Number
+        </el-text>
+        <el-form-item prop="mobileNumber" :style="{ width: '100%' }">
+          <el-input
+            v-model="gCashRuleForm.mobileNumber"
+            placeholder="Enter mobile number"
+            input-style="font-family:regular; font-size:12px"
+          />
+        </el-form-item>
+      </el-form>
+
+      <el-button
+        @click="submitGcashDetails(ruleFormRef)"
+        :style="{
+          width: '100%',
+          background: 'linear-gradient(to right, #f2cd5c, #f2921d',
+          borderWidth: 0,
+          fontFamily: 'semiBold',
+          color: 'white',
+          borderRadius: '10px',
+          marginTop: '10px',
+        }"
+      >
+        CONFIRM
+      </el-button>
     </div>
 
-    <template #footer>
-      <div class="dialog-footer">
-        <el-button @click="paymentDialog = false">Cancel</el-button>
-        <el-button type="primary" @click="paymentDialog = false"> Confirm </el-button>
-      </div>
-    </template>
+    <div v-if="paymentSelected === 'Credit Card'">
+      <el-text :style="{ fontFamily: 'regular', fontSize: '12px', color: COLORS.dark }">
+        Enter your credit card details, make sure to double check your card details before
+        proceeding.
+      </el-text>
+
+      <el-form ref="ruleFormRef" :model="creditCardRuleForm" :rules="cardDetailsRules">
+        <el-row style="margin-top: 10px">
+          <el-col :span="24">
+            <el-text :style="{ fontFamily: 'regular', fontSize: '10px', color: COLORS.dark }">
+              * Card Number
+            </el-text>
+            <el-form-item prop="cardNumber">
+              <el-input
+                v-model="creditCardRuleForm.cardNumber"
+                placeholder="Enter card number"
+                input-style="font-family:regular; font-size:12px"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="10">
+          <el-col :span="12">
+            <el-text :style="{ fontFamily: 'regular', fontSize: '10px', color: COLORS.dark }">
+              * Expiration Date
+            </el-text>
+
+            <el-form-item prop="expiryDate">
+              <el-input
+                v-model="creditCardRuleForm.expiryDate"
+                placeholder="MM/YY"
+                input-style="font-family:regular; font-size:12px"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-text :style="{ fontFamily: 'regular', fontSize: '10px', color: COLORS.dark }">
+              * Security Code
+            </el-text>
+            <el-form-item prop="securityCode">
+              <el-input
+                v-model="creditCardRuleForm.securityCode"
+                :type="'password'"
+                :show-password="true"
+                placeholder="Enter security code"
+                input-style="font-family:regular; font-size:12px"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-button
+          @click="submitCardDetails(ruleFormRef)"
+          :style="{
+            width: '100%',
+            background: 'linear-gradient(to right, #f2cd5c, #f2921d',
+            borderWidth: 0,
+            fontFamily: 'semiBold',
+            color: 'white',
+            borderRadius: '10px',
+            marginTop: '10px',
+          }"
+        >
+          CONFIRM
+        </el-button>
+      </el-form>
+    </div>
   </el-dialog>
 </template>
 
 <script setup lang="ts">
 import { COLORS } from '@/assets/theme'
 import gcash from '@/assets/shop/gcash.png'
-import mastercard from '@/assets/shop/mastercard.png'
-import { ref } from 'vue'
+import creditCard from '@/assets/shop/creditCard.png'
+import { reactive, ref } from 'vue'
+import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
+import { useMoneyTransactionsStore } from '@/stores/moneyTransaction'
 
+const payment = useMoneyTransactionsStore()
+const ruleFormRef = ref<FormInstance>()
 const paymentDialog = ref(false)
+const paymentSelected = ref('GCash')
 const paymentMethods = ref([
   {
     id: '001',
@@ -71,11 +171,107 @@ const paymentMethods = ref([
   },
   {
     id: '002',
-    name: 'MasterCard',
-    image: mastercard,
+    name: 'Credit Card',
+    image: creditCard,
   },
 ])
-const paymentSelected = ref('GCash')
+
+const emit = defineEmits(['closeDialog'])
+
+const validatePhoneNumber = (rule: any, value: any, callback: any) => {
+  const phoneRegex = /^09\d{9}$/
+  if (value === '') {
+    callback(new Error('Please input your mobile number'))
+  } else if (!phoneRegex.test(value)) {
+    callback(new Error('Please enter a valid Philippine mobile number'))
+  } else {
+    callback()
+  }
+}
+
+const validateCardNumber = (rule: any, value: any, callback: any) => {
+  if (value === '') {
+    callback(new Error('Please input card number'))
+  } else {
+    callback()
+  }
+}
+
+const validateExpiryDate = (rule: any, value: any, callback: any) => {
+  if (value === '') {
+    callback(new Error('Please input expiry date'))
+  } else {
+    callback()
+  }
+}
+
+const validateSecurityCode = (rule: any, value: any, callback: any) => {
+  if (value === '') {
+    callback(new Error('Please input security code'))
+  } else {
+    callback()
+  }
+}
+
+const gCashRuleForm = reactive({
+  mobileNumber: '',
+})
+
+const creditCardRuleForm = reactive({
+  cardNumber: '',
+  securityCode: '',
+  expiryDate: '',
+})
+
+const gCashRules = reactive<FormRules<typeof gCashRuleForm>>({
+  mobileNumber: [{ validator: validatePhoneNumber, trigger: 'change' }],
+})
+
+const cardDetailsRules = reactive<FormRules<typeof creditCardRuleForm>>({
+  cardNumber: [{ validator: validateCardNumber, trigger: 'change' }],
+  securityCode: [{ validator: validateSecurityCode, trigger: 'change' }],
+  expiryDate: [{ validator: validateExpiryDate, trigger: 'change' }],
+})
+
+const submitGcashDetails = (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  formEl.validate((valid) => {
+    if (valid) {
+      payment.gCashPayment(props.chip.price, props.chip.value, gCashRuleForm.mobileNumber)
+      emit('closeDialog')
+      ElMessage({
+        message: 'Payment successful!',
+        grouping: true,
+        type: 'success',
+      })
+    } else {
+      console.log('error submit!')
+    }
+  })
+}
+
+const submitCardDetails = (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  formEl.validate((valid) => {
+    if (valid) {
+      payment.cardPayment(
+        props.chip.price,
+        props.chip.value,
+        creditCardRuleForm.cardNumber,
+        creditCardRuleForm.expiryDate,
+        creditCardRuleForm.securityCode,
+      )
+      emit('closeDialog')
+      ElMessage({
+        message: 'Payment successful!',
+        grouping: true,
+        type: 'success',
+      })
+    } else {
+      console.log('error submit!')
+    }
+  })
+}
 
 const props = defineProps<{
   chip: {
@@ -83,6 +279,7 @@ const props = defineProps<{
     name: string
     price: number
     image: string
+    value: number
   }
 }>()
 </script>
