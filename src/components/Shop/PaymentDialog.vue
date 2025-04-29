@@ -254,7 +254,19 @@ const submitCardDetails = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
-      console.log('submit!')
+      payment.cardPayment(
+        props.chip.price,
+        props.chip.value,
+        creditCardRuleForm.cardNumber,
+        creditCardRuleForm.expiryDate,
+        creditCardRuleForm.securityCode,
+      )
+      emit('closeDialog')
+      ElMessage({
+        message: 'Payment successful!',
+        grouping: true,
+        type: 'success',
+      })
     } else {
       console.log('error submit!')
     }
