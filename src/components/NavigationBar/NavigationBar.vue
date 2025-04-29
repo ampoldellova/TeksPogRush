@@ -51,14 +51,17 @@
 
         <!-- <div
           v-if="authenticationStore.isAuthenticated"
+          @click="openWalletDialog"
           :style="{
+            backgroundColor: COLORS.dark,
+            height: '30px',
             width: 'auto',
-            height: '35px',
-            backgroundColor: '#141414',
-            borderRadius: '10px',
-            border: '2px solid #2a2c32',
+            borderRadius: '99px',
+            borderWidth: '1px',
+            borderColor: '#2a2c32',
+            borderStyle: 'solid',
             display: 'flex',
-            justifyContent: 'center',
+            justifyContent: 'space-between',
             alignItems: 'center',
             padding: '0 10px',
           }"
@@ -74,11 +77,10 @@
             }"
           >
             <el-col
-              @click="openWalletDialog"
               :span="10"
               style="display: flex; justify-content: flex-start; align-items: flex-start"
             >
-              <el-image :src="currency" fit="cover" style="height: 20px; width: 25px" />
+              <el-image :src="currency" fit="cover" style="height: 20px; width: 20px" />
             </el-col>
             <el-col :span="14">
               <el-text
@@ -92,7 +94,7 @@
               </el-text>
             </el-col>
           </el-row>
-        </div> -->
+        </div>
 
         <el-text
           v-if="authenticationStore.isAuthenticated"
@@ -158,6 +160,7 @@ import Drawer from './Drawer.vue'
 import SignInDialog from './SignInDialog.vue'
 import RegisterDialog from './RegisterDialog.vue'
 import NavBarButton from './NavBarButton.vue'
+import { COLORS } from '@/assets/theme'
 
 const router = useRouter()
 const drawer = ref(false)

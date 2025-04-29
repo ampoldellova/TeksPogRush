@@ -1,6 +1,6 @@
 <template>
   <motion.button
-    @click="openBetDialog"
+    @click="emit('openBetDialog')"
     :whileHover="{
       scale: 1,
       transition: { duration: 0.3 },
@@ -35,10 +35,6 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits(['openBetDialog'])
-
-const openBetDialog = () => {
-  emit('openBetDialog')
-}
 </script>
 
 <style scoped></style>

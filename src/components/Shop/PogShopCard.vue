@@ -37,17 +37,20 @@
       </el-col>
 
       <el-col :span="24" style="margin-top: 5px">
-        <el-button :style="buyButton">Buy Now</el-button>
+        <el-button @click="paymentDialog = true" :style="buyButton">Buy Now</el-button>
       </el-col>
     </el-row>
   </motion.div>
+
+  <PaymentDialog v-model="paymentDialog" :chip="props.chip" />
 </template>
 
 <script setup lang="ts">
-import buy50 from '@/assets/shop/50.png'
-import rare from '@/assets/rarities/Rare.png'
 import { motion } from 'motion-v'
 import { computed, ref } from 'vue'
+import PaymentDialog from './PaymentDialog.vue'
+
+const paymentDialog = ref(false)
 
 const props = defineProps<{
   chip: {
