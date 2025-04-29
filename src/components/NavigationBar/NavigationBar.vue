@@ -64,36 +64,13 @@
             justifyContent: 'space-between',
             alignItems: 'center',
             padding: '0 10px',
+            gap: '10px',
           }"
         >
-          <el-row
-            @click="openWalletDialog"
-            :gutter="10"
-            :style="{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              cursor: 'pointer',
-            }"
-          >
-            <el-col
-              :span="10"
-              style="display: flex; justify-content: flex-start; align-items: flex-start"
-            >
-              <el-image :src="currency" fit="cover" style="height: 20px; width: 20px" />
-            </el-col>
-            <el-col :span="14">
-              <el-text
-                :style="{
-                  fontFamily: 'regular',
-                  fontSize: '14px',
-                  color: 'white',
-                }"
-              >
-                {{ userWalletBalance }}
-              </el-text>
-            </el-col>
-          </el-row>
+          <el-image :src="currency" fit="cover" style="height: 20px; width: 20px" />
+          <el-text :style="{ fontFamily: 'regular', color: 'white' }">
+            {{ userWalletBalance }}
+          </el-text>
         </div>
 
         <el-text
@@ -102,28 +79,6 @@
           :style="{ fontFamily: 'regular', fontSize: '16px', color: 'white', cursor: 'pointer' }"
         >
           Logout
-        </el-text>
-        <el-text
-          v-if="authenticationStore.isAuthenticated"
-          :style="{
-            fontFamily: 'regular',
-            fontSize: '14px',
-            color: 'white',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '5px',
-          }"
-        >
-          <span
-            @click="openWalletDialog"
-            style="display: flex; align-items: center; gap: 5px; cursor: pointer"
-          >
-            <el-icon :style="{ fontSize: '16px', color: 'white' }">
-              <Wallet />
-            </el-icon>
-            ₱{{ userWalletBalance }}
-          </span>
         </el-text>
       </el-col>
     </el-row>
