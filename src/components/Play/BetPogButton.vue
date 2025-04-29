@@ -1,6 +1,6 @@
 <template>
   <motion.button
-    @click="onClick"
+    @click="emit('click')"
     :whileHover="{ scale: 1.1, transition: { duration: 0.3 } }"
     :whilePress="{ scale: 0.9 }"
     :style="{ backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }"
@@ -77,10 +77,6 @@ const iconSrc = computed(() => {
 })
 
 const emit = defineEmits(['click'])
-
-const onClick = () => {
-  emit('click')
-}
 </script>
 
 <style scoped></style>

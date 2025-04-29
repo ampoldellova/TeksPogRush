@@ -11,7 +11,7 @@
       backgroundColor: 'transparent',
     }"
     :show-close="false"
-    @close="closeChipsOptions"
+    @close="emit('closeChipOptions')"
   >
     <el-row style="display: flex; justify-content: center; align-items: center; margin-top: 20px">
       <el-text :style="{ fontFamily: 'bold', color: 'white', fontSize: '20px' }">
@@ -24,25 +24,25 @@
         icon="heads1"
         label="POG 1"
         :displayValue="props.pog1BetDisplay"
-        @click="placeBetPog1"
+        @click="emit('placeBetPog1')"
       />
       <BetPogButton
         icon="heads2"
         label="EQUALIZER"
         :displayValue="props.equalizerBetDisplay"
-        @click="placeBetEqualizer"
+        @click="emit('placeBetEqualizer')"
       />
       <BetPogButton
         icon="heads3"
         label="POG 2"
         :displayValue="props.pog2BetDisplay"
-        @click="placeBetPog2"
+        @click="emit('placeBetPog2')"
       />
     </div>
 
     <div style="display: flex; justify-content: center; align-items: center">
       <motion.button
-        @click="changeBetChip"
+        @click="emit('changeBetChip')"
         :whilePress="{ scale: 0.9 }"
         :whileHover="{ scale: 1.1, transition: { duration: 0.3 } }"
         :style="{
@@ -65,7 +65,7 @@
       </motion.button>
 
       <motion.button
-        @click="undoBet"
+        @click="emit('undoBet')"
         :whilePress="{ scale: 0.9 }"
         :whileHover="{ scale: 1.1, transition: { duration: 0.3 } }"
         :style="{
@@ -86,7 +86,7 @@
       </motion.button>
 
       <motion.button
-        @click="clearBets"
+        @click="emit('clearBets')"
         :whilePress="{ scale: 0.9 }"
         :whileHover="{ scale: 1.1, transition: { duration: 0.3 } }"
         :style="{
@@ -160,34 +160,6 @@ const emit = defineEmits([
   'undoBet',
   'clearBets',
 ])
-
-const changeBetChip = () => {
-  emit('changeBetChip')
-}
-
-const closeChipsOptions = () => {
-  emit('closeChipOptions')
-}
-
-const placeBetPog1 = () => {
-  emit('placeBetPog1')
-}
-
-const placeBetEqualizer = () => {
-  emit('placeBetEqualizer')
-}
-
-const placeBetPog2 = () => {
-  emit('placeBetPog2')
-}
-
-const undoBet = () => {
-  emit('undoBet')
-}
-
-const clearBets = () => {
-  emit('clearBets')
-}
 </script>
 
 <style scoped></style>

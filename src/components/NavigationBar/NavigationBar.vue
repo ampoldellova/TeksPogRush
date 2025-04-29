@@ -34,45 +34,6 @@
           Register
         </el-text>
 
-        <!-- <div
-          v-if="authenticationStore.isAuthenticated"
-          :style="{
-            width: 'auto',
-            height: '35px',
-            backgroundColor: '#141414',
-            borderRadius: '10px',
-            border: '2px solid #2a2c32',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: '0 10px',
-          }"
-        >
-          <div
-            @click="openWalletDialog"
-            :gutter="10"
-            :style="{
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              cursor: 'pointer',
-            }"
-          >
-            <el-image :src="currency" fit="cover" style="height: 20px; width: 20px" />
-
-            <el-text
-              :style="{
-                fontFamily: 'regular',
-                fontSize: '14px',
-                color: 'white',
-              }"
-            >
-              {{ userWalletBalance }}
-            </el-text>
-          </div>
-        </div> -->
-
         <div
           v-if="authenticationStore.isAuthenticated"
           @click="openWalletDialog"
