@@ -99,7 +99,7 @@
     @backDialogButton="backDialogButton"
     @openSignInDialog="openSignInDialog"
   />
-  <WalletDialog2 v-model="walletDialog2" />
+  <!-- <WalletDialog2 v-model="walletDialog2" /> -->
 </template>
 
 <script setup lang="ts">
@@ -127,7 +127,7 @@ const walletDialog = ref(false)
 const registrationStore = useRegistrationStore() // Initialize the store
 
 const openWalletDialog = () => {
-  walletDialog2.value = true
+  // walletDialog2.value = true
 }
 
 const userWalletBalance = computed(() => {
