@@ -64,7 +64,7 @@ export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
       }
 
       const newGCashTransaction: GCashTransaction = {
-        id: Date.now().toString(),
+        id: uuidv4(),
         userName: user.email,
         amount,
         date: new Date().toISOString(),
