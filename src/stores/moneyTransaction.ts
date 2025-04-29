@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { useAuthenticationStore } from './userStore'
 import { useRegistrationStore } from './userStore'
+import { v4 as uuidv4 } from 'uuid'
 
 export interface Transaction {
   id: string
@@ -134,12 +135,36 @@ export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
         throw new Error('User not found.')
       }
 
-      if (type === 'withdrawal' && user.wallet < amount) {
-        throw new Error('Insufficient balance for withdrawal.')
+      const MIN_CASH_IN = 100
+      const MAX_CASH_IN = 10000
+      const MIN_WITHDRAWAL = 100
+      const MAX_WITHDRAWAL = 50000
+
+      // Validate minimum and maximum cash-in
+      if (type === 'cash-in') {
+        if (amount < MIN_CASH_IN) {
+          throw new Error(`Minimum cash-in amount is ${MIN_CASH_IN}.`)
+        }
+        if (amount > MAX_CASH_IN) {
+          throw new Error(`Maximum cash-in amount is ${MAX_CASH_IN}.`)
+        }
+      }
+
+      // Validate minimum and maximum withdrawal
+      if (type === 'withdrawal') {
+        if (amount < MIN_WITHDRAWAL) {
+          throw new Error(`Minimum withdrawal amount is ${MIN_WITHDRAWAL}.`)
+        }
+        if (amount > MAX_WITHDRAWAL) {
+          throw new Error(`Maximum withdrawal amount is ${MAX_WITHDRAWAL}.`)
+        }
+        if (user.wallet < amount) {
+          throw new Error('Insufficient balance for withdrawal.')
+        }
       }
 
       const newTransaction: Transaction = {
-        id: Date.now().toString(),
+        id: uuidv4(),
         userName: user.email,
         type,
         amount,
@@ -158,10 +183,6 @@ export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
 
       // Save updated users to localStorage
       localStorage.setItem('registeredUsers', JSON.stringify(registrationStore.registeredUsers))
-    },
-
-    loadTransactions() {
-      this.transactions = JSON.parse(localStorage.getItem('transactions') || '[]')
     },
   },
 })
