@@ -42,7 +42,7 @@
     </el-row>
   </motion.div>
 
-  <PaymentDialog v-model="paymentDialog" :chip="props.chip" />
+  <PaymentDialog v-model="paymentDialog" :chip="props.chip" @closeDialog="paymentDialog = false" />
 </template>
 
 <script setup lang="ts">
@@ -58,6 +58,7 @@ const props = defineProps<{
     name: string
     price: number
     image: string
+    value: number
   }
 }>()
 
