@@ -1,8 +1,6 @@
 <template>
-  <!-- gagamitin pa ba? pag di na delete na lang -->
-
   <el-dialog v-model="visible" :style="{ width: dialogWidth }">
-    <el-form>
+    <!-- <el-form>
       <div v-if="!showForm" style="text-align: center">
         <el-row>
           <el-col :span="24">
@@ -76,7 +74,7 @@
           </el-col>
         </el-row>
       </div>
-    </el-form>
+    </el-form> -->
   </el-dialog>
 </template>
 

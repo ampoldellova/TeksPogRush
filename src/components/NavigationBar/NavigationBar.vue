@@ -36,7 +36,7 @@
         <el-text
           v-if="!authenticationStore.isAuthenticated"
           @click="signInDialog = true"
-          :style="{ fontFamily: 'regular', fontSize: '16px', color: 'white', cursor: 'pointer' }"
+          class="login-button"
         >
           Login
         </el-text>
@@ -44,7 +44,7 @@
         <el-text
           v-if="!authenticationStore.isAuthenticated"
           @click="openRegisterDialog"
-          :style="{ fontFamily: 'regular', fontSize: '16px', color: 'white', cursor: 'pointer' }"
+          class="register-button"
         >
           Register
         </el-text>
@@ -52,21 +52,7 @@
         <div
           v-if="authenticationStore.isAuthenticated"
           @click="openWalletDialog"
-          :style="{
-            backgroundColor: COLORS.dark,
-            height: '30px',
-            width: 'auto',
-            borderRadius: '99px',
-            borderWidth: '1px',
-            borderColor: '#2a2c32',
-            borderStyle: 'solid',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: '0 10px',
-            gap: '10px',
-            cursor: 'pointer',
-          }"
+          class="wallet-button"
         >
           <el-image :src="currency" fit="cover" style="height: 20px; width: 20px" />
           <el-text :style="{ fontFamily: 'regular', color: 'white' }">
@@ -77,7 +63,7 @@
         <el-text
           v-if="authenticationStore.isAuthenticated"
           @click="authenticationStore.logout"
-          :style="{ fontFamily: 'regular', fontSize: '16px', color: 'white', cursor: 'pointer' }"
+          class="logout-button"
         >
           Logout
         </el-text>
@@ -85,13 +71,19 @@
     </el-row>
   </div>
 
-  <Drawer v-model="drawer" @closeDrawer="closeDrawer" />
+  <Drawer
+    v-model="drawer"
+    @closeDrawer="closeDrawer"
+    @loginDialog="openSignInDialog"
+    @registerDialog="openRegisterDialog"
+  />
 
   <SignInDialog
     v-model="signInDialog"
     @registerDialogButton="registerDialogButton"
     @resetPasswordDialogButton="resetPasswordDialogButton"
     @closeSignInDialog="closeSignInDialog"
+    @closeDrawer="closeDrawer"
   />
 
   <RegisterDialog
@@ -107,7 +99,7 @@
 <script setup lang="ts">
 import currency from '@/assets/currency.png'
 import logo from '@/assets/TeksPogRush-Logo-small.png'
-import { Menu, Plus, Wallet } from '@element-plus/icons-vue'
+import { Menu } from '@element-plus/icons-vue'
 import { onMounted, ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthenticationStore } from '@/stores/userStore'
@@ -116,8 +108,6 @@ import WalletDialog from './WalletDialog.vue'
 import Drawer from './Drawer.vue'
 import SignInDialog from './SignInDialog.vue'
 import RegisterDialog from './RegisterDialog.vue'
-import NavBarButton from './NavBarButton.vue'
-import { COLORS } from '@/assets/theme'
 
 const router = useRouter()
 const drawer = ref(false)
@@ -126,7 +116,7 @@ const signInDialog = ref(false)
 const registerDialog = ref(false)
 const authenticationStore = useAuthenticationStore()
 const walletDialog = ref(false)
-const registrationStore = useRegistrationStore() // Initialize the store
+const registrationStore = useRegistrationStore()
 
 const openWalletDialog = () => {
   walletDialog.value = true
@@ -221,6 +211,43 @@ onMounted(() => {
   display: none;
 }
 
+.login-button {
+  font-family: 'regular';
+  font-size: '16px';
+  color: white;
+  cursor: pointer;
+}
+
+.register-button {
+  font-family: 'regular';
+  font-size: '16px';
+  color: white;
+  cursor: pointer;
+}
+
+.wallet-button {
+  background-color: #141414;
+  height: 30px;
+  width: auto;
+  border-radius: 99px;
+  border-width: 1px;
+  border-color: #2a2c32;
+  border-style: solid;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  gap: 10px;
+}
+
+.logout-button {
+  display: flex;
+  font-family: 'regular';
+  font-size: '16px';
+  color: white;
+  cursor: 'pointer';
+}
+
 @media (max-width: 1440px) {
   .responsive-navbar {
     padding-left: 100px;
@@ -245,7 +272,15 @@ onMounted(() => {
     display: none;
   }
 
-  .responsive-button-right {
+  .login-button {
+    display: none;
+  }
+
+  .register-button {
+    display: none;
+  }
+
+  .logout-button {
     display: none;
   }
 

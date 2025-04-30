@@ -65,6 +65,45 @@
           Shop
         </el-text>
       </el-row>
+
+      <el-row
+        v-if="!authenticationStore.isAuthenticated"
+        @click="emit('loginDialog')"
+        style="display: flex; justify-content: center; align-items: center; cursor: pointer"
+      >
+        <el-icon :style="{ fontSize: '20px', marginRight: '10px', color: 'white' }">
+          <ArrowRight />
+        </el-icon>
+        <el-text :style="{ fontFamily: 'regular', color: 'white', fontSize: '16px' }">
+          Login
+        </el-text>
+      </el-row>
+
+      <el-row
+        v-if="!authenticationStore.isAuthenticated"
+        @click="emit('registerDialog')"
+        style="display: flex; justify-content: center; align-items: center; cursor: pointer"
+      >
+        <el-icon :style="{ fontSize: '20px', marginRight: '10px', color: 'white' }">
+          <Document />
+        </el-icon>
+        <el-text :style="{ fontFamily: 'regular', color: 'white', fontSize: '16px' }">
+          Register
+        </el-text>
+      </el-row>
+
+      <el-row
+        v-if="authenticationStore.isAuthenticated"
+        @click="authenticationStore.logout"
+        style="display: flex; justify-content: center; align-items: center; cursor: pointer"
+      >
+        <el-icon :style="{ fontSize: '20px', marginRight: '10px', color: 'white' }">
+          <ArrowLeft />
+        </el-icon>
+        <el-text :style="{ fontFamily: 'regular', color: 'white', fontSize: '16px' }">
+          Logout
+        </el-text>
+      </el-row>
     </el-row>
   </el-drawer>
 </template>
@@ -72,14 +111,24 @@
 <script setup lang="ts">
 import { COLORS } from '@/assets/theme'
 import logo from '@/assets/TeksPogRush-Logo-small.png'
-import { Close, CreditCard, House, SwitchFilled, TakeawayBox } from '@element-plus/icons-vue'
+import {
+  Close,
+  ArrowLeft,
+  House,
+  SwitchFilled,
+  TakeawayBox,
+  ArrowRight,
+  Document,
+} from '@element-plus/icons-vue'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useAuthenticationStore } from '@/stores/userStore'
 
+const authenticationStore = useAuthenticationStore()
 const drawer = ref(false)
 const drawerSize = ref('300px')
 
-const emit = defineEmits(['closeDrawer'])
+const emit = defineEmits(['closeDrawer', 'logout', 'loginDialog', 'registerDialog'])
 const router = useRouter()
 
 const updateDrawerSize = () => {

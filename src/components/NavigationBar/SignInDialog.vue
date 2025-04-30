@@ -105,7 +105,12 @@ import { reactive, ref } from 'vue'
 const signInDialog = ref(false)
 const authenticationStore = useAuthenticationStore()
 const ruleFormRef = ref<FormInstance>()
-const emit = defineEmits(['registerDialogButton', 'resetPasswordDialogButton', 'closeSignInDialog'])
+const emit = defineEmits([
+  'registerDialogButton',
+  'resetPasswordDialogButton',
+  'closeSignInDialog',
+  'closeDrawer',
+])
 
 const SignInRuleForm = reactive({
   signInEmail: '',
@@ -148,6 +153,7 @@ const loginForm = (formEl: FormInstance | undefined) => {
           type: 'success',
         })
         emit('closeSignInDialog')
+        emit('closeDrawer')
         SignInRuleForm.signInEmail = ''
         SignInRuleForm.signInPassword = ''
         formEl.resetFields()
