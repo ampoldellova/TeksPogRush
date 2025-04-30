@@ -26,18 +26,28 @@
         :displayValue="props.pog1BetDisplay"
         @click="emit('placeBetPog1')"
       />
+      <span v-if="props.pog1Multiplier > 1" :style="{ color: 'white', margin: '0 10px' }"
+        >x{{ props.pog1Multiplier }}</span
+      >
       <BetPogButton
         icon="heads2"
         label="EQUALIZER"
         :displayValue="props.equalizerBetDisplay"
         @click="emit('placeBetEqualizer')"
       />
+      <span v-if="props.equalizerMultiplier > 1" :style="{ color: 'white', margin: '0 10px' }"
+        >x{{ props.equalizerMultiplier }}</span
+      >
       <BetPogButton
         icon="heads3"
         label="POG 2"
         :displayValue="props.pog2BetDisplay"
         @click="emit('placeBetPog2')"
       />
+
+      <span v-if="props.pog2Multiplier > 1" :style="{ color: 'white', margin: '0 10px' }"
+        >x{{ props.pog2Multiplier }}</span
+      >
     </div>
 
     <div style="display: flex; justify-content: center; align-items: center">
@@ -137,6 +147,10 @@ import clear from '@/assets/chips/clear.png'
 import undo from '@/assets/chips/undo.png'
 import BetPogButton from './BetPogButton.vue'
 
+const pog1Multiplier = 2
+const EqualizerMultiplier = 1.5
+const pog2Multiplier = 2.5
+
 const betDialog = ref(false)
 
 const props = defineProps<{
@@ -144,6 +158,9 @@ const props = defineProps<{
   pog1BetDisplay: number
   equalizerBetDisplay: number
   pog2BetDisplay: number
+  pog1Multiplier: number
+  equalizerMultiplier: number
+  pog2Multiplier: number
   chips: Array<{
     src: string
     animation: {}

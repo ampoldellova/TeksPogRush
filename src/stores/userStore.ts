@@ -5,26 +5,6 @@ import { ElMessage } from 'element-plus'
 import { v4 as uuidv4 } from 'uuid'
 import type { userRegistrationStore } from '@/components/models/types'
 
-//Nilagay sa models folder
-// export interface useRegistrationStore {
-//   id: string
-//   username: string
-//   email: string
-//   contact: string
-//   password: string
-//   wallet: number
-// }
-
-// const ruleForm = reactive ({
-//   username: '',
-//   email: '',
-//   contact: '',
-//   password: '',
-//   confirmPassword: '',
-// })
-
-//Nilagay ko sa register Dialog sinceyung pagstructure ng SignIn is ganu yung process
-
 export const useRegistrationStore = defineStore('registration', {
   state: () => ({
     registeredUsers: JSON.parse(
@@ -48,21 +28,7 @@ export const useRegistrationStore = defineStore('registration', {
         grouping: true,
         type: 'success',
       })
-      // this.resetForm(formEl)
     },
-    // resetForm(formEl: any) {
-    //   ruleForm.username = ''
-    //   ruleForm.email = ''
-    //   ruleForm.contact = ''
-    //   ruleForm.password = ''
-    //   ruleForm.confirmPassword = ''
-
-    //   if (formEl) {
-    //     formEl.resetFields()
-    //   }
-    // },
-
-    //there is a built in reset form in that I put in register Dialog
     logUserWallets() {
       this.registeredUsers.forEach((user) => {
         console.log(`User: ${user.username}, Wallet: ${user.wallet}`)

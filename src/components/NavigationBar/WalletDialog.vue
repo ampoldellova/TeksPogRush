@@ -1,11 +1,8 @@
 <template>
-
-<!-- gagamitin pa ba? pag di na delete na lang -->
-
-<el-dialog v-model="visible" :style="{ width: dialogWidth}">
-  <el-form>
+  <el-dialog v-model="visible" :style="{ width: dialogWidth }">
+    <!-- <el-form>
       <div v-if="!showForm" style="text-align: center">
-        <el-row >
+        <el-row>
           <el-col :span="24">
             <p class="balanceContainer">Balance: ₱{{ userWalletBalance }}</p>
             <el-row class="buttonContainer">
@@ -54,30 +51,30 @@
           </el-row>
           <el-col class="btnConfirm">
             <motion.button
-        @click="formType === 'deposit' ? handleCashIn() : handleWithdraw()"
-        :whileHover="{
-          scale: 1.2,
-          transition: { duration: 0.3 },
-        }"
-        :whilePress="{ scale: 0.9 }"
-        :style="{
-          fontFamily: 'bold',
-          width: '200px',
-          backgroundColor: '#ffd200',
-          color: 'black',
-          borderWidth: 0,
-          height: '50px',
-          borderRadius: '15px',
-          cursor: 'pointer',
-          boxShadow: '5px 8px 0px 1px rgba(0, 0, 0, 1)',
-        }"
-      >
-        CONFIRM
-      </motion.button>
+              @click="formType === 'deposit' ? handleCashIn() : handleWithdraw()"
+              :whileHover="{
+                scale: 1.2,
+                transition: { duration: 0.3 },
+              }"
+              :whilePress="{ scale: 0.9 }"
+              :style="{
+                fontFamily: 'bold',
+                width: '200px',
+                backgroundColor: '#ffd200',
+                color: 'black',
+                borderWidth: 0,
+                height: '50px',
+                borderRadius: '15px',
+                cursor: 'pointer',
+                boxShadow: '5px 8px 0px 1px rgba(0, 0, 0, 1)',
+              }"
+            >
+              CONFIRM
+            </motion.button>
           </el-col>
         </el-row>
       </div>
-    </el-form>
+    </el-form> -->
   </el-dialog>
 </template>
 
@@ -96,15 +93,15 @@ const options = ['Gcash', 'Bank Account']
 
 const accountNumberInput = ref('')
 const accountNameInput = ref('')
-const valueContainerInput = ref(0) 
+const valueContainerInput = ref(0)
 
-const registrationStore = useRegistrationStore() 
+const registrationStore = useRegistrationStore()
 const moneyStore = useMoneyTransactionsStore()
 const authenticationStore = useAuthenticationStore()
 
 const screenWidth = ref(window.innerWidth)
 const dialogWidth = computed(() => {
-  return screenWidth.value < 768 ? '70vw' : '25vw' 
+  return screenWidth.value < 768 ? '70vw' : '25vw'
 })
 
 onMounted(() => {
@@ -121,15 +118,14 @@ const userWalletBalance = computed(() => {
 })
 
 const openDepositForm = () => {
-  formType.value = 'deposit';
-  showForm.value = true;
-};
+  formType.value = 'deposit'
+  showForm.value = true
+}
 
 const openWithdrawForm = () => {
-  formType.value = 'withdraw';
-  showForm.value = true;
-};
-
+  formType.value = 'withdraw'
+  showForm.value = true
+}
 
 const closeForm = () => {
   showForm.value = false
@@ -197,13 +193,13 @@ const handleWithdraw = () => {
   display: flex;
 }
 
-:deep(.el-input__wrapper){
+:deep(.el-input__wrapper) {
   background-color: rgba(133, 130, 130, 0.048);
   border-radius: 12px;
   height: 4vh;
 }
 
-:deep(.el-input__placeholder){
+:deep(.el-input__placeholder) {
   color: black;
 }
 
@@ -226,31 +222,31 @@ const handleWithdraw = () => {
   padding: 20px;
 }
 
-.gcashContainer, .cardContainer{
+.gcashContainer,
+.cardContainer {
   display: flex;
   margin: auto;
 }
 
-.gcash{
+.gcash {
   display: flex;
   justify-content: center;
   align-items: center;
   margin: auto;
 }
 
-:deep(.el-segmented){
+:deep(.el-segmented) {
   width: 100vw;
   margin-top: 20px;
 }
 
-.accountInfoContainer{
+.accountInfoContainer {
   display: flex;
   margin: auto;
   gap: 20px;
-
 }
 
-.btnConfirm{
+.btnConfirm {
   display: flex;
   margin: auto;
   justify-content: center;

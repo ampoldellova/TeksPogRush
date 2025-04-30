@@ -9,9 +9,18 @@
       alignItems: 'center',
     }"
   >
-    <div v-for="chip in chips">
-      <PogShopCard :chip="chip" />
-    </div>
+    <el-row
+      :gutter="20"
+      style="
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <PogShopCard v-for="chip in chips" :chip="chip" />
+    </el-row>
   </div>
 </template>
 

@@ -37,6 +37,7 @@ declare module 'vue' {
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
     ElSegmented: typeof import('element-plus/es')['ElSegmented']
     ElText: typeof import('element-plus/es')['ElText']
+    ElText1: typeof import('element-plus/es')['ElText1']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     Hand: typeof import('./src/components/Play/Hand.vue')['default']
     HomePageCarousel: typeof import('./src/components/HomePageCarousel.vue')['default']

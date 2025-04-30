@@ -2,17 +2,6 @@ import { defineStore } from 'pinia'
 import { useRegistrationStore } from './userStore'
 import { useAuthenticationStore } from './userStore'
 import type { Wallet } from '@/components/models/types'
-import { v4 as uuidv4 } from 'uuid'
-
-// export interface Wallet {
-//   id: string
-//   userName: string
-//   amount: number
-//   date: string
-//   accountNumber: string
-//   accountName: string
-//   bet: number
-// }
 
 export const useWalletStore = defineStore('wallet', {
   state: () => ({
