@@ -4,13 +4,13 @@
       <el-image :src="logo" fit="cover" style="height: 100px; width: 190px" />
     </div>
 
-    <el-form :model="registrationStore.ruleForm" ref="ruleFormRef" :rules="signUpRules" status-icon>
+    <el-form :model="ruleForm" ref="ruleFormRef" :rules="signUpRules" status-icon>
       <el-row>
         <el-text :style="{ fontFamily: 'bold', color: 'black' }">Username</el-text>
         <el-col :span="24">
           <el-form-item prop="username">
             <el-input
-              v-model="registrationStore.ruleForm.username"
+              v-model="ruleForm.username"
               :prefix-icon="User"
               placeholder="Enter your username"
               input-style="font-family:regular"
@@ -24,7 +24,7 @@
         <el-col :span="24">
           <el-form-item prop="email">
             <el-input
-              v-model="registrationStore.ruleForm.email"
+              v-model="ruleForm.email"
               :prefix-icon="Message"
               placeholder="Enter your email"
               input-style="font-family:regular"
@@ -38,7 +38,7 @@
         <el-col :span="24">
           <el-form-item prop="contact">
             <el-input
-              v-model="registrationStore.ruleForm.contact"
+              v-model="ruleForm.contact"
               :prefix-icon="Phone"
               placeholder="Enter your contact number"
               input-style="font-family:regular"
@@ -52,7 +52,7 @@
         <el-col :span="24">
           <el-form-item prop="password">
             <el-input
-              v-model="registrationStore.ruleForm.password"
+              v-model="ruleForm.password"
               :prefix-icon="Unlock"
               type="password"
               placeholder="Enter your password"
@@ -68,7 +68,7 @@
         <el-col :span="24">
           <el-form-item prop="confirmPassword">
             <el-input
-              v-model="registrationStore.ruleForm.confirmPassword"
+              v-model="ruleForm.confirmPassword"
               :prefix-icon="Lock"
               type="password"
               placeholder="Confirm your password"
@@ -118,6 +118,7 @@ import { COLORS } from '@/assets/theme'
 import { useRegistrationStore } from '@/stores/userStore'
 import { Back, Lock, Message, Phone, Unlock, User } from '@element-plus/icons-vue'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
+import { id } from 'element-plus/es/locales.mjs'
 import { reactive, ref } from 'vue'
 
 const registerDialog = ref(false)
@@ -129,6 +130,16 @@ const emit = defineEmits(['backDialogButton', 'openSignInDialog'])
 const props = defineProps<{
   fromLogin: boolean
 }>()
+
+const ruleForm = reactive ({
+  id:'',
+  username: '',
+  email: '',
+  contact: '',
+  password: '',
+  confirmPassword: '',
+  wallet: 0
+})
 
 const validateUsername = (rule: any, value: any, callback: any) => {
   if (value === '') {
@@ -166,7 +177,7 @@ const validatePass = (rule: any, value: any, callback: any) => {
   if (value === '') {
     callback(new Error('Please input the password'))
   } else {
-    if (registrationStore.ruleForm.password !== '') {
+    if (ruleForm.password !== '') {
       if (!ruleFormRef.value) return
       ruleFormRef.value.validateField('checkPass')
     }
@@ -177,14 +188,14 @@ const validatePass = (rule: any, value: any, callback: any) => {
 const confirmPass = (rule: any, value: any, callback: any) => {
   if (value === '') {
     callback(new Error('Please input the password again'))
-  } else if (value !== registrationStore.ruleForm.password) {
+  } else if (value !== ruleForm.password) {
     callback(new Error("Two inputs don't match!"))
   } else {
     callback()
   }
 }
 
-const signUpRules = reactive<FormRules<typeof registrationStore.ruleForm>>({
+const signUpRules = reactive<FormRules<typeof ruleForm>>({
   username: [{ validator: validateUsername, trigger: 'change' }],
   email: [{ validator: validateEmail, trigger: 'change' }],
   contact: [{ validator: validateContact, trigger: 'change' }],
@@ -196,7 +207,8 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
-      registrationStore.registerUser(formEl)
+      registrationStore.registerUser(ruleForm)
+      formEl.resetFields() //built in reset fields in fromEl
       emit('openSignInDialog')
     } else {
       ElMessage({
