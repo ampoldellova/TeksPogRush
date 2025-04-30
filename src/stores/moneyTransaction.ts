@@ -1,36 +1,37 @@
 import { defineStore } from 'pinia'
 import { useAuthenticationStore } from './userStore'
 import { useRegistrationStore } from './userStore'
+import type { Transaction, GCashTransaction, CardTransaction} from '@/components/models/types'
 import { v4 as uuidv4 } from 'uuid'
 
-export interface Transaction {
-  id: string
-  userName: string
-  type: 'cash-in' | 'withdrawal'
-  amount: number
-  date: string
-  accountNumber: string
-  accountName: string
-  method: 'Gcash' | 'Bank Account'
-}
+// export interface Transaction {
+//   id: string
+//   userName: string
+//   type: 'cash-in' | 'withdrawal'
+//   amount: number
+//   date: string
+//   accountNumber: string
+//   accountName: string
+//   method: 'Gcash' | 'Bank Account'
+// }
 
-export interface GCashTransaction {
-  id: string
-  userName: string
-  amount: number
-  date: string
-  mobileNumber: string
-}
+// export interface GCashTransaction {
+//   id: string
+//   userName: string
+//   amount: number
+//   date: string
+//   mobileNumber: string
+// }
 
-export interface CardTransaction {
-  id: string
-  userName: string
-  amount: number
-  date: string
-  cardNumber: string
-  expiryDate: string
-  securityCode: string
-}
+// export interface CardTransaction {
+//   id: string
+//   userName: string
+//   amount: number
+//   date: string
+//   cardNumber: string
+//   expiryDate: string
+//   securityCode: string
+// }
 
 export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
   state: () => ({
@@ -65,7 +66,7 @@ export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
 
       const newGCashTransaction: GCashTransaction = {
         id: uuidv4(),
-        userName: user.email,
+        userName: user.username,
         amount,
         date: new Date().toISOString(),
         mobileNumber: mobileNumber,
@@ -100,7 +101,7 @@ export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
 
       const newCardTransaction: CardTransaction = {
         id: Date.now().toString(),
-        userName: user.email,
+        userName: user.username,
         amount,
         date: new Date().toISOString(),
         cardNumber: cardNumber,
@@ -165,7 +166,7 @@ export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
 
       const newTransaction: Transaction = {
         id: uuidv4(),
-        userName: user.email,
+        userName: user.username,
         type,
         amount,
         date: new Date().toISOString(),

@@ -4,14 +4,14 @@
       <el-image :src="logo" fit="cover" style="height: 100px; width: 190px" />
     </div>
 
-    <el-form :model="ruleForm" ref="ruleFormRef" :rules="loginRules" status-icon>
+    <el-form :model="SignInRuleForm" ref="ruleFormRef" :rules="loginRules" status-icon>
       <el-row style="margin-top: 20px">
         <el-text :style="{ fontFamily: 'bold', color: 'black' }">Email</el-text>
         <el-col :span="24">
           <el-form-item prop="signInEmail" :style="{ margin: 0 }">
             <el-input
               :prefix-icon="Message"
-              v-model="ruleForm.signInEmail"
+              v-model="SignInRuleForm.signInEmail"
               style="width: 100%"
               placeholder="Enter your email"
               input-style="font-family:regular"
@@ -28,7 +28,7 @@
           <el-form-item prop="signInPassword" :style="{ margin: 0 }">
             <el-input
               :prefix-icon="Lock"
-              v-model="ruleForm.signInPassword"
+              v-model="SignInRuleForm.signInPassword"
               style="width: 100%"
               placeholder="Enter your password"
               input-style="font-family:regular"
@@ -107,7 +107,7 @@ const authenticationStore = useAuthenticationStore()
 const ruleFormRef = ref<FormInstance>()
 const emit = defineEmits(['registerDialogButton', 'resetPasswordDialogButton', 'closeSignInDialog'])
 
-const ruleForm = reactive({
+const SignInRuleForm = reactive({
   signInEmail: '',
   signInPassword: '',
 })
@@ -128,7 +128,7 @@ const validateSignInPassword = (rule: any, value: any, callback: any) => {
   }
 }
 
-const loginRules = reactive<FormRules<typeof ruleForm>>({
+const loginRules = reactive<FormRules<typeof SignInRuleForm>>({
   signInEmail: [{ validator: validateSignInEmail, trigger: 'change' }],
   signInPassword: [{ validator: validateSignInPassword, trigger: 'change' }],
 })
@@ -138,8 +138,8 @@ const loginForm = (formEl: FormInstance | undefined) => {
   formEl.validate((valid) => {
     if (valid) {
       const { success, message } = authenticationStore.login(
-        ruleForm.signInEmail,
-        ruleForm.signInPassword,
+        SignInRuleForm.signInEmail,
+        SignInRuleForm.signInPassword,
       )
       if (success) {
         ElMessage({
@@ -148,8 +148,8 @@ const loginForm = (formEl: FormInstance | undefined) => {
           type: 'success',
         })
         emit('closeSignInDialog')
-        ruleForm.signInEmail = ''
-        ruleForm.signInPassword = ''
+        SignInRuleForm.signInEmail = ''
+        SignInRuleForm.signInPassword = ''
         formEl.resetFields()
       } else {
         ElMessage({
