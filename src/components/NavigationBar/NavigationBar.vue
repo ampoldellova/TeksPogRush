@@ -80,7 +80,7 @@
               :span="10"
               style="display: flex; justify-content: flex-start; align-items: flex-start"
             >
-              <el-image :src="currency" fit="cover" style="height: 20px; width: 20px" />
+              <el-image :src="currency" fit="cover" style="height: 20px; width: 35px" />
             </el-col>
             <el-col :span="14">
               <el-text
@@ -90,7 +90,7 @@
                   color: 'white',
                 }"
               >
-                {{ userWalletBalance }}
+                {{ tokenStore.getUserTokenBalance }}
               </el-text>
             </el-col>
           </el-row>
@@ -161,7 +161,9 @@ import SignInDialog from './SignInDialog.vue'
 import RegisterDialog from './RegisterDialog.vue'
 import NavBarButton from './NavBarButton.vue'
 import { COLORS } from '@/assets/theme'
+import { useTokenStore } from '@/stores/tokenStore'
 
+const tokenStore = useTokenStore()
 const router = useRouter()
 const drawer = ref(false)
 const fromLogin = ref(false)

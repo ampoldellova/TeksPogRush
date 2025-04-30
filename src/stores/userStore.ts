@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import { reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { v4 as uuidv4 } from 'uuid' // Import UUID library for unique ID generation
-import router from '@/router'
 
 export const useRegistrationStore = defineStore('registration', {
   state: () => ({

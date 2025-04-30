@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { useAuthenticationStore } from './userStore'
 import { useRegistrationStore } from './userStore'
 import { v4 as uuidv4 } from 'uuid'
+import { useTokenStore } from './tokenStore'
 
 export interface Transaction {
   id: string
@@ -52,30 +53,19 @@ export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
     gCashPayment(amount: number, chips: number, mobileNumber: string) {
       const authStore = useAuthenticationStore()
       const registrationStore = useRegistrationStore()
-
-      if (!authStore.isLoggedIn) {
-        throw new Error('User must be logged in to perform a transaction.')
-      }
+      const tokenStore = useTokenStore()
 
       const user = registrationStore.registeredUsers.find((u) => u.email === authStore.user?.email)
-
-      if (!user) {
-        throw new Error('User not found.')
+      if (!user || user.wallet < amount) {
+        throw new Error('Insufficient wallet balance')
       }
 
-      const newGCashTransaction: GCashTransaction = {
-        id: Date.now().toString(),
-        userName: user.email,
-        amount,
-        date: new Date().toISOString(),
-        mobileNumber: mobileNumber,
-      }
-
-      this.gcashPayments.push(newGCashTransaction)
-      localStorage.setItem('gCashPayments', JSON.stringify(this.gcashPayments))
-      const balanceChange = +chips
-      user.wallet += balanceChange
+      // Deduct from wallet balance
+      user.wallet -= amount
       localStorage.setItem('registeredUsers', JSON.stringify(registrationStore.registeredUsers))
+
+      // Add chips to token balance
+      tokenStore.updateTokenBalance(user.email, chips)
     },
 
     cardPayment(
@@ -87,13 +77,13 @@ export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
     ) {
       const authStore = useAuthenticationStore()
       const registrationStore = useRegistrationStore()
+      const tokenStore = useTokenStore() // ✅ Move store initialization inside the function
 
       if (!authStore.isLoggedIn) {
         throw new Error('User must be logged in to perform a transaction.')
       }
 
       const user = registrationStore.registeredUsers.find((u) => u.email === authStore.user?.email)
-
       if (!user) {
         throw new Error('User not found.')
       }
@@ -103,16 +93,20 @@ export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
         userName: user.email,
         amount,
         date: new Date().toISOString(),
-        cardNumber: cardNumber,
-        expiryDate: expiryDate,
-        securityCode: securityCode,
+        cardNumber,
+        expiryDate,
+        securityCode,
       }
 
       this.cardPayments.push(newCardTransaction)
       localStorage.setItem('cardPayments', JSON.stringify(this.cardPayments))
-      const balanceChange = +chips
-      user.wallet += balanceChange
+
+      // Deduct from wallet balance
+      user.wallet -= amount
       localStorage.setItem('registeredUsers', JSON.stringify(registrationStore.registeredUsers))
+
+      // Add chips to token balance
+      tokenStore.updateTokenBalance(user.email, chips)
     },
 
     addTransaction(

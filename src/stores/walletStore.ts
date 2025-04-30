@@ -8,8 +8,6 @@ export interface Wallet {
   userName: string
   amount: number
   date: string
-  accountNumber: string
-  accountName: string
   bet: number
 }
 
@@ -48,8 +46,6 @@ export const useWalletStore = defineStore('wallet', {
         userName: authenticationStore.user?.email || 'Unknown',
         amount: this.userWalletBalance,
         date: new Date().toISOString(),
-        accountNumber: '1234567890',
-        accountName: 'John Doe',
         bet: amount,
       }
 
