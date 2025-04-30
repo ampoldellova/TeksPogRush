@@ -65,6 +65,7 @@
             alignItems: 'center',
             padding: '0 10px',
             gap: '10px',
+            cursor: 'pointer',
           }"
         >
           <el-image :src="currency" fit="cover" style="height: 20px; width: 20px" />
