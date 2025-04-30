@@ -100,7 +100,8 @@
     @backDialogButton="backDialogButton"
     @openSignInDialog="openSignInDialog"
   />
-  <!-- <WalletDialog2 v-model="walletDialog2" /> -->
+
+  <WalletDialog v-model="walletDialog" />
 </template>
 
 <script setup lang="ts">
@@ -111,7 +112,7 @@ import { onMounted, ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthenticationStore } from '@/stores/userStore'
 import { useRegistrationStore } from '@/stores/userStore'
-// import WalletDialog from './WalletDialog.vue'
+import WalletDialog from './WalletDialog.vue'
 import Drawer from './Drawer.vue'
 import SignInDialog from './SignInDialog.vue'
 import RegisterDialog from './RegisterDialog.vue'
@@ -128,7 +129,7 @@ const walletDialog = ref(false)
 const registrationStore = useRegistrationStore() // Initialize the store
 
 const openWalletDialog = () => {
-  // walletDialog2.value = true
+  walletDialog.value = true
 }
 
 const userWalletBalance = computed(() => {
