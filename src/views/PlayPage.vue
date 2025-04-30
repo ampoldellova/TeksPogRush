@@ -105,7 +105,9 @@ import { useRouter } from 'vue-router'
 
 import { useWalletStore } from '@/stores/walletStore'
 import { useAuthenticationStore } from '@/stores/userStore'
+import { useTokenStore } from '@/stores/tokenStore'
 
+const tokenStore = useTokenStore()
 const userStore = useAuthenticationStore()
 const walletStore = useWalletStore()
 
@@ -294,6 +296,90 @@ const closeChipsOptions = () => {
   chips[5].animation = { x: '0px', y: '0px' }
 }
 
+// const placeBetPog1 = () => {
+//   if (!userStore.isLoggedIn) {
+//     ElMessage({
+//       message: 'You must log in to place a bet.',
+//       grouping: true,
+//       type: 'error',
+//     })
+//     return
+//   }
+//   if (Pog1BetDisplay.value + currentBetValue.value <= 500) {
+//     if (walletStore.userWalletBalance >= currentBetValue.value) {
+//       walletStore.updateUserWalletBalance(-currentBetValue.value)
+//       Pog1BetDisplay.value += currentBetValue.value
+//       betHistory.value.push({ type: 'Pog1', value: currentBetValue.value })
+//       console.log('Bet History:', betHistory.value)
+//     } else {
+//       ElMessage({
+//         message: 'Insufficient wallet balance!',
+//         grouping: true,
+//         type: 'error',
+//       })
+//     }
+//   } else {
+//     ElMessage({
+//       message: 'You can only bet a maximum of ₱500',
+//       grouping: true,
+//       type: 'error',
+//     })
+//   }
+// }
+
+// const placeBetEqualizer = () => {
+//   if (!userStore.isLoggedIn) {
+//     ElMessage({
+//       message: 'You must log in to place a bet.',
+//       grouping: true,
+//       type: 'error',
+//     })
+//     return
+//   }
+//   if (EqualizerBetDisplay.value + currentBetValue.value <= 500) {
+//     if (walletStore.userWalletBalance >= currentBetValue.value) {
+//       walletStore.updateUserWalletBalance(-currentBetValue.value)
+//       EqualizerBetDisplay.value += currentBetValue.value
+//       betHistory.value.push({ type: 'Equalizer', value: currentBetValue.value })
+//       console.log('Bet History:', betHistory.value)
+//     } else {
+//       ElMessage({
+//         message: 'Insufficient wallet balance!',
+//         grouping: true,
+//         type: 'error',
+//       })
+//     }
+//   } else {
+//     ElMessage({
+//       message: 'You can only bet a maximum of ₱500',
+//       grouping: true,
+//       type: 'error',
+//     })
+//   }
+// }
+
+// const addWinnings = (amount: number) => {
+//   if (amount > 0) {
+//     walletStore.updateUserWalletBalance(amount)
+//     ElMessage({
+//       message: `You won ₱${amount}!`,
+//       grouping: true,
+//       type: 'success',
+//     })
+//   }
+// }
+
+// const refundBet = () => {
+//   const totalBet = Pog1BetDisplay.value + EqualizerBetDisplay.value + Pog2BetDisplay.value
+//   if (totalBet > 0) {
+//     walletStore.updateUserWalletBalance(totalBet)
+//     ElMessage({
+//       message: `It's a draw! Your total bet of ₱${totalBet} has been refunded.`,
+//       type: 'success',
+//     })
+//   }
+// }
+
 const placeBetPog1 = () => {
   if (!userStore.isLoggedIn) {
     ElMessage({
@@ -304,7 +390,40 @@ const placeBetPog1 = () => {
     return
   }
   if (Pog1BetDisplay.value + currentBetValue.value <= 500) {
-    if (walletStore.userWalletBalance >= currentBetValue.value) {
+    if (tokenWallet.userTokenBalance >= currentBetValue.value) {
+      tokenWallet.updateTokenBalance(-currentBetValue.value)
+      Pog1BetDisplay.value += currentBetValue.value
+      betHistory.value.push({ type: 'Pog1', value: currentBetValue.value })
+      console.log('Bet History:', betHistory.value)
+    } else {
+      ElMessage({
+        message: 'Insufficient wallet balance!',
+        grouping: true,
+        type: 'error',
+      })
+    }
+  } else {
+    ElMessage({
+      message: 'You can only bet a maximum of ₱500',
+      grouping: true,
+      type: 'error',
+    })
+  }
+}
+
+///////
+
+const placeBetEqualizer = () => {
+  if (!userStore.isLoggedIn) {
+    ElMessage({
+      message: 'You must log in to place a bet.',
+      grouping: true,
+      type: 'error',
+    })
+    return
+  }
+  if (EqualizerBetDisplay.value + currentBetValue.value <= 500) {
+    if (tokenStore.userTokenBalance >= currentBetValue.value) {
       walletStore.updateUserWalletBalance(-currentBetValue.value)
       Pog1BetDisplay.value += currentBetValue.value
       betHistory.value.push({ type: 'Pog1', value: currentBetValue.value })
@@ -325,40 +444,9 @@ const placeBetPog1 = () => {
   }
 }
 
-const placeBetEqualizer = () => {
-  if (!userStore.isLoggedIn) {
-    ElMessage({
-      message: 'You must log in to place a bet.',
-      grouping: true,
-      type: 'error',
-    })
-    return
-  }
-  if (EqualizerBetDisplay.value + currentBetValue.value <= 500) {
-    if (walletStore.userWalletBalance >= currentBetValue.value) {
-      walletStore.updateUserWalletBalance(-currentBetValue.value)
-      EqualizerBetDisplay.value += currentBetValue.value
-      betHistory.value.push({ type: 'Equalizer', value: currentBetValue.value })
-      console.log('Bet History:', betHistory.value)
-    } else {
-      ElMessage({
-        message: 'Insufficient wallet balance!',
-        grouping: true,
-        type: 'error',
-      })
-    }
-  } else {
-    ElMessage({
-      message: 'You can only bet a maximum of ₱500',
-      grouping: true,
-      type: 'error',
-    })
-  }
-}
-
 const addWinnings = (amount: number) => {
   if (amount > 0) {
-    walletStore.updateUserWalletBalance(amount)
+    tokenStore.updateTokenBalance(amount)
     ElMessage({
       message: `You won ₱${amount}!`,
       grouping: true,
@@ -370,7 +458,7 @@ const addWinnings = (amount: number) => {
 const refundBet = () => {
   const totalBet = Pog1BetDisplay.value + EqualizerBetDisplay.value + Pog2BetDisplay.value
   if (totalBet > 0) {
-    walletStore.updateUserWalletBalance(totalBet)
+    tokenStore.updateTokenBalance(totalBet)
     ElMessage({
       message: `It's a draw! Your total bet of ₱${totalBet} has been refunded.`,
       type: 'success',
@@ -402,7 +490,7 @@ const placeBetPog2 = () => {
     return
   }
   if (Pog2BetDisplay.value + currentBetValue.value <= 500) {
-    if (walletStore.userWalletBalance >= currentBetValue.value) {
+    if (tokenStore.userTokenBalance >= currentBetValue.value) {
       walletStore.updateUserWalletBalance(-currentBetValue.value)
       Pog2BetDisplay.value += currentBetValue.value
       betHistory.value.push({ type: 'Pog2', value: currentBetValue.value })

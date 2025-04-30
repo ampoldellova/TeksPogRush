@@ -91,14 +91,60 @@
                   color: 'white',
                 }"
               >
-                {{ tokenStore.getUserTokenBalance }}
+                {{ tokenStore.userTokenBalance }}
               </el-text>
             </el-col>
           </el-row>
-          <el-image :src="currency" fit="cover" style="height: 20px; width: 20px" />
-          <el-text :style="{ fontFamily: 'regular', color: 'white' }">
-            {{ userWalletBalance }}
-          </el-text>
+        </div>
+
+        <div
+          v-if="authenticationStore.isAuthenticated"
+          @click="openWalletDialog"
+          :style="{
+            backgroundColor: COLORS.dark,
+            height: '30px',
+            width: '90px',
+            borderRadius: '99px',
+            borderWidth: '1px',
+            borderColor: '#2a2c32',
+            borderStyle: 'solid',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: '0 10px',
+            gap: '10px',
+            cursor: 'pointer',
+          }"
+        >
+          <el-row
+            @click="openWalletDialog"
+            :gutter="10"
+            :style="{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              // cursor: 'pointer',
+            }"
+          >
+            <el-col
+              :span="10"
+              style="display: flex; justify-content: flex-start; align-items: flex-start"
+            >
+              <el-icon><Wallet fit="cover" style="height: 20px; width: 20px" /></el-icon>
+            </el-col>
+            <el-col :span="14">
+              <el-text
+                :style="{
+                  fontFamily: 'regular',
+                  fontSize: '14px',
+                  color: 'white',
+                  display: 'flex',
+                }"
+              >
+                {{ userWalletBalance }}
+              </el-text>
+            </el-col>
+          </el-row>
         </div>
 
         <el-text
@@ -127,7 +173,7 @@
     @backDialogButton="backDialogButton"
     @openSignInDialog="openSignInDialog"
   />
-  <!-- <WalletDialog2 v-model="walletDialog2" /> -->
+  <WalletDialog2 v-model="walletDialog2" />
 </template>
 
 <script setup lang="ts">
@@ -155,9 +201,10 @@ const registerDialog = ref(false)
 const authenticationStore = useAuthenticationStore()
 const walletDialog = ref(false)
 const registrationStore = useRegistrationStore() // Initialize the store
+const walletDialog2 = ref(false)
 
 const openWalletDialog = () => {
-  // walletDialog2.value = true
+  walletDialog2.value = true
 }
 
 const userWalletBalance = computed(() => {

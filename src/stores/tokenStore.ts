@@ -16,7 +16,7 @@ export const useTokenStore = defineStore('tokenStore', {
   }),
 
   getters: {
-    getUserTokenBalance(): number {
+    userTokenBalance(): number {
       const authenticationStore = useAuthenticationStore()
       const userEmail = authenticationStore.user?.email
 
