@@ -1,37 +1,8 @@
 import { defineStore } from 'pinia'
 import { useAuthenticationStore } from './userStore'
 import { useRegistrationStore } from './userStore'
-import type { Transaction, GCashTransaction, CardTransaction} from '@/components/models/types'
+import type { Transaction, GCashTransaction, CardTransaction } from '@/components/models/types'
 import { v4 as uuidv4 } from 'uuid'
-
-// export interface Transaction {
-//   id: string
-//   userName: string
-//   type: 'cash-in' | 'withdrawal'
-//   amount: number
-//   date: string
-//   accountNumber: string
-//   accountName: string
-//   method: 'Gcash' | 'Bank Account'
-// }
-
-// export interface GCashTransaction {
-//   id: string
-//   userName: string
-//   amount: number
-//   date: string
-//   mobileNumber: string
-// }
-
-// export interface CardTransaction {
-//   id: string
-//   userName: string
-//   amount: number
-//   date: string
-//   cardNumber: string
-//   expiryDate: string
-//   securityCode: string
-// }
 
 export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
   state: () => ({

@@ -4,37 +4,18 @@ import { ElMessage } from 'element-plus'
 import { v4 as uuidv4 } from 'uuid'
 import type { userRegistrationStore } from '@/components/models/types'
 
-//Nilagay sa models folder
-// export interface useRegistrationStore {
-//   id: string
-//   username: string
-//   email: string
-//   contact: string
-//   password: string
-//   wallet: number
-// }
-
-// const ruleForm = reactive ({
-//   username: '',
-//   email: '',
-//   contact: '',
-//   password: '',
-//   confirmPassword: '',
-// })
-
-//Nilagay ko sa register Dialog sinceyung pagstructure ng SignIn is ganu yung process
-
 export const useRegistrationStore = defineStore('registration', {
   state: () => ({
-    registeredUsers: JSON.parse(localStorage.getItem('registeredUsers') || '[]') as userRegistrationStore []
-    
+    registeredUsers: JSON.parse(
+      localStorage.getItem('registeredUsers') || '[]',
+    ) as userRegistrationStore[],
   }),
   getters: {
     getUsers: (state) => state.registeredUsers,
   },
   actions: {
     registerUser(userData: userRegistrationStore) {
-      const { username, email, contact, password, confirmPassword} = userData
+      const { username, email, contact, password, confirmPassword } = userData
 
       const id = uuidv4()
       const wallet = 0
@@ -46,21 +27,7 @@ export const useRegistrationStore = defineStore('registration', {
         grouping: true,
         type: 'success',
       })
-      // this.resetForm(formEl)
     },
-    // resetForm(formEl: any) {
-    //   ruleForm.username = ''
-    //   ruleForm.email = ''
-    //   ruleForm.contact = ''
-    //   ruleForm.password = ''
-    //   ruleForm.confirmPassword = ''
-
-    //   if (formEl) {
-    //     formEl.resetFields()
-    //   }
-    // },
-
-    //there is a built in reset form in that I put in register Dialog
     logUserWallets() {
       this.registeredUsers.forEach((user) => {
         console.log(`User: ${user.username}, Wallet: ${user.wallet}`)
@@ -72,7 +39,7 @@ export const useRegistrationStore = defineStore('registration', {
 export const useAuthenticationStore = defineStore('auth', {
   state: () => ({
     isLoggedIn: false,
-    user: ref<{ id:string; email: string; wallet: number; username: string} | null>(null),
+    user: ref<{ id: string; email: string; wallet: number; username: string } | null>(null),
   }),
   getters: {
     isAuthenticated: (state) => state.isLoggedIn,
@@ -91,7 +58,13 @@ export const useAuthenticationStore = defineStore('auth', {
         this.user = { id: user.id, username: user.username, email: user.email, wallet: user.wallet }
         localStorage.setItem(
           'loginStatus',
-          JSON.stringify({ id: user.id, username: user.username, email: user.email, wallet: user.wallet, loggedIn: true }),
+          JSON.stringify({
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            wallet: user.wallet,
+            loggedIn: true,
+          }),
         )
         return { success: true, message: 'Login successful!' }
       } else {
@@ -112,7 +85,12 @@ export const useAuthenticationStore = defineStore('auth', {
       const loginStatus = JSON.parse(localStorage.getItem('loginStatus') || '{}')
       if (loginStatus.loggedIn) {
         this.isLoggedIn = true
-        this.user = {id: loginStatus.id, username: loginStatus.username, email: loginStatus.email, wallet: loginStatus.wallet } 
+        this.user = {
+          id: loginStatus.id,
+          username: loginStatus.username,
+          email: loginStatus.email,
+          wallet: loginStatus.wallet,
+        }
         console.log(this.user)
         console.log(loginStatus)
       } else {
