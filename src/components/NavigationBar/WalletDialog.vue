@@ -72,7 +72,7 @@
           marginTop: '10px',
         }"
       >
-        WITHDRAW
+        CONFIRM
       </el-button>
     </div>
 
@@ -140,7 +140,7 @@
             marginTop: '10px',
           }"
         >
-          WITHDRAW
+          CONFIRM
         </el-button>
       </el-form>
     </div>
