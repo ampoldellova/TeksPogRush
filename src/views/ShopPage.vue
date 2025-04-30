@@ -19,11 +19,7 @@
         align-items: center;
       "
     >
-      <!-- <el-scrollbar
-        style="width: 100%; display: flex; justify-content: center; align-items: center"
-      > -->
       <PogShopCard v-for="chip in chips" :chip="chip" />
-      <!-- </el-scrollbar> -->
     </el-row>
   </div>
 </template>
