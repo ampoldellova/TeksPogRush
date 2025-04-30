@@ -1,15 +1,18 @@
 import { defineStore } from 'pinia'
 import { useRegistrationStore } from './userStore'
 import { useAuthenticationStore } from './userStore'
+import type { Wallet } from '@/components/models/types'
 import { v4 as uuidv4 } from 'uuid'
 
-export interface Wallet {
-  id: string
-  userName: string
-  amount: number
-  date: string
-  bet: number
-}
+// export interface Wallet {
+//   id: string
+//   userName: string
+//   amount: number
+//   date: string
+//   accountNumber: string
+//   accountName: string
+//   bet: number
+// }
 
 export const useWalletStore = defineStore('wallet', {
   state: () => ({
@@ -42,10 +45,12 @@ export const useWalletStore = defineStore('wallet', {
       }
 
       const betValue: Wallet = {
-        id: uuidv4(),
-        userName: authenticationStore.user?.email || 'Unknown',
+        id: authenticationStore.user?.id,
+        email: authenticationStore.user?.email || 'Unknown',
         amount: this.userWalletBalance,
         date: new Date().toISOString(),
+        accountNumber: '1234567890',
+        accountName: authenticationStore.user?.username,
         bet: amount,
       }
 

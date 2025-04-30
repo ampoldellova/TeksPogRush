@@ -64,6 +64,7 @@
             justifyContent: 'space-between',
             alignItems: 'center',
             padding: '0 10px',
+            gap: '10px',
           }"
         >
           <el-row
@@ -94,6 +95,10 @@
               </el-text>
             </el-col>
           </el-row>
+          <el-image :src="currency" fit="cover" style="height: 20px; width: 20px" />
+          <el-text :style="{ fontFamily: 'regular', color: 'white' }">
+            {{ userWalletBalance }}
+          </el-text>
         </div>
 
         <el-text
@@ -102,28 +107,6 @@
           :style="{ fontFamily: 'regular', fontSize: '16px', color: 'white', cursor: 'pointer' }"
         >
           Logout
-        </el-text>
-        <el-text
-          v-if="authenticationStore.isAuthenticated"
-          :style="{
-            fontFamily: 'regular',
-            fontSize: '14px',
-            color: 'white',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '5px',
-          }"
-        >
-          <span
-            @click="openWalletDialog"
-            style="display: flex; align-items: center; gap: 5px; cursor: pointer"
-          >
-            <el-icon :style="{ fontSize: '16px', color: 'white' }">
-              <Wallet />
-            </el-icon>
-            ₱{{ userWalletBalance }}
-          </span>
         </el-text>
       </el-col>
     </el-row>
@@ -144,7 +127,7 @@
     @backDialogButton="backDialogButton"
     @openSignInDialog="openSignInDialog"
   />
-  <WalletDialog v-model="walletDialog" />
+  <!-- <WalletDialog2 v-model="walletDialog2" /> -->
 </template>
 
 <script setup lang="ts">
@@ -155,7 +138,7 @@ import { onMounted, ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthenticationStore } from '@/stores/userStore'
 import { useRegistrationStore } from '@/stores/userStore'
-import WalletDialog from './WalletDialog.vue'
+// import WalletDialog from './WalletDialog.vue'
 import Drawer from './Drawer.vue'
 import SignInDialog from './SignInDialog.vue'
 import RegisterDialog from './RegisterDialog.vue'
@@ -171,10 +154,10 @@ const signInDialog = ref(false)
 const registerDialog = ref(false)
 const authenticationStore = useAuthenticationStore()
 const walletDialog = ref(false)
-const registrationStore = useRegistrationStore()
+const registrationStore = useRegistrationStore() // Initialize the store
 
 const openWalletDialog = () => {
-  walletDialog.value = true
+  // walletDialog2.value = true
 }
 
 const userWalletBalance = computed(() => {
@@ -219,6 +202,10 @@ const backDialogButton = () => {
   registerDialog.value = false
   signInDialog.value = true
 }
+
+onMounted(() => {
+  authenticationStore.checkLoginStatus()
+})
 </script>
 
 <style scoped>
