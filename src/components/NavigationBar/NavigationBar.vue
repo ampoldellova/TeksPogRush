@@ -93,7 +93,7 @@
     @openSignInDialog="openSignInDialog"
   />
 
-  <WalletDialog v-model="walletDialog" />
+  <WalletDialog v-model="walletDialog" @closeDialog="walletDialog = false" />
 </template>
 
 <script setup lang="ts">
@@ -238,6 +238,7 @@ onMounted(() => {
   align-items: center;
   padding: 0 10px;
   gap: 10px;
+  cursor: pointer;
 }
 
 .logout-button {
