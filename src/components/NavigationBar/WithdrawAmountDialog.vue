@@ -32,7 +32,6 @@
         borderRadius: '10px',
         marginTop: '10px',
       }"
-
       @click="withdraw"
     >
       WITHDRAW
@@ -47,38 +46,56 @@ import currency from '@/assets/currency.png'
 import { useAuthenticationStore } from '@/stores/userStore'
 import { useRegistrationStore } from '@/stores/userStore'
 import { useMoneyTransactionsStore } from '@/stores/moneyTransaction'
+import { ElMessage } from 'element-plus'
 
 const registrationStore = useRegistrationStore()
 const authenticationStore = useAuthenticationStore()
 const withdrawAmount = ref()
 const payment = useMoneyTransactionsStore()
 
-const emits = defineEmits(['closeDialog']);
+const emits = defineEmits(['closeDialog'])
 const withdraw = () => {
   if (!withdrawAmount.value || withdrawAmount.value <= 0) {
-    alert('Please enter a valid withdrawal amount.');
-    return;
+    // alert('Please enter a valid withdrawal amount.');
+    ElMessage({
+      message: 'Please enter a valid withdrawal amount.',
+      type: 'error',
+      grouping: true,
+    })
+    return
   }
 
-  const chips = withdrawAmount.value;
+  const chips = withdrawAmount.value
   const user = registrationStore.registeredUsers.find(
-    (u) => u.email === authenticationStore.user?.email
-  );
+    (u) => u.email === authenticationStore.user?.email,
+  )
 
   if (!user) {
-    alert('User not found. Please log in again.');
-    return;
+    ElMessage({
+      message: 'User not found.',
+      type: 'error',
+      grouping: true,
+    })
+    return
   }
 
   if (user.wallet < chips) {
-    alert('You do not have enough balance to withdraw.');
-    return;
+    ElMessage({
+      message: 'Insufficient balance.',
+      type: 'error',
+      grouping: true,
+    })
+    return
   }
 
-  payment.withdraw(withdrawAmount.value, chips);
-  alert('Withdrawal successful!');
-  emits('closeDialog');
-};
+  payment.withdraw(withdrawAmount.value, chips)
+  ElMessage({
+    message: 'Withdrawal successful.',
+    type: 'success',
+    grouping: true,
+  })
+  emits('closeDialog')
+}
 
 const withdrawAmountDialog = ref(false)
 const userWalletBalance = computed(() => {
