@@ -1,14 +1,15 @@
 <template>
   <el-dialog
     v-model="betDialog"
-    width="500"
     align-center
+    class="bet-dialog"
+    width="500"
     :style="{
       backgroundImage: `url(${BetDialog})`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
-      height: '330px',
       backgroundColor: 'transparent',
+      height: '330px',
     }"
     :show-close="false"
     @close="emit('closeChipOptions')"
@@ -138,6 +139,7 @@ import undo from '@/assets/chips/undo.png'
 import BetPogButton from './BetPogButton.vue'
 
 const betDialog = ref(false)
+const dialogWidth = ref('500px')
 
 const props = defineProps<{
   currentBet: string
@@ -162,4 +164,9 @@ const emit = defineEmits([
 ])
 </script>
 
-<style scoped></style>
+<style scoped>
+/* .bet-dialog {
+  height: 330px;
+  width: 400px;
+} */
+</style>
