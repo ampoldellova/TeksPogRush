@@ -25,7 +25,7 @@
         EQUALIZER: ₱{{ EqualizerBetDisplay }} <br />  
         POG2: ₱{{ Pog2BetDisplay }} <br />
       </div> -->
-      <Timer :currentTimerImage="currentTimerImage" />
+      <Timer :currentTimerImage="currentTimerImage" :showTimer="showTimer" />
       <Pogs :animation1="animation1" :animation2="animation2" :animation3="animation3" />
       <Hand v-if="showHand" :currentHand="currentHand" />
       <BetButton @openBetDialog="openBetDialog" :betButtonDisplay="betButtonDisplay" />
@@ -118,6 +118,7 @@ interface Bet {
 
 //Timer
 const progress = ref(0)
+const showTimer = ref('flex')
 const currentTimerImage = ref(timer12)
 const timerImages = [
   timer0,
@@ -492,6 +493,7 @@ const startTimer = () => {
 
 const flipCoin = () => {
   closeBetDialog()
+  showTimer.value = 'none'
   animation1.value = { x: '30vw', y: '0vh', rotate: 0, rotateY: 180 }
   animation2.value = { x: '0vw', y: '0vh', rotate: 0, rotateY: 180 }
   animation3.value = { x: '-30vw', y: '0vh', rotate: 0, rotateY: 180 }
@@ -555,6 +557,7 @@ const flipCoin = () => {
           textImageDisplay.value = 'none'
         }
         setTimeout(() => {
+          showTimer.value = 'flex'
           showWinner.value = false
           currentHand.value = hand1
           animation1.value = { x: 0, y: 0, rotate: 0, rotateY: 0 }
