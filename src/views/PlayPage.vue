@@ -268,6 +268,7 @@ const closeBetDialog = () => {
 }
 
 const changeBetChip = () => {
+  const width = window.innerWidth
   if (isReset.value) {
     chips[0].animation = { x: '0px', y: '0px' }
     chips[1].animation = { x: '0px', y: '0px' }
@@ -276,12 +277,12 @@ const changeBetChip = () => {
     chips[4].animation = { x: '0px', y: '0px' }
     chips[5].animation = { x: '0px', y: '0px' }
   } else {
-    chips[0].animation = { x: '-172px', y: '-10px' }
-    chips[1].animation = { x: '-154px', y: '87px' }
-    chips[2].animation = { x: '-86px', y: '152px' }
-    chips[3].animation = { x: '86px', y: '152px' }
-    chips[4].animation = { x: '154px', y: '87px' }
-    chips[5].animation = { x: '172px', y: '-10px' }
+    chips[0].animation = { x: width < 600 ? '-120px' : '-172px', y: width < 600 ? '-5px' : '-10px' }
+    chips[1].animation = { x: width < 600 ? '-102px' : '-154px', y: width < 600 ? '57px' : '87px' }
+    chips[2].animation = { x: width < 600 ? '-58px' : '-86px', y: width < 600 ? '102px' : '152px' }
+    chips[3].animation = { x: width < 600 ? '58px' : '86px', y: width < 600 ? '102px' : '152px' }
+    chips[4].animation = { x: width < 600 ? '102px' : '154px', y: width < 600 ? '57px' : '87px' }
+    chips[5].animation = { x: width < 600 ? '120px' : '172px', y: width < 600 ? '-5px' : '-10px' }
   }
   isReset.value = !isReset.value
 }
