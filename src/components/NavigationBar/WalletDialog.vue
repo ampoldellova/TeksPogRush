@@ -71,6 +71,7 @@
           borderRadius: '10px',
           marginTop: '10px',
         }"
+
       >
         CONFIRM
       </el-button>
@@ -145,7 +146,7 @@
       </el-form>
     </div>
 
-    <WithdrawAmountDialog v-model="withdrawAmountDialog" />
+    <WithdrawAmountDialog v-model="withdrawAmountDialog" @closeDialog="withdrawAmountDialog = false"/>
   </el-dialog>
 </template>
 
@@ -241,6 +242,7 @@ const submitGcashDetails = (formEl: FormInstance | undefined) => {
   formEl.validate((valid) => {
     if (valid) {
       withdrawAmountDialog.value = true
+      // walletDialog.value = false;
     } else {
       console.log('error submit!')
     }
