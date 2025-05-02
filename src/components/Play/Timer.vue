@@ -8,7 +8,6 @@
       height: '100px',
       position: 'absolute',
       top: '20%',
-      zIndex: 9999,
       display: showTimer,
     }"
   >
