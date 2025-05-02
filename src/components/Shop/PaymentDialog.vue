@@ -237,7 +237,7 @@ const submitGcashDetails = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
-      payment.gCashPayment(props.chip.price, props.chip.value, gCashRuleForm.mobileNumber)
+      payment.gCashPayment(props.chip.price, props.chip.value, gCashRuleForm.mobileNumber, 'CashIn')
       emit('closeDialog')
       ElMessage({
         message: 'Payment successful!',
@@ -260,6 +260,7 @@ const submitCardDetails = (formEl: FormInstance | undefined) => {
         creditCardRuleForm.cardNumber,
         creditCardRuleForm.expiryDate,
         creditCardRuleForm.securityCode,
+        'CashIn'
       )
       emit('closeDialog')
       ElMessage({

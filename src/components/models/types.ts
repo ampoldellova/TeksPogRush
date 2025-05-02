@@ -15,6 +15,7 @@ export interface Transaction {
     amount: number
     date: string
     mobileNumber: string
+    type: 'CashIn'| 'Withdrawal'
   }
   
   export interface CardTransaction {
@@ -25,6 +26,8 @@ export interface Transaction {
     cardNumber: string
     expiryDate: string
     securityCode: string
+    type: 'CashIn'| 'Withdrawal'
+
   }
 
   export interface userRegistrationStore {
@@ -45,6 +48,13 @@ export interface Transaction {
     accountNumber: string
     accountName?: string
     bet: number
+  }
+
+  export interface withdraw{
+    id: string
+    amount: number
+    userName: string
+    date: string
   }
 
   
