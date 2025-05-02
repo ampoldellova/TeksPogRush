@@ -511,20 +511,20 @@ const flipCoin = () => {
       equalizer.value = Math.random() > 0.5 ? 'Tails' : 'Heads'
 
       animation1.value = {
-        x: Math.random() * 100 - Math.random(),
-        y: Math.random() * 100 - Math.random(),
+        x: Math.random() * 100 - 50,
+        y: Math.random() * 100 - 50,
         rotate: 1800,
         rotateY: pog1.value === 'Tails' ? 360 : 540,
       }
       animation2.value = {
-        x: Math.random() * 100 - Math.random(),
-        y: Math.random() * 100 - Math.random(),
+        x: Math.random() * 100 - 50,
+        y: Math.random() * 100 - 50,
         rotate: 1800,
         rotateY: equalizer.value === 'Tails' ? 360 : 540,
       }
       animation3.value = {
-        x: Math.random() * 100 - Math.random(),
-        y: Math.random() * 100 - Math.random(),
+        x: Math.random() * 100 - 50,
+        y: Math.random() * 100 - 50,
         rotate: 1800,
         rotateY: pog2.value === 'Tails' ? 360 : 540,
       }
