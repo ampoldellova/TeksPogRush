@@ -30,6 +30,7 @@
       }"
     >
     </el-image>
+
     <Vue3Lottie
       :animationData="confetti"
       :loop="true"
