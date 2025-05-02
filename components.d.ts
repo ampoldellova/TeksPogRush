@@ -39,5 +39,6 @@ declare module 'vue' {
     WalletDialog: typeof import('./src/components/NavigationBar/WalletDialog.vue')['default']
     WinnerDialog: typeof import('./src/components/Play/WinnerDialog.vue')['default']
     WithdrawAmountDialog: typeof import('./src/components/NavigationBar/WithdrawAmountDialog.vue')['default']
+    WithdrawPayment: typeof import('./src/components/NavigationBar/WithdrawPayment.vue')['default']
   }
 }

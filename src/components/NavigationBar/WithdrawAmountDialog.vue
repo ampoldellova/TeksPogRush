@@ -19,6 +19,7 @@
     <el-input
       placeholder="Enter amount to withdraw"
       input-style="font-family:regular; font-size:12px"
+      v-model="withdrawAmount"
     />
 
     <el-button
@@ -31,6 +32,8 @@
         borderRadius: '10px',
         marginTop: '10px',
       }"
+
+      @click="withdraw"
     >
       WITHDRAW
     </el-button>
@@ -43,9 +46,39 @@ import { computed, ref } from 'vue'
 import currency from '@/assets/currency.png'
 import { useAuthenticationStore } from '@/stores/userStore'
 import { useRegistrationStore } from '@/stores/userStore'
+import { useMoneyTransactionsStore } from '@/stores/moneyTransaction'
 
 const registrationStore = useRegistrationStore()
 const authenticationStore = useAuthenticationStore()
+const withdrawAmount = ref()
+const payment = useMoneyTransactionsStore()
+
+const emits = defineEmits(['closeDialog']);
+const withdraw = () => {
+  if (!withdrawAmount.value || withdrawAmount.value <= 0) {
+    alert('Please enter a valid withdrawal amount.');
+    return;
+  }
+
+  const chips = withdrawAmount.value;
+  const user = registrationStore.registeredUsers.find(
+    (u) => u.email === authenticationStore.user?.email
+  );
+
+  if (!user) {
+    alert('User not found. Please log in again.');
+    return;
+  }
+
+  if (user.wallet < chips) {
+    alert('You do not have enough balance to withdraw.');
+    return;
+  }
+
+  payment.withdraw(withdrawAmount.value, chips);
+  alert('Withdrawal successful!');
+  emits('closeDialog');
+};
 
 const withdrawAmountDialog = ref(false)
 const userWalletBalance = computed(() => {
