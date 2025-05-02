@@ -18,13 +18,13 @@
         alignItems: 'center',
       }"
     >
-      <div class="wallet-balance">
+      <!-- <div class="wallet-balance">
         Wallet Balance: ₱{{ walletStore.userWalletBalance }} <br />
         Total Bet: ₱{{ Pog1BetDisplay + EqualizerBetDisplay + Pog2BetDisplay }} <br />
         POG1: ₱{{ Pog1BetDisplay }} <br />
-        EQUALIZER: ₱{{ EqualizerBetDisplay }} <br />
+        EQUALIZER: ₱{{ EqualizerBetDisplay }} <br />  
         POG2: ₱{{ Pog2BetDisplay }} <br />
-      </div>
+      </div> -->
       <Timer :currentTimerImage="currentTimerImage" />
       <Pogs :animation1="animation1" :animation2="animation2" :animation3="animation3" />
       <Hand v-if="showHand" :currentHand="currentHand" />
@@ -564,7 +564,7 @@ const flipCoin = () => {
 
           resetBetDialog()
           startTimer()
-        }, 1000)
+        }, 2000)
       }, 2000)
     }, 2000)
   }, 1000)
