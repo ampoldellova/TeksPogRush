@@ -103,8 +103,6 @@ import changeChip from '@/assets/sounds/changeChip.wav'
 import closeChips from '@/assets/sounds/closeChips.wav'
 import placeBet from '@/assets/sounds/placeBet.wav'
 import win from '@/assets/sounds/win.wav'
-import { motion } from 'motion-v'
-import { InfoFilled } from '@element-plus/icons-vue'
 
 const userStore = useAuthenticationStore()
 const walletStore = useWalletStore()
@@ -165,7 +163,7 @@ const currentBet = ref(chip10)
 const currentBetValue = ref(10)
 const isReset = ref(false)
 const resetBet = ref(false)
-const chips = reactive([
+const chips = reactive(<chipsTypes[]>[
   {
     src: chip10,
     animation: {},
