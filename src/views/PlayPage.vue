@@ -388,7 +388,7 @@ const placeBetPog1 = () => {
     })
     return
   }
-  if (Pog1BetDisplay.value + currentBetValue.value) {
+  if (Pog1BetDisplay.value + currentBetValue.value <= 500) {
     if (walletStore.userWalletBalance >= currentBetValue.value) {
       const placeBetSound = new Audio(placeBet)
       placeBetSound.play()
@@ -420,7 +420,7 @@ const placeBetEqualizer = () => {
     })
     return
   }
-  if (EqualizerBetDisplay.value + currentBetValue.value) {
+  if (EqualizerBetDisplay.value + currentBetValue.value <= 500) {
     if (walletStore.userWalletBalance >= currentBetValue.value) {
       const placeBetSound = new Audio(placeBet)
       placeBetSound.play()
@@ -558,7 +558,8 @@ const clearBets = () => {
     console.log('All bets . Wallet refunded:', totalBet)
   } else {
     ElMessage({
-      message: 'No bets to undo!',
+      message: 'No bets to clear!',
+      grouping: true,
       type: 'warning',
     })
   }
