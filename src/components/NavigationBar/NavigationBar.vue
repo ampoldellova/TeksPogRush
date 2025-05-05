@@ -104,10 +104,6 @@ import { onMounted, ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthenticationStore } from '@/stores/userStore'
 import { useRegistrationStore } from '@/stores/userStore'
-import WalletDialog from './WalletDialog.vue'
-import Drawer from './Drawer.vue'
-import SignInDialog from './SignInDialog.vue'
-import RegisterDialog from './RegisterDialog.vue'
 
 const router = useRouter()
 const drawer = ref(false)

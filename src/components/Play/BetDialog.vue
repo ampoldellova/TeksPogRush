@@ -133,9 +133,16 @@
       >
         <motion.button
           @click="chip.action"
-          :whilePress="{ scale: 0.9 }"
-          :whileHover="{ scale: 1.2, transition: { duration: 0.3 } }"
-          :style="{ backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }"
+          :whilePress="{ scale: walletStore.userWalletBalance < chip.value ? 1 : 0.9 }"
+          :whileHover="{
+            scale: walletStore.userWalletBalance < chip.value ? 1 : 1.2,
+            transition: { duration: 0.3 },
+          }"
+          :style="{
+            backgroundColor: 'transparent',
+            border: 'none',
+            cursor: walletStore.userWalletBalance < chip.value ? 'not-allowed' : 'pointer',
+          }"
         >
           <el-image
             :src="chip.src"
@@ -156,7 +163,9 @@ import { COLORS } from '@/assets/theme'
 import clear from '@/assets/chips/clear.png'
 import undo from '@/assets/chips/undo.png'
 import BetPogButton from './BetPogButton.vue'
+import { useWalletStore } from '@/stores/walletStore'
 
+const walletStore = useWalletStore()
 const betDialog = ref(false)
 const dialogWidth = ref('500px')
 const dialogHeight = ref('330px')
@@ -176,6 +185,7 @@ const props = defineProps<{
   chips: Array<{
     src: string
     animation: {}
+    value: number
     action: () => void
   }>
 }>()
