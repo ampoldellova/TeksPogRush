@@ -158,7 +158,9 @@ import creditCard from '@/assets/shop/creditCard.png'
 import { reactive, ref } from 'vue'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import { useMoneyTransactionsStore } from '@/stores/moneyTransaction'
+import { useTokenStore } from '@/stores/tokenStore'
 
+const tokenStore = useTokenStore()
 const payment = useMoneyTransactionsStore()
 const ruleFormRef = ref<FormInstance>()
 const paymentDialog = ref(false)

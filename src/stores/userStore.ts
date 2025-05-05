@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
+
 import { v4 as uuidv4 } from 'uuid'
 import type { userRegistrationStore } from '@/components/models/types'
 
