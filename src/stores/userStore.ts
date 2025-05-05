@@ -40,7 +40,7 @@ export const useRegistrationStore = defineStore('registration', {
 export const useAuthenticationStore = defineStore('auth', {
   state: () => ({
     isLoggedIn: false,
-    user: ref<{ id: string; email: string; wallet: number; username: string } | null>(null),
+    user:null as { id: string; email: string; wallet: number; username: string } | null,
   }),
   getters: {
     isAuthenticated: (state) => state.isLoggedIn,
