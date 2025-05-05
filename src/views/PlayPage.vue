@@ -25,8 +25,6 @@
     </div>
   </div>
 
-  <winHistory />
-
   <BetDialog
     v-model="betDialog"
     :chips="chips"
@@ -41,9 +39,6 @@
     @placeBetPog2="placeBetPog2"
     @undoBet="undoBet"
     @clearBets="clearBets"
-    :pog1Multiplier="pog1Multiplier"
-    :equalizerMultiplier="equalizerMultiplier"
-    :pog2Multiplier="pog2Multiplier"
   />
 
   <WinnerDialog
@@ -112,13 +107,13 @@ import type { chipsTypes } from '@/components/models/types'
 
 const userStore = useAuthenticationStore()
 const walletStore = useWalletStore()
-import { useWinHistoryStore } from '../stores/winHistoryStore'
-const winHistoryStore = useWinHistoryStore()
 
 interface Bet {
   type: 'Pog1' | 'Equalizer' | 'Pog2'
   value: number
 }
+
+const tutorial = ref(false)
 
 //Timer
 const progress = ref(0)
@@ -159,8 +154,8 @@ const ref2 = ref<ButtonInstance>()
 const ref3 = ref<ButtonInstance>()
 
 //Bet Dialog
-const Pog1BetDisplay = ref(0)
 const showHand = ref(false)
+const Pog1BetDisplay = ref(0)
 const EqualizerBetDisplay = ref(0)
 const Pog2BetDisplay = ref(0)
 const betHistory = ref<Bet[]>([])
@@ -168,6 +163,7 @@ const betDialog = ref(false)
 const currentBet = ref(chip10)
 const currentBetValue = ref(10)
 const isReset = ref(false)
+const resetBet = ref(false)
 const chips = reactive(<chipsTypes[]>[
   {
     src: chip10,
@@ -347,6 +343,7 @@ const closeBetDialog = () => {
 const changeBetChip = () => {
   const width = window.innerWidth
   if (isReset.value) {
+    //REUSABLE WITH LINE 368
     const closeChipsSound = new Audio(closeChips)
     closeChipsSound.play()
     chips[0].animation = { x: '0px', y: '0px' }
@@ -388,13 +385,14 @@ const placeBetPog1 = () => {
     })
     return
   }
-  if (Pog1BetDisplay.value + currentBetValue.value) {
+  if (Pog1BetDisplay.value + currentBetValue.value <= 500) {
     if (walletStore.userWalletBalance >= currentBetValue.value) {
       const placeBetSound = new Audio(placeBet)
       placeBetSound.play()
       walletStore.updateUserWalletBalance(-currentBetValue.value)
       Pog1BetDisplay.value += currentBetValue.value
       betHistory.value.push({ type: 'Pog1', value: currentBetValue.value })
+      console.log('Bet History:', betHistory.value)
     } else {
       ElMessage({
         message: 'Insufficient wallet balance!',
@@ -420,13 +418,14 @@ const placeBetEqualizer = () => {
     })
     return
   }
-  if (EqualizerBetDisplay.value + currentBetValue.value) {
+  if (EqualizerBetDisplay.value + currentBetValue.value <= 500) {
     if (walletStore.userWalletBalance >= currentBetValue.value) {
       const placeBetSound = new Audio(placeBet)
       placeBetSound.play()
       walletStore.updateUserWalletBalance(-currentBetValue.value)
       EqualizerBetDisplay.value += currentBetValue.value
       betHistory.value.push({ type: 'Equalizer', value: currentBetValue.value })
+      console.log('Bet History:', betHistory.value)
     } else {
       ElMessage({
         message: 'Insufficient wallet balance!',
@@ -581,31 +580,6 @@ const startTimer = () => {
   }, 1000)
 }
 
-const multiplierValues = [1, 2, 3, 4, 5, 15, 25, 35, 100, 700, 1000]
-
-const pog1Multiplier = ref(1)
-const equalizerMultiplier = ref(1)
-const pog2Multiplier = ref(1)
-
-const resetMultipliers = () => {
-  const randomIndex = Math.floor(Math.random() * 3)
-  const selectedMultiplier = multiplierValues[Math.floor(Math.random() * multiplierValues.length)]
-
-  if (randomIndex === 0) {
-    pog1Multiplier.value = selectedMultiplier
-    equalizerMultiplier.value = 1
-    pog2Multiplier.value = 1
-  } else if (randomIndex === 1) {
-    pog1Multiplier.value = 1
-    equalizerMultiplier.value = selectedMultiplier
-    pog2Multiplier.value = 1
-  } else {
-    pog1Multiplier.value = 1
-    equalizerMultiplier.value = 1
-    pog2Multiplier.value = selectedMultiplier
-  }
-}
-
 const flipCoin = () => {
   closeBetDialog()
   showTimer.value = 'none'
@@ -620,7 +594,7 @@ const flipCoin = () => {
 
     setTimeout(() => {
       currentHand.value = hand2
-
+      //REUSABLE
       pog1.value = Math.random() > 0.5 ? 'Tails' : 'Heads'
       pog2.value = Math.random() > 0.5 ? 'Tails' : 'Heads'
       equalizer.value = Math.random() > 0.5 ? 'Tails' : 'Heads'
@@ -646,50 +620,23 @@ const flipCoin = () => {
 
       setTimeout(() => {
         if (pog1.value !== pog2.value && pog1.value !== equalizer.value) {
-          const winnings =
-            pog1Multiplier.value === 1
-              ? Pog1BetDisplay.value * 2
-              : Pog1BetDisplay.value * pog1Multiplier.value
-          addWinnings(winnings)
+          addWinnings(Pog1BetDisplay.value * 2)
           winnerImage.value = heads1
           showWinner.value = true
           result.value = pog1Win
           textImageDisplay.value = 'flex'
-          winHistoryStore.history.push({
-            round: winHistoryStore.history.length + 1,
-            winner: 'Pog1',
-          })
-          console.log('Pog1 wins')
         } else if (equalizer.value !== pog1.value && equalizer.value !== pog2.value) {
-          const winnings =
-            equalizerMultiplier.value === 1
-              ? EqualizerBetDisplay.value * 2
-              : EqualizerBetDisplay.value * equalizerMultiplier.value
-          addWinnings(winnings)
+          addWinnings(EqualizerBetDisplay.value * 2)
           winnerImage.value = heads2
           showWinner.value = true
           result.value = equalizerWin
           textImageDisplay.value = 'flex'
-          winHistoryStore.history.push({
-            round: winHistoryStore.history.length + 1,
-            winner: 'Equalizer',
-          })
-          console.log('Equalizer wins')
         } else if (pog2.value !== pog1.value && pog2.value !== equalizer.value) {
-          const winnings =
-            pog2Multiplier.value === 1
-              ? Pog2BetDisplay.value * 2
-              : Pog2BetDisplay.value * pog2Multiplier.value
-          addWinnings(winnings)
+          addWinnings(Pog2BetDisplay.value * 2)
           winnerImage.value = heads3
           showWinner.value = true
           result.value = pog2Win
           textImageDisplay.value = 'flex'
-          winHistoryStore.history.push({
-            round: winHistoryStore.history.length + 1,
-            winner: 'Pog2',
-          })
-          console.log('Pog2 wins')
         } else {
           pog1.value === pog2.value && pog1.value === equalizer.value
           refundBet()
@@ -697,11 +644,6 @@ const flipCoin = () => {
           showWinner.value = true
           result.value = ''
           textImageDisplay.value = 'none'
-          winHistoryStore.history.push({
-            round: winHistoryStore.history.length + 1,
-            winner: 'Draw',
-          })
-          console.log('Draw')
         }
         setTimeout(() => {
           showTimer.value = 'flex'
@@ -712,7 +654,6 @@ const flipCoin = () => {
           animation3.value = { x: 0, y: 0, rotate: 0, rotateY: 0 }
           showHand.value = false
 
-          resetMultipliers()
           resetBetDialog()
           startTimer()
         }, 2000)
@@ -729,15 +670,10 @@ onMounted(() => {
 <style scoped>
 .wallet-balance {
   position: absolute;
-  bottom: 10px;
+  top: 10px;
   left: 10px;
-  width: 230px;
   color: white;
   font-size: 20px;
   font-weight: bold;
-  border: 2px solid white;
-  border-radius: 10px;
-  padding: 10px;
-  background-color: rgba(122, 129, 129, 0.6);
 }
 </style>
