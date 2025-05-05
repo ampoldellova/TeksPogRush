@@ -169,54 +169,102 @@ const chips = reactive([
     src: chip10,
     animation: {},
     action: () => {
-      currentBet.value = chip10
-      currentBetValue.value = 10
-      closeChipsOptions()
+      if (walletStore.userWalletBalance < 10) {
+        ElMessage({
+          message: 'Insufficient wallet balance!',
+          grouping: true,
+          type: 'error',
+        })
+      } else {
+        currentBet.value = chip10
+        currentBetValue.value = 10
+        closeChipsOptions()
+      }
     },
   },
   {
     src: chip20,
     animation: {},
     action: () => {
-      currentBet.value = chip20
-      currentBetValue.value = 20
-      closeChipsOptions()
+      if (walletStore.userWalletBalance < 20) {
+        ElMessage({
+          message: 'Insufficient wallet balance!',
+          grouping: true,
+          type: 'error',
+        })
+      } else {
+        currentBet.value = chip20
+        currentBetValue.value = 20
+        closeChipsOptions()
+      }
     },
   },
   {
     src: chip50,
     animation: {},
     action: () => {
-      currentBet.value = chip50
-      currentBetValue.value = 50
-      closeChipsOptions()
+      if (walletStore.userWalletBalance < 50) {
+        ElMessage({
+          message: 'Insufficient wallet balance!',
+          grouping: true,
+          type: 'error',
+        })
+      } else {
+        currentBet.value = chip50
+        currentBetValue.value = 50
+        closeChipsOptions()
+      }
     },
   },
   {
     src: chip100,
     animation: {},
     action: () => {
-      currentBet.value = chip100
-      currentBetValue.value = 100
-      closeChipsOptions()
+      if (walletStore.userWalletBalance < 100) {
+        ElMessage({
+          message: 'Insufficient wallet balance!',
+          grouping: true,
+          type: 'error',
+        })
+      } else {
+        currentBet.value = chip100
+        currentBetValue.value = 100
+        closeChipsOptions()
+      }
     },
   },
   {
     src: chip200,
     animation: {},
     action: () => {
-      currentBet.value = chip200
-      currentBetValue.value = 200
-      closeChipsOptions()
+      if (walletStore.userWalletBalance < 200) {
+        ElMessage({
+          message: 'Insufficient wallet balance!',
+          grouping: true,
+          type: 'error',
+        })
+      } else {
+        currentBet.value = chip200
+        currentBetValue.value = 200
+        closeChipsOptions()
+      }
     },
   },
   {
     src: chip500,
     animation: {},
     action: () => {
-      currentBet.value = chip500
-      currentBetValue.value = 500
-      closeChipsOptions()
+      if (walletStore.userWalletBalance < 500) {
+        ElMessage({
+          message: 'Insufficient wallet balance!',
+          grouping: true,
+          type: 'error',
+        })
+      } else {
+        currentBet.value = chip500
+        currentBetValue.value = 500
+        closeChipsOptions()
+      }
     },
   },
 ])
@@ -234,7 +282,6 @@ router.beforeEach((to, from, next) => {
     )
 
     if (confirmLeave) {
-      // Reset bets upon confirming leave
       Pog1BetDisplay.value = 0
       EqualizerBetDisplay.value = 0
       Pog2BetDisplay.value = 0
@@ -242,10 +289,10 @@ router.beforeEach((to, from, next) => {
       hasActiveBet.value = false
       next()
     } else {
-      next(false) // Stay on the current page
+      next(false)
     }
   } else {
-    next() // Proceed if no active bet
+    next()
   }
 })
 

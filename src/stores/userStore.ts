@@ -92,8 +92,6 @@ export const useAuthenticationStore = defineStore('auth', {
           email: loginStatus.email,
           wallet: loginStatus.wallet,
         }
-        console.log(this.user)
-        console.log(loginStatus)
       } else {
         this.isLoggedIn = false
         this.user = null

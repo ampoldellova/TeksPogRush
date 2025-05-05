@@ -94,7 +94,6 @@
   />
 
   <WalletDialog v-model="walletDialog" @closeDialog="walletDialog = false" />
-   <!-- <WithdrawPayment v-model="paymentDialog" :chip="props.chip" @closeDialog="paymentDialog = false"/> -->
 </template>
 
 <script setup lang="ts">
@@ -109,7 +108,6 @@ import WalletDialog from './WalletDialog.vue'
 import Drawer from './Drawer.vue'
 import SignInDialog from './SignInDialog.vue'
 import RegisterDialog from './RegisterDialog.vue'
-// import WithdrawPayment from './WithdrawPayment.vue'
 
 const router = useRouter()
 const drawer = ref(false)
@@ -120,18 +118,6 @@ const authenticationStore = useAuthenticationStore()
 const walletDialog = ref(false)
 const registrationStore = useRegistrationStore()
 
-// const paymentDialog = ref(false)
-
-// const props = defineProps<{
-//   chip: {
-//     id: string
-//     name: string
-//     price: number
-//     image: string
-//     value: number
-//   }
-// }>()
-
 const openWalletDialog = () => {
   walletDialog.value = true
 }
@@ -140,7 +126,6 @@ const userWalletBalance = computed(() => {
   const user = registrationStore.registeredUsers.find(
     (u) => u.email === authenticationStore.user?.email,
   )
-  console.log('User:', user)
   return user ? `${user.wallet}` : '₱0.00'
 })
 
