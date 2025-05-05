@@ -113,8 +113,6 @@ interface Bet {
   value: number
 }
 
-const tutorial = ref(false)
-
 //Timer
 const progress = ref(0)
 const showTimer = ref('flex')
@@ -163,7 +161,6 @@ const betDialog = ref(false)
 const currentBet = ref(chip10)
 const currentBetValue = ref(10)
 const isReset = ref(false)
-const resetBet = ref(false)
 const chips = reactive(<chipsTypes[]>[
   {
     src: chip10,
