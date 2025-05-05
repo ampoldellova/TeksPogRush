@@ -656,10 +656,11 @@ const flipCoin = () => {
           showWinner.value = true
           result.value = pog1Win
           textImageDisplay.value = 'flex'
-          winHistoryStore.history.push({
+          winHistoryStore.addWin({
             round: winHistoryStore.history.length + 1,
-            winner: 'Pog1',
-          })
+           winner: 'Pog1',
+          }
+          )
           console.log('Pog1 wins')
         } else if (equalizer.value !== pog1.value && equalizer.value !== pog2.value) {
           const winnings =
@@ -671,10 +672,11 @@ const flipCoin = () => {
           showWinner.value = true
           result.value = equalizerWin
           textImageDisplay.value = 'flex'
-          winHistoryStore.history.push({
+          winHistoryStore.addWin({
             round: winHistoryStore.history.length + 1,
             winner: 'Equalizer',
-          })
+          }
+          )
           console.log('Equalizer wins')
         } else if (pog2.value !== pog1.value && pog2.value !== equalizer.value) {
           const winnings =
@@ -686,10 +688,12 @@ const flipCoin = () => {
           showWinner.value = true
           result.value = pog2Win
           textImageDisplay.value = 'flex'
-          winHistoryStore.history.push({
-            round: winHistoryStore.history.length + 1,
-            winner: 'Pog2',
-          })
+          winHistoryStore.addWin(
+            {
+              round: winHistoryStore.history.length + 1,
+             winner:'Pog2',
+            }
+          )
           console.log('Pog2 wins')
         } else {
           pog1.value === pog2.value && pog1.value === equalizer.value
@@ -698,10 +702,11 @@ const flipCoin = () => {
           showWinner.value = true
           result.value = ''
           textImageDisplay.value = 'none'
-          winHistoryStore.history.push({
+          winHistoryStore.addWin({
             round: winHistoryStore.history.length + 1,
             winner: 'Draw',
-          })
+          }
+          )
           console.log('Draw')
         }
         setTimeout(() => {
