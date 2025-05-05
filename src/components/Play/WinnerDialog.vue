@@ -22,13 +22,27 @@
         display: textImageDisplay,
         width: '200px',
         height: '200px',
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: 1,
       }"
+    >
+    </el-image>
+
+    <Vue3Lottie
+      :animationData="confetti"
+      :loop="true"
+      :style="{ height: '100vh', width: '100vw' }"
     />
   </el-dialog>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { Vue3Lottie } from 'vue3-lottie'
+import confetti from '@/assets/play/confetti.json'
 
 const showWinner = ref(false)
 

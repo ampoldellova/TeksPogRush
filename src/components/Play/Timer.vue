@@ -3,7 +3,13 @@
     :animate="{ opacity: 1, scale: 1 }"
     :initial="{ opacity: 0, scale: 0.8 }"
     :transition="{ duration: 0.5, ease: 'easeInOut' }"
-    style="width: 100px; height: 100px; position: absolute; top: 20%"
+    :style="{
+      width: '100px',
+      height: '100px',
+      position: 'absolute',
+      top: '20%',
+      display: showTimer,
+    }"
   >
     <motion.div
       :animate="{ opacity: 1 }"
@@ -28,6 +34,7 @@ import { motion } from 'motion-v'
 
 const props = defineProps<{
   currentTimerImage: string
+  showTimer: string
 }>()
 </script>
 

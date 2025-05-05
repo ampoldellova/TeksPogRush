@@ -19,13 +19,14 @@
       }"
     >
       <div class="wallet-balance">
-        Token Balance: ₱{{ walletStore.userWalletBalance }} <br />
+        Wallet Balance: ₱{{ walletStore.userWalletBalance }} <br />
         Total Bet: ₱{{ Pog1BetDisplay + EqualizerBetDisplay + Pog2BetDisplay }} <br />
         POG1: ₱{{ Pog1BetDisplay }} <br />
         EQUALIZER: ₱{{ EqualizerBetDisplay }} <br />
         POG2: ₱{{ Pog2BetDisplay }} <br />
       </div>
-      <Timer :currentTimerImage="currentTimerImage" />
+      -->
+      <Timer :currentTimerImage="currentTimerImage" :showTimer="showTimer" />
       <Pogs :animation1="animation1" :animation2="animation2" :animation3="animation3" />
       <Hand v-if="showHand" :currentHand="currentHand" />
       <BetButton @openBetDialog="openBetDialog" :betButtonDisplay="betButtonDisplay" />
@@ -121,6 +122,7 @@ interface Bet {
 
 //Timer
 const progress = ref(0)
+const showTimer = ref('flex')
 const currentTimerImage = ref(timer12)
 const timerImages = [
   timer0,
@@ -270,6 +272,7 @@ const closeBetDialog = () => {
 }
 
 const changeBetChip = () => {
+  const width = window.innerWidth
   if (isReset.value) {
     chips[0].animation = { x: '0px', y: '0px' }
     chips[1].animation = { x: '0px', y: '0px' }
@@ -278,12 +281,12 @@ const changeBetChip = () => {
     chips[4].animation = { x: '0px', y: '0px' }
     chips[5].animation = { x: '0px', y: '0px' }
   } else {
-    chips[0].animation = { x: '-172px', y: '-10px' }
-    chips[1].animation = { x: '-154px', y: '87px' }
-    chips[2].animation = { x: '-86px', y: '152px' }
-    chips[3].animation = { x: '86px', y: '152px' }
-    chips[4].animation = { x: '154px', y: '87px' }
-    chips[5].animation = { x: '172px', y: '-10px' }
+    chips[0].animation = { x: width < 600 ? '-120px' : '-172px', y: width < 600 ? '-5px' : '-10px' }
+    chips[1].animation = { x: width < 600 ? '-102px' : '-154px', y: width < 600 ? '57px' : '87px' }
+    chips[2].animation = { x: width < 600 ? '-58px' : '-86px', y: width < 600 ? '102px' : '152px' }
+    chips[3].animation = { x: width < 600 ? '58px' : '86px', y: width < 600 ? '102px' : '152px' }
+    chips[4].animation = { x: width < 600 ? '102px' : '154px', y: width < 600 ? '57px' : '87px' }
+    chips[5].animation = { x: width < 600 ? '120px' : '172px', y: width < 600 ? '-5px' : '-10px' }
   }
   isReset.value = !isReset.value
 }
@@ -520,6 +523,7 @@ const resetMultipliers = () => {
 
 const flipCoin = () => {
   closeBetDialog()
+  showTimer.value = 'none'
   animation1.value = { x: '30vw', y: '0vh', rotate: 0, rotateY: 180 }
   animation2.value = { x: '0vw', y: '0vh', rotate: 0, rotateY: 180 }
   animation3.value = { x: '-30vw', y: '0vh', rotate: 0, rotateY: 180 }
@@ -537,20 +541,20 @@ const flipCoin = () => {
       equalizer.value = Math.random() > 0.5 ? 'Tails' : 'Heads'
 
       animation1.value = {
-        x: Math.random() * 100 - Math.random(),
-        y: Math.random() * 100 - Math.random(),
+        x: Math.random() * 100 - 50,
+        y: Math.random() * 100 - 50,
         rotate: 1800,
         rotateY: pog1.value === 'Tails' ? 360 : 540,
       }
       animation2.value = {
-        x: Math.random() * 100 - Math.random(),
-        y: Math.random() * 100 - Math.random(),
+        x: Math.random() * 100 - 50,
+        y: Math.random() * 100 - 50,
         rotate: 1800,
         rotateY: equalizer.value === 'Tails' ? 360 : 540,
       }
       animation3.value = {
-        x: Math.random() * 100 - Math.random(),
-        y: Math.random() * 100 - Math.random(),
+        x: Math.random() * 100 - 50,
+        y: Math.random() * 100 - 50,
         rotate: 1800,
         rotateY: pog2.value === 'Tails' ? 360 : 540,
       }
@@ -595,6 +599,7 @@ const flipCoin = () => {
           textImageDisplay.value = 'none'
         }
         setTimeout(() => {
+          showTimer.value = 'flex'
           showWinner.value = false
           currentHand.value = hand1
           animation1.value = { x: 0, y: 0, rotate: 0, rotateY: 0 }
@@ -605,7 +610,7 @@ const flipCoin = () => {
           resetMultipliers()
           resetBetDialog()
           startTimer()
-        }, 1000)
+        }, 2000)
       }, 2000)
     }, 2000)
   }, 1000)

@@ -12,33 +12,15 @@
       transformStyle: 'preserve-3d',
     }"
   >
-    <el-image
-      :src="heads1"
-      fit="contain"
-      :style="{
-        width: '100px',
-        height: '100px',
-        position: 'absolute',
-        borderWidth: '1px',
-        borderColor: 'white',
-        borderStyle: 'solid',
-        borderRadius: '50%',
-      }"
-    />
+    <motion.img :src="heads1" fit="contain" class="responsive-image" />
 
-    <el-image
+    <motion.img
       :src="tails"
       fit="contain"
+      class="responsive-image"
       :style="{
-        width: '100px',
-        height: '100px',
-        position: 'absolute',
         transform: 'rotateY(180deg)',
         backfaceVisibility: 'hidden',
-        borderWidth: '1px',
-        borderColor: 'white',
-        borderStyle: 'solid',
-        borderRadius: '50%',
       }"
     />
   </motion.div>
@@ -55,33 +37,15 @@
       transformStyle: 'preserve-3d',
     }"
   >
-    <el-image
-      :src="heads2"
-      fit="contain"
-      :style="{
-        width: '100px',
-        height: '100px',
-        position: 'absolute',
-        borderWidth: '1px',
-        borderColor: 'white',
-        borderStyle: 'solid',
-        borderRadius: '50%',
-      }"
-    />
+    <motion.img :src="heads2" fit="contain" class="responsive-image" />
 
-    <el-image
+    <motion.img
       :src="tails"
       fit="contain"
+      class="responsive-image"
       :style="{
-        width: '100px',
-        height: '100px',
-        position: 'absolute',
         transform: 'rotateY(180deg)',
         backfaceVisibility: 'hidden',
-        borderWidth: '1px',
-        borderColor: 'white',
-        borderStyle: 'solid',
-        borderRadius: '50%',
       }"
     />
   </motion.div>
@@ -99,33 +63,15 @@
       transformStyle: 'preserve-3d',
     }"
   >
-    <el-image
-      :src="heads3"
-      fit="contain"
-      :style="{
-        width: '100px',
-        height: '100px',
-        position: 'absolute',
-        borderWidth: '1px',
-        borderColor: 'white',
-        borderStyle: 'solid',
-        borderRadius: '50%',
-      }"
-    />
+    <motion.img :src="heads3" fit="contain" class="responsive-image" />
 
-    <el-image
+    <motion.img
       :src="tails"
       fit="contain"
+      class="responsive-image"
       :style="{
-        width: '100px',
-        height: '100px',
-        position: 'absolute',
         transform: 'rotateY(180deg)',
         backfaceVisibility: 'hidden',
-        borderWidth: '1px',
-        borderColor: 'white',
-        borderStyle: 'solid',
-        borderRadius: '50%',
       }"
     />
   </motion.div>
@@ -145,4 +91,28 @@ const props = defineProps<{
 }>()
 </script>
 
-<style scoped></style>
+<style scoped>
+.responsive-image {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  border-width: 1px;
+  border-color: white;
+  border-style: solid;
+  border-radius: 50%;
+}
+
+@media (max-width: 600px) {
+  .responsive-image {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+@media (min-width: 1201px) {
+  .responsive-image {
+    width: 100px;
+    height: 100px;
+  }
+}
+</style>
