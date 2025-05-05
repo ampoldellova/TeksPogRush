@@ -168,13 +168,16 @@ const chips = reactive([
   {
     src: chip10,
     animation: {},
+    value: 10,
     action: () => {
       if (walletStore.userWalletBalance < 10) {
-        ElMessage({
-          message: 'Insufficient wallet balance!',
-          grouping: true,
-          type: 'error',
-        })
+        if (!userStore.isLoggedIn) {
+          ElMessage({
+            message: 'You must be logged in first',
+            grouping: true,
+            type: 'error',
+          })
+        }
       } else {
         currentBet.value = chip10
         currentBetValue.value = 10
@@ -185,13 +188,16 @@ const chips = reactive([
   {
     src: chip20,
     animation: {},
+    value: 20,
     action: () => {
       if (walletStore.userWalletBalance < 20) {
-        ElMessage({
-          message: 'Insufficient wallet balance!',
-          grouping: true,
-          type: 'error',
-        })
+        if (!userStore.isLoggedIn) {
+          ElMessage({
+            message: 'You must be logged in first',
+            grouping: true,
+            type: 'error',
+          })
+        }
       } else {
         currentBet.value = chip20
         currentBetValue.value = 20
@@ -202,13 +208,16 @@ const chips = reactive([
   {
     src: chip50,
     animation: {},
+    value: 50,
     action: () => {
       if (walletStore.userWalletBalance < 50) {
-        ElMessage({
-          message: 'Insufficient wallet balance!',
-          grouping: true,
-          type: 'error',
-        })
+        if (!userStore.isLoggedIn) {
+          ElMessage({
+            message: 'You must be logged in first',
+            grouping: true,
+            type: 'error',
+          })
+        }
       } else {
         currentBet.value = chip50
         currentBetValue.value = 50
@@ -219,13 +228,16 @@ const chips = reactive([
   {
     src: chip100,
     animation: {},
+    value: 100,
     action: () => {
       if (walletStore.userWalletBalance < 100) {
-        ElMessage({
-          message: 'Insufficient wallet balance!',
-          grouping: true,
-          type: 'error',
-        })
+        if (!userStore.isLoggedIn) {
+          ElMessage({
+            message: 'You must be logged in first',
+            grouping: true,
+            type: 'error',
+          })
+        }
       } else {
         currentBet.value = chip100
         currentBetValue.value = 100
@@ -236,13 +248,16 @@ const chips = reactive([
   {
     src: chip200,
     animation: {},
+    value: 200,
     action: () => {
       if (walletStore.userWalletBalance < 200) {
-        ElMessage({
-          message: 'Insufficient wallet balance!',
-          grouping: true,
-          type: 'error',
-        })
+        if (!userStore.isLoggedIn) {
+          ElMessage({
+            message: 'You must be logged in first',
+            grouping: true,
+            type: 'error',
+          })
+        }
       } else {
         currentBet.value = chip200
         currentBetValue.value = 200
@@ -253,13 +268,16 @@ const chips = reactive([
   {
     src: chip500,
     animation: {},
+    value: 500,
     action: () => {
       if (walletStore.userWalletBalance < 500) {
-        ElMessage({
-          message: 'Insufficient wallet balance!',
-          grouping: true,
-          type: 'error',
-        })
+        if (!userStore.isLoggedIn) {
+          ElMessage({
+            message: 'You must be logged in first',
+            grouping: true,
+            type: 'error',
+          })
+        }
       } else {
         currentBet.value = chip500
         currentBetValue.value = 500
