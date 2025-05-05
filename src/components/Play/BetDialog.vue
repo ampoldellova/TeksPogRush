@@ -42,7 +42,7 @@
         :displayValue="props.pog1BetDisplay"
         @click="emit('placeBetPog1')"
       />
-      <span v-if="props.pog1Multiplier > 1" :style="{ color: 'white', margin: '0 10px' }"
+      <span v-if="props.pog1Multiplier > 1" class="multiplierPog1"
         >x{{ props.pog1Multiplier }}</span
       >
       <BetPogButton
@@ -51,7 +51,7 @@
         :displayValue="props.equalizerBetDisplay"
         @click="emit('placeBetEqualizer')"
       />
-      <span v-if="props.equalizerMultiplier > 1" :style="{ color: 'white', margin: '0 10px' }"
+      <span v-if="props.equalizerMultiplier > 1" class="multiplierEqualizer"
         >x{{ props.equalizerMultiplier }}</span
       >
       <BetPogButton
@@ -61,7 +61,7 @@
         @click="emit('placeBetPog2')"
       />
 
-      <span v-if="props.pog2Multiplier > 1" :style="{ color: 'white', margin: '0 10px' }"
+      <span v-if="props.pog2Multiplier > 1" class="multiplierPog2"
         >x{{ props.pog2Multiplier }}</span
       >
     </div>
@@ -173,6 +173,7 @@ import { COLORS } from '@/assets/theme'
 import clear from '@/assets/chips/clear.png'
 import undo from '@/assets/chips/undo.png'
 import BetPogButton from './BetPogButton.vue'
+import { useWalletStore } from '@/stores/walletStore'
 
 const walletStore = useWalletStore()
 const betDialog = ref(false)
@@ -247,4 +248,61 @@ const emit = defineEmits([
 ])
 </script>
 
-<style scoped></style>
+<style scoped>
+.multiplierPog1 {
+  position: absolute;
+  display: inline-block;
+  left: 73px;
+
+  background-color: rgba(76, 0, 255, 0.9);
+  color: black;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.multiplierEqualizer {
+  position: absolute;
+  display: inline-block;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 255, 0, 0.486);
+  color: black;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.multiplierPog2 {
+  position: absolute;
+  display: inline-block;
+  right: 55px;
+
+  background-color: rgba(0, 255, 21, 0.9);
+  color: black;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.pog1 {
+  background: linear-gradient(45deg, #ff0000, #ff5e5e);
+  color: white;
+}
+
+.equalizer {
+  background: linear-gradient(45deg, #00ff00, #5eff5e);
+  color: black;
+}
+
+.pog2 {
+  background: linear-gradient(45deg, #0000ff, #5e5eff);
+  color: white;
+}
+</style>

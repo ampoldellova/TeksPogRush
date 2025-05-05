@@ -25,7 +25,9 @@
         EQUALIZER: ₱{{ EqualizerBetDisplay }} <br />
         POG2: ₱{{ Pog2BetDisplay }} <br />
       </div>
-      -->
+
+      <winHistory />
+
       <Timer :currentTimerImage="currentTimerImage" :showTimer="showTimer" />
       <Pogs :animation1="animation1" :animation2="animation2" :animation3="animation3" />
       <Hand v-if="showHand" :currentHand="currentHand" />
@@ -112,8 +114,10 @@ import { useAuthenticationStore } from '@/stores/userStore'
 
 const userStore = useAuthenticationStore()
 const walletStore = useWalletStore()
+import { useWinHistoryStore } from '../stores/winHistoryStore'
+const winHistoryStore = useWinHistoryStore()
 
-console.log('User ID:', userStore.isLoggedIn)
+import WinHistory from '@/components/Play/WinHistory.vue'
 
 interface Bet {
   type: 'Pog1' | 'Equalizer' | 'Pog2'
@@ -379,7 +383,6 @@ const placeBetPog1 = () => {
       walletStore.updateUserWalletBalance(-currentBetValue.value)
       Pog1BetDisplay.value += currentBetValue.value
       betHistory.value.push({ type: 'Pog1', value: currentBetValue.value })
-      console.log('Bet History:', betHistory.value)
     } else {
       ElMessage({
         message: 'Insufficient wallet balance!',
@@ -410,7 +413,6 @@ const placeBetEqualizer = () => {
       walletStore.updateUserWalletBalance(-currentBetValue.value)
       EqualizerBetDisplay.value += currentBetValue.value
       betHistory.value.push({ type: 'Equalizer', value: currentBetValue.value })
-      console.log('Bet History:', betHistory.value)
     } else {
       ElMessage({
         message: 'Insufficient wallet balance!',
@@ -477,7 +479,6 @@ const placeBetPog2 = () => {
       walletStore.updateUserWalletBalance(-currentBetValue.value)
       Pog2BetDisplay.value += currentBetValue.value
       betHistory.value.push({ type: 'Pog2', value: currentBetValue.value })
-      console.log('Bet History:', betHistory.value)
     } else {
       ElMessage({
         message: 'Insufficient wallet balance!',
@@ -635,6 +636,11 @@ const flipCoin = () => {
           showWinner.value = true
           result.value = pog1Win
           textImageDisplay.value = 'flex'
+          winHistoryStore.history.push({
+            round: winHistoryStore.history.length + 1,
+            winner: 'Pog1',
+          })
+          console.log('Pog1 wins')
         } else if (equalizer.value !== pog1.value && equalizer.value !== pog2.value) {
           const winnings =
             equalizerMultiplier.value === 1
@@ -645,6 +651,11 @@ const flipCoin = () => {
           showWinner.value = true
           result.value = equalizerWin
           textImageDisplay.value = 'flex'
+          winHistoryStore.history.push({
+            round: winHistoryStore.history.length + 1,
+            winner: 'Equalizer',
+          })
+          console.log('Equalizer wins')
         } else if (pog2.value !== pog1.value && pog2.value !== equalizer.value) {
           const winnings =
             pog2Multiplier.value === 1
@@ -655,6 +666,11 @@ const flipCoin = () => {
           showWinner.value = true
           result.value = pog2Win
           textImageDisplay.value = 'flex'
+          winHistoryStore.history.push({
+            round: winHistoryStore.history.length + 1,
+            winner: 'Pog2',
+          })
+          console.log('Pog2 wins')
         } else {
           pog1.value === pog2.value && pog1.value === equalizer.value
           refundBet()
@@ -662,6 +678,11 @@ const flipCoin = () => {
           showWinner.value = true
           result.value = ''
           textImageDisplay.value = 'none'
+          winHistoryStore.history.push({
+            round: winHistoryStore.history.length + 1,
+            winner: 'Draw',
+          })
+          console.log('Draw')
         }
         setTimeout(() => {
           showTimer.value = 'flex'
@@ -691,8 +712,13 @@ onMounted(() => {
   position: absolute;
   bottom: 10px;
   left: 10px;
+  width: 230px;
   color: white;
   font-size: 20px;
   font-weight: bold;
+  border: 2px solid white;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: rgba(122, 129, 129, 0.6);
 }
 </style>
