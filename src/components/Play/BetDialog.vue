@@ -164,6 +164,7 @@ import clear from '@/assets/chips/clear.png'
 import undo from '@/assets/chips/undo.png'
 import BetPogButton from './BetPogButton.vue'
 import { useWalletStore } from '@/stores/walletStore'
+import type { chipsTypes } from '../models/types'
 
 const walletStore = useWalletStore()
 const betDialog = ref(false)
@@ -182,12 +183,7 @@ const props = defineProps<{
   pog1BetDisplay: number
   equalizerBetDisplay: number
   pog2BetDisplay: number
-  chips: Array<{
-    src: string
-    animation: {}
-    value: number
-    action: () => void
-  }>
+  chips: Array<chipsTypes>
 }>()
 
 const updateDialogSize = () => {
