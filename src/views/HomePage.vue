@@ -37,6 +37,7 @@
 
         <RouterLink to="/play">
           <motion.button
+            @click="clickStart"
             :whileHover="{
               scale: 1.2,
               transition: { duration: 0.3 },
@@ -65,8 +66,13 @@
 <script setup lang="ts">
 import backgrounds from '@/assets/Background.png'
 import logo from '@/assets/TeksPogRush-Logo.png'
-import { COLORS } from '@/assets/theme'
 import { motion } from 'motion-v'
+import clickSound from '@/assets/sounds/click.wav'
+
+const clickStart = () => {
+  const audio = new Audio(clickSound)
+  audio.play()
+}
 </script>
 
 <style scoped></style>

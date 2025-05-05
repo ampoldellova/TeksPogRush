@@ -39,7 +39,6 @@
           </el-col>
         </el-row>
 
-        <!-- <div style="display: flex; gap: 350px; justify-content: center; align-items: center"> -->
         <el-row>
           <el-col
             :xs="24"
@@ -51,6 +50,7 @@
           >
             <RouterLink to="/arena">
               <motion.button
+                @click="buttonClick"
                 :whileHover="{
                   scale: 1.2,
                   transition: { duration: 0.3 },
@@ -83,6 +83,7 @@
           >
             <RouterLink to="/">
               <motion.button
+                @click="buttonClick"
                 :whileHover="{
                   scale: 1.2,
                   transition: { duration: 0.3 },
@@ -116,6 +117,12 @@
 import backgrounds from '@/assets/Background.png'
 import logo from '@/assets/TeksPogBattle.png'
 import { motion } from 'motion-v'
+import clickSound from '@/assets/sounds/click.wav'
+
+const buttonClick = () => {
+  const audio = new Audio(clickSound)
+  audio.play()
+}
 </script>
 
 <style scoped></style>

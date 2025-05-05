@@ -105,6 +105,11 @@ import { useRouter } from 'vue-router'
 
 import { useWalletStore } from '@/stores/walletStore'
 import { useAuthenticationStore } from '@/stores/userStore'
+import clickSound from '@/assets/sounds/click.wav'
+import changeChip from '@/assets/sounds/changeChip.wav'
+import closeChips from '@/assets/sounds/closeChips.wav'
+import placeBet from '@/assets/sounds/placeBet.wav'
+import win from '@/assets/sounds/win.wav'
 
 const userStore = useAuthenticationStore()
 const walletStore = useWalletStore()
@@ -323,6 +328,8 @@ const resetBetDialog = () => {
 }
 
 const openBetDialog = () => {
+  const audio = new Audio(clickSound)
+  audio.play()
   betDialog.value = true
   betButtonDisplay.value = 'flex'
 }
@@ -335,6 +342,8 @@ const closeBetDialog = () => {
 const changeBetChip = () => {
   const width = window.innerWidth
   if (isReset.value) {
+    const closeChipsSound = new Audio(closeChips)
+    closeChipsSound.play()
     chips[0].animation = { x: '0px', y: '0px' }
     chips[1].animation = { x: '0px', y: '0px' }
     chips[2].animation = { x: '0px', y: '0px' }
@@ -342,6 +351,8 @@ const changeBetChip = () => {
     chips[4].animation = { x: '0px', y: '0px' }
     chips[5].animation = { x: '0px', y: '0px' }
   } else {
+    const changeChipSound = new Audio(changeChip)
+    changeChipSound.play()
     chips[0].animation = { x: width < 600 ? '-120px' : '-172px', y: width < 600 ? '-5px' : '-10px' }
     chips[1].animation = { x: width < 600 ? '-102px' : '-154px', y: width < 600 ? '57px' : '87px' }
     chips[2].animation = { x: width < 600 ? '-58px' : '-86px', y: width < 600 ? '102px' : '152px' }
@@ -353,6 +364,8 @@ const changeBetChip = () => {
 }
 
 const closeChipsOptions = () => {
+  const closeChipsSound = new Audio(closeChips)
+  closeChipsSound.play()
   chips[0].animation = { x: '0px', y: '0px' }
   chips[1].animation = { x: '0px', y: '0px' }
   chips[2].animation = { x: '0px', y: '0px' }
@@ -372,6 +385,8 @@ const placeBetPog1 = () => {
   }
   if (Pog1BetDisplay.value + currentBetValue.value <= 500) {
     if (walletStore.userWalletBalance >= currentBetValue.value) {
+      const placeBetSound = new Audio(placeBet)
+      placeBetSound.play()
       walletStore.updateUserWalletBalance(-currentBetValue.value)
       Pog1BetDisplay.value += currentBetValue.value
       betHistory.value.push({ type: 'Pog1', value: currentBetValue.value })
@@ -403,6 +418,8 @@ const placeBetEqualizer = () => {
   }
   if (EqualizerBetDisplay.value + currentBetValue.value <= 500) {
     if (walletStore.userWalletBalance >= currentBetValue.value) {
+      const placeBetSound = new Audio(placeBet)
+      placeBetSound.play()
       walletStore.updateUserWalletBalance(-currentBetValue.value)
       EqualizerBetDisplay.value += currentBetValue.value
       betHistory.value.push({ type: 'Equalizer', value: currentBetValue.value })
@@ -423,8 +440,43 @@ const placeBetEqualizer = () => {
   }
 }
 
+const placeBetPog2 = () => {
+  if (!userStore.isLoggedIn) {
+    ElMessage({
+      message: 'You must log in to place a bet.',
+      grouping: true,
+      type: 'error',
+    })
+    return
+  }
+  if (Pog2BetDisplay.value + currentBetValue.value <= 500) {
+    if (walletStore.userWalletBalance >= currentBetValue.value) {
+      const placeBetSound = new Audio(placeBet)
+      placeBetSound.play()
+      walletStore.updateUserWalletBalance(-currentBetValue.value)
+      Pog2BetDisplay.value += currentBetValue.value
+      betHistory.value.push({ type: 'Pog2', value: currentBetValue.value })
+      console.log('Bet History:', betHistory.value)
+    } else {
+      ElMessage({
+        message: 'Insufficient wallet balance!',
+        grouping: true,
+        type: 'error',
+      })
+    }
+  } else {
+    ElMessage({
+      message: 'You can only bet a maximum of ₱500',
+      grouping: true,
+      type: 'error',
+    })
+  }
+}
+
 const addWinnings = (amount: number) => {
   if (amount > 0) {
+    const winSound = new Audio(win)
+    winSound.play()
     walletStore.updateUserWalletBalance(amount)
     ElMessage({
       message: `You won ₱${amount}!`,
@@ -457,37 +509,6 @@ if (totalBet > 0) {
   showWinner.value = true
   result.value = ''
   textImageDisplay.value = 'none'
-}
-
-const placeBetPog2 = () => {
-  if (!userStore.isLoggedIn) {
-    ElMessage({
-      message: 'You must log in to place a bet.',
-      grouping: true,
-      type: 'error',
-    })
-    return
-  }
-  if (Pog2BetDisplay.value + currentBetValue.value <= 500) {
-    if (walletStore.userWalletBalance >= currentBetValue.value) {
-      walletStore.updateUserWalletBalance(-currentBetValue.value)
-      Pog2BetDisplay.value += currentBetValue.value
-      betHistory.value.push({ type: 'Pog2', value: currentBetValue.value })
-      console.log('Bet History:', betHistory.value)
-    } else {
-      ElMessage({
-        message: 'Insufficient wallet balance!',
-        grouping: true,
-        type: 'error',
-      })
-    }
-  } else {
-    ElMessage({
-      message: 'You can only bet a maximum of ₱500',
-      grouping: true,
-      type: 'error',
-    })
-  }
 }
 
 const undoBet = () => {
