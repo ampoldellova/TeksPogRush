@@ -57,5 +57,11 @@ export interface Transaction {
     date: string
   }
 
+  export interface chipsTypes{
+    src?: string
+    animation?: {}
+    value: number
+    action: () => {}
+  }
   
   

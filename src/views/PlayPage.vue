@@ -18,22 +18,14 @@
         alignItems: 'center',
       }"
     >
-      <div class="wallet-balance">
-        Wallet Balance: ₱{{ walletStore.userWalletBalance }} <br />
-        Total Bet: ₱{{ Pog1BetDisplay + EqualizerBetDisplay + Pog2BetDisplay }} <br />
-        POG1: ₱{{ Pog1BetDisplay }} <br />
-        EQUALIZER: ₱{{ EqualizerBetDisplay }} <br />
-        POG2: ₱{{ Pog2BetDisplay }} <br />
-      </div>
-
-      <winHistory />
-
       <Timer :currentTimerImage="currentTimerImage" :showTimer="showTimer" />
       <Pogs :animation1="animation1" :animation2="animation2" :animation3="animation3" />
       <Hand v-if="showHand" :currentHand="currentHand" />
       <BetButton @openBetDialog="openBetDialog" :betButtonDisplay="betButtonDisplay" />
     </div>
   </div>
+
+  <winHistory />
 
   <BetDialog
     v-model="betDialog"
@@ -106,23 +98,29 @@ import pog2Win from '@/assets/play/pog2Win.png'
 import equalizerWin from '@/assets/play/equalizerWin.png'
 
 import { reactive, ref, onMounted, watch } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage, type ButtonInstance } from 'element-plus'
 import { useRouter } from 'vue-router'
 
 import { useWalletStore } from '@/stores/walletStore'
 import { useAuthenticationStore } from '@/stores/userStore'
+import clickSound from '@/assets/sounds/click.wav'
+import changeChip from '@/assets/sounds/changeChip.wav'
+import closeChips from '@/assets/sounds/closeChips.wav'
+import placeBet from '@/assets/sounds/placeBet.wav'
+import win from '@/assets/sounds/win.wav'
+import type { chipsTypes } from '@/components/models/types'
 
 const userStore = useAuthenticationStore()
 const walletStore = useWalletStore()
 import { useWinHistoryStore } from '../stores/winHistoryStore'
 const winHistoryStore = useWinHistoryStore()
 
-import WinHistory from '@/components/Play/WinHistory.vue'
-
 interface Bet {
   type: 'Pog1' | 'Equalizer' | 'Pog2'
   value: number
 }
+
+const tutorial = ref(false)
 
 //Timer
 const progress = ref(0)
@@ -156,6 +154,11 @@ const result = ref('')
 
 //Bet Button
 const betButtonDisplay = ref('flex')
+const tutorialButtonDisplay = ref('flex')
+
+const ref1 = ref<ButtonInstance>()
+const ref2 = ref<ButtonInstance>()
+const ref3 = ref<ButtonInstance>()
 
 //Bet Dialog
 const Pog1BetDisplay = ref(0)
@@ -168,7 +171,7 @@ const currentBet = ref(chip10)
 const currentBetValue = ref(10)
 const isReset = ref(false)
 const resetBet = ref(false)
-const chips = reactive([
+const chips = reactive(<chipsTypes[]>[
   {
     src: chip10,
     animation: {},
@@ -331,18 +334,24 @@ const resetBetDialog = () => {
 }
 
 const openBetDialog = () => {
+  const audio = new Audio(clickSound)
+  audio.play()
   betDialog.value = true
   betButtonDisplay.value = 'flex'
+  tutorialButtonDisplay.value = 'flex'
 }
 
 const closeBetDialog = () => {
   betDialog.value = false
   betButtonDisplay.value = 'none'
+  tutorialButtonDisplay.value = 'none'
 }
 
 const changeBetChip = () => {
   const width = window.innerWidth
   if (isReset.value) {
+    const closeChipsSound = new Audio(closeChips)
+    closeChipsSound.play()
     chips[0].animation = { x: '0px', y: '0px' }
     chips[1].animation = { x: '0px', y: '0px' }
     chips[2].animation = { x: '0px', y: '0px' }
@@ -350,6 +359,8 @@ const changeBetChip = () => {
     chips[4].animation = { x: '0px', y: '0px' }
     chips[5].animation = { x: '0px', y: '0px' }
   } else {
+    const changeChipSound = new Audio(changeChip)
+    changeChipSound.play()
     chips[0].animation = { x: width < 600 ? '-120px' : '-172px', y: width < 600 ? '-5px' : '-10px' }
     chips[1].animation = { x: width < 600 ? '-102px' : '-154px', y: width < 600 ? '57px' : '87px' }
     chips[2].animation = { x: width < 600 ? '-58px' : '-86px', y: width < 600 ? '102px' : '152px' }
@@ -361,6 +372,8 @@ const changeBetChip = () => {
 }
 
 const closeChipsOptions = () => {
+  const closeChipsSound = new Audio(closeChips)
+  closeChipsSound.play()
   chips[0].animation = { x: '0px', y: '0px' }
   chips[1].animation = { x: '0px', y: '0px' }
   chips[2].animation = { x: '0px', y: '0px' }
@@ -380,6 +393,8 @@ const placeBetPog1 = () => {
   }
   if (Pog1BetDisplay.value + currentBetValue.value) {
     if (walletStore.userWalletBalance >= currentBetValue.value) {
+      const placeBetSound = new Audio(placeBet)
+      placeBetSound.play()
       walletStore.updateUserWalletBalance(-currentBetValue.value)
       Pog1BetDisplay.value += currentBetValue.value
       betHistory.value.push({ type: 'Pog1', value: currentBetValue.value })
@@ -410,6 +425,8 @@ const placeBetEqualizer = () => {
   }
   if (EqualizerBetDisplay.value + currentBetValue.value) {
     if (walletStore.userWalletBalance >= currentBetValue.value) {
+      const placeBetSound = new Audio(placeBet)
+      placeBetSound.play()
       walletStore.updateUserWalletBalance(-currentBetValue.value)
       EqualizerBetDisplay.value += currentBetValue.value
       betHistory.value.push({ type: 'Equalizer', value: currentBetValue.value })
@@ -429,8 +446,43 @@ const placeBetEqualizer = () => {
   }
 }
 
+const placeBetPog2 = () => {
+  if (!userStore.isLoggedIn) {
+    ElMessage({
+      message: 'You must log in to place a bet.',
+      grouping: true,
+      type: 'error',
+    })
+    return
+  }
+  if (Pog2BetDisplay.value + currentBetValue.value <= 500) {
+    if (walletStore.userWalletBalance >= currentBetValue.value) {
+      const placeBetSound = new Audio(placeBet)
+      placeBetSound.play()
+      walletStore.updateUserWalletBalance(-currentBetValue.value)
+      Pog2BetDisplay.value += currentBetValue.value
+      betHistory.value.push({ type: 'Pog2', value: currentBetValue.value })
+      console.log('Bet History:', betHistory.value)
+    } else {
+      ElMessage({
+        message: 'Insufficient wallet balance!',
+        grouping: true,
+        type: 'error',
+      })
+    }
+  } else {
+    ElMessage({
+      message: 'You can only bet a maximum of ₱500',
+      grouping: true,
+      type: 'error',
+    })
+  }
+}
+
 const addWinnings = (amount: number) => {
   if (amount > 0) {
+    const winSound = new Audio(win)
+    winSound.play()
     walletStore.updateUserWalletBalance(amount)
     ElMessage({
       message: `You won ₱${amount}!`,
@@ -463,36 +515,6 @@ if (totalBet > 0) {
   showWinner.value = true
   result.value = ''
   textImageDisplay.value = 'none'
-}
-
-const placeBetPog2 = () => {
-  if (!userStore.isLoggedIn) {
-    ElMessage({
-      message: 'You must log in to place a bet.',
-      grouping: true,
-      type: 'error',
-    })
-    return
-  }
-  if (Pog2BetDisplay.value + currentBetValue.value) {
-    if (walletStore.userWalletBalance >= currentBetValue.value) {
-      walletStore.updateUserWalletBalance(-currentBetValue.value)
-      Pog2BetDisplay.value += currentBetValue.value
-      betHistory.value.push({ type: 'Pog2', value: currentBetValue.value })
-    } else {
-      ElMessage({
-        message: 'Insufficient wallet balance!',
-        grouping: true,
-        type: 'error',
-      })
-    }
-  } else {
-    ElMessage({
-      message: 'You can only bet a maximum of ₱500',
-      grouping: true,
-      type: 'error',
-    })
-  }
 }
 
 const undoBet = () => {
