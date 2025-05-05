@@ -1,5 +1,6 @@
 <template>
   <motion.div
+    ref="ref2"
     :animate="props.animation1"
     :transition="{ duration: 1, ease: 'easeInOut' }"
     :style="{
@@ -26,6 +27,7 @@
   </motion.div>
 
   <motion.div
+    ref="ref2"
     :animate="props.animation2"
     :transition="{ duration: 1, ease: 'easeInOut' }"
     :style="{
@@ -51,6 +53,7 @@
   </motion.div>
 
   <motion.div
+    ref="ref2"
     :animate="props.animation3"
     :transition="{ duration: 1, ease: 'easeInOut' }"
     :style="{

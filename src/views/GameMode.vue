@@ -25,19 +25,15 @@
           flex-direction: column;
         "
       >
-        <el-row>
-          <el-col :span="24">
-            <motion.div
-              :animate="{
-                y: [0, -10, 0],
-                transition: { duration: 2, repeat: Infinity, ease: 'easeInOut' },
-              }"
-              style="display: flex; justify-content: center; align-items: center"
-            >
-              <el-image :src="logo" fill="cover" style="width: 100%; height: 70vh" />
-            </motion.div>
-          </el-col>
-        </el-row>
+        <motion.div
+          :animate="{
+            y: [0, -10, 0],
+            transition: { duration: 2, repeat: Infinity, ease: 'easeInOut' },
+          }"
+          style="display: flex; justify-content: center; align-items: center"
+        >
+          <el-image :src="logo" fill="cover" style="width: 100%; height: 70vh" />
+        </motion.div>
 
         <el-row>
           <el-col
@@ -107,7 +103,6 @@
             </RouterLink>
           </el-col>
         </el-row>
-        <!-- </div> -->
       </div>
     </div>
   </div>
@@ -115,7 +110,7 @@
 
 <script setup lang="ts">
 import backgrounds from '@/assets/Background.png'
-import logo from '@/assets/TeksPogBattle.png'
+import logo from '@/assets/TeksPogRush-Logo.png'
 import { motion } from 'motion-v'
 import clickSound from '@/assets/sounds/click.wav'
 

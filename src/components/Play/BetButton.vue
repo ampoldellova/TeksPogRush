@@ -20,7 +20,7 @@
       cursor: 'pointer',
       boxShadow: '5px 8px 0px 1px rgba(0, 0, 0, 1)',
       position: 'absolute',
-      bottom: '50px',
+      bottom: '30px',
     }"
   >
     B E T

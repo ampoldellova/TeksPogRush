@@ -24,6 +24,8 @@ declare module 'vue' {
     ElInput: typeof import('element-plus/es')['ElInput']
     ElRow: typeof import('element-plus/es')['ElRow']
     ElText: typeof import('element-plus/es')['ElText']
+    ElTour: typeof import('element-plus/es')['ElTour']
+    ElTourStep: typeof import('element-plus/es')['ElTourStep']
     Hand: typeof import('./src/components/Play/Hand.vue')['default']
     NavBarButton: typeof import('./src/components/NavigationBar/NavBarButton.vue')['default']
     NavigationBar: typeof import('./src/components/NavigationBar/NavigationBar.vue')['default']

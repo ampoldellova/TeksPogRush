@@ -18,13 +18,6 @@
         alignItems: 'center',
       }"
     >
-      <!-- <div class="wallet-balance">
-        Wallet Balance: ₱{{ walletStore.userWalletBalance }} <br />
-        Total Bet: ₱{{ Pog1BetDisplay + EqualizerBetDisplay + Pog2BetDisplay }} <br />
-        POG1: ₱{{ Pog1BetDisplay }} <br />
-        EQUALIZER: ₱{{ EqualizerBetDisplay }} <br />  
-        POG2: ₱{{ Pog2BetDisplay }} <br />
-      </div> -->
       <Timer :currentTimerImage="currentTimerImage" :showTimer="showTimer" />
       <Pogs :animation1="animation1" :animation2="animation2" :animation3="animation3" />
       <Hand v-if="showHand" :currentHand="currentHand" />
@@ -100,7 +93,7 @@ import pog2Win from '@/assets/play/pog2Win.png'
 import equalizerWin from '@/assets/play/equalizerWin.png'
 
 import { reactive, ref, onMounted, watch } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage, type ButtonInstance } from 'element-plus'
 import { useRouter } from 'vue-router'
 
 import { useWalletStore } from '@/stores/walletStore'
@@ -110,16 +103,18 @@ import changeChip from '@/assets/sounds/changeChip.wav'
 import closeChips from '@/assets/sounds/closeChips.wav'
 import placeBet from '@/assets/sounds/placeBet.wav'
 import win from '@/assets/sounds/win.wav'
+import { motion } from 'motion-v'
+import { InfoFilled } from '@element-plus/icons-vue'
 
 const userStore = useAuthenticationStore()
 const walletStore = useWalletStore()
-
-console.log('User ID:', userStore.isLoggedIn)
 
 interface Bet {
   type: 'Pog1' | 'Equalizer' | 'Pog2'
   value: number
 }
+
+const tutorial = ref(false)
 
 //Timer
 const progress = ref(0)
@@ -153,6 +148,11 @@ const result = ref('')
 
 //Bet Button
 const betButtonDisplay = ref('flex')
+const tutorialButtonDisplay = ref('flex')
+
+const ref1 = ref<ButtonInstance>()
+const ref2 = ref<ButtonInstance>()
+const ref3 = ref<ButtonInstance>()
 
 //Bet Dialog
 const Pog1BetDisplay = ref(0)
@@ -332,11 +332,13 @@ const openBetDialog = () => {
   audio.play()
   betDialog.value = true
   betButtonDisplay.value = 'flex'
+  tutorialButtonDisplay.value = 'flex'
 }
 
 const closeBetDialog = () => {
   betDialog.value = false
   betButtonDisplay.value = 'none'
+  tutorialButtonDisplay.value = 'none'
 }
 
 const changeBetChip = () => {
