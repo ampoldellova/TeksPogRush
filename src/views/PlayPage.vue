@@ -103,6 +103,7 @@ import changeChip from '@/assets/sounds/changeChip.wav'
 import closeChips from '@/assets/sounds/closeChips.wav'
 import placeBet from '@/assets/sounds/placeBet.wav'
 import win from '@/assets/sounds/win.wav'
+import type { chipsTypes } from '@/components/models/types'
 
 const userStore = useAuthenticationStore()
 const walletStore = useWalletStore()
