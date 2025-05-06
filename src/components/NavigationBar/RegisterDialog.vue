@@ -119,7 +119,7 @@ import { useRegistrationStore } from '@/stores/userStore'
 import { Back, Lock, Message, Phone, Unlock, User } from '@element-plus/icons-vue'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import { reactive, ref } from 'vue'
-import type { registerForm } from '../models/types'
+import type { userRegistrationStore } from '../models/types'
 
 const registerDialog = ref(false)
 const ruleFormRef = ref<FormInstance>()
@@ -131,7 +131,7 @@ const props = defineProps<{
   fromLogin: boolean
 }>()
 
-const ruleForm = reactive(<registerForm>{
+const ruleForm = reactive(<userRegistrationStore>{
   id: '',
   username: '',
   email: '',
