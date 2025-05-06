@@ -63,5 +63,10 @@ export interface Transaction {
     value: number
     action: () => {}
   }
+
+  export interface pogWin {
+    round?:number
+    winner?:string
+  }
   
   

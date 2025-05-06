@@ -1,8 +1,10 @@
+import WalletDialog from '@/components/NavigationBar/WalletDialog.vue'
 import ForgotPasswordPage from '@/views/ForgotPasswordPage.vue'
 import GameMode from '@/views/GameMode.vue'
 import HomePage from '@/views/HomePage.vue'
 import PlayPage from '@/views/PlayPage.vue'
 import ShopPage from '@/views/ShopPage.vue'
+import { Wallet } from '@element-plus/icons-vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -33,6 +35,11 @@ const router = createRouter({
       name: 'shop',
       component: ShopPage,
     },
+    {
+      path: '/wallet',
+      name: 'wallet',
+      component: WalletDialog
+    }
   ],
 })
 

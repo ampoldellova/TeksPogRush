@@ -93,7 +93,7 @@
     @openSignInDialog="openSignInDialog"
   />
 
-  <WalletDialog v-model="walletDialog" @closeDialog="walletDialog = false" />
+  <!-- <WalletDialog v-model="walletDialog" @closeDialog="walletDialog = false" /> -->
 </template>
 
 <script setup lang="ts">
@@ -115,7 +115,7 @@ const walletDialog = ref(false)
 const registrationStore = useRegistrationStore()
 
 const openWalletDialog = () => {
-  walletDialog.value = true
+ router.push('/wallet')
 }
 
 const userWalletBalance = computed(() => {
