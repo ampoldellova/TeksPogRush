@@ -49,35 +49,6 @@ export interface Wallet {
   bet: number
 }
 
-export interface withdraw {
-  id: string
-  amount: number
-  userName: string
-  date: string
-}
-
-export interface chipsTypes {
-  src?: string
-  animation?: {}
-  value: number
-  action: () => {}
-}
-
-export interface registerForm {
-  id: string
-  username: string
-  email: string
-  contact: string
-  password: string
-  confirmPassword: string
-  wallet: number
-}
-
-export interface loginForm {
-  signInEmail: string
-  signInPassword: string
-}
-
   export interface chipsTypes{
     src?: string
     animation?: {}
