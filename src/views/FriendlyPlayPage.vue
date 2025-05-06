@@ -67,10 +67,6 @@ import timer5 from '@/assets/Timer/5.png'
 import timer6 from '@/assets/Timer/6.png'
 import timer7 from '@/assets/Timer/7.png'
 import timer8 from '@/assets/Timer/8.png'
-import timer9 from '@/assets/Timer/9.png'
-import timer10 from '@/assets/Timer/10.png'
-import timer11 from '@/assets/Timer/11.png'
-import timer12 from '@/assets/Timer/12.png'
 
 import Pogs from '@/components/Play/Pogs.vue'
 import heads1 from '@/assets/pogs/Tikbalang.png'
@@ -115,7 +111,7 @@ import { useWinHistoryStore } from '../stores/winHistoryStore'
 const userStore = useAuthenticationStore()
 const walletStore = useWalletStore()
 const winHistoryStore = useWinHistoryStore()
-const friendly = ref(false)
+const friendly = ref(true)
 
 interface Bet {
   type: 'Pog1' | 'Equalizer' | 'Pog2'
@@ -125,22 +121,8 @@ interface Bet {
 //Timer
 const progress = ref(0)
 const showTimer = ref('flex')
-const currentTimerImage = ref(timer12)
-const timerImages = [
-  timer0,
-  timer1,
-  timer2,
-  timer3,
-  timer4,
-  timer5,
-  timer6,
-  timer7,
-  timer8,
-  timer9,
-  timer10,
-  timer11,
-  timer12,
-]
+const currentTimerImage = ref(timer8)
+const timerImages = [timer0, timer1, timer2, timer3, timer4, timer5, timer6, timer7, timer8]
 
 //Pogs
 const pog1 = ref({})
@@ -155,10 +137,6 @@ const result = ref('')
 //Bet Button
 const betButtonDisplay = ref('flex')
 const tutorialButtonDisplay = ref('flex')
-
-const ref1 = ref<ButtonInstance>()
-const ref2 = ref<ButtonInstance>()
-const ref3 = ref<ButtonInstance>()
 
 //Bet Dialog
 const Pog1BetDisplay = ref(0)
@@ -176,19 +154,9 @@ const chips = reactive(<chipsTypes[]>[
     animation: {},
     value: 10,
     action: () => {
-      if (walletStore.userWalletBalance < 10) {
-        if (!userStore.isLoggedIn) {
-          ElMessage({
-            message: 'You must be logged in first',
-            grouping: true,
-            type: 'error',
-          })
-        }
-      } else {
-        currentBet.value = chip10
-        currentBetValue.value = 10
-        closeChipsOptions()
-      }
+      currentBet.value = chip10
+      currentBetValue.value = 10
+      closeChipsOptions()
     },
   },
   {
@@ -196,19 +164,9 @@ const chips = reactive(<chipsTypes[]>[
     animation: {},
     value: 20,
     action: () => {
-      if (walletStore.userWalletBalance < 20) {
-        if (!userStore.isLoggedIn) {
-          ElMessage({
-            message: 'You must be logged in first',
-            grouping: true,
-            type: 'error',
-          })
-        }
-      } else {
-        currentBet.value = chip20
-        currentBetValue.value = 20
-        closeChipsOptions()
-      }
+      currentBet.value = chip20
+      currentBetValue.value = 20
+      closeChipsOptions()
     },
   },
   {
@@ -216,19 +174,9 @@ const chips = reactive(<chipsTypes[]>[
     animation: {},
     value: 50,
     action: () => {
-      if (walletStore.userWalletBalance < 50) {
-        if (!userStore.isLoggedIn) {
-          ElMessage({
-            message: 'You must be logged in first',
-            grouping: true,
-            type: 'error',
-          })
-        }
-      } else {
-        currentBet.value = chip50
-        currentBetValue.value = 50
-        closeChipsOptions()
-      }
+      currentBet.value = chip50
+      currentBetValue.value = 50
+      closeChipsOptions()
     },
   },
   {
@@ -236,19 +184,9 @@ const chips = reactive(<chipsTypes[]>[
     animation: {},
     value: 100,
     action: () => {
-      if (walletStore.userWalletBalance < 100) {
-        if (!userStore.isLoggedIn) {
-          ElMessage({
-            message: 'You must be logged in first',
-            grouping: true,
-            type: 'error',
-          })
-        }
-      } else {
-        currentBet.value = chip100
-        currentBetValue.value = 100
-        closeChipsOptions()
-      }
+      currentBet.value = chip100
+      currentBetValue.value = 100
+      closeChipsOptions()
     },
   },
   {
@@ -256,19 +194,9 @@ const chips = reactive(<chipsTypes[]>[
     animation: {},
     value: 200,
     action: () => {
-      if (walletStore.userWalletBalance < 200) {
-        if (!userStore.isLoggedIn) {
-          ElMessage({
-            message: 'You must be logged in first',
-            grouping: true,
-            type: 'error',
-          })
-        }
-      } else {
-        currentBet.value = chip200
-        currentBetValue.value = 200
-        closeChipsOptions()
-      }
+      currentBet.value = chip200
+      currentBetValue.value = 200
+      closeChipsOptions()
     },
   },
   {
@@ -276,19 +204,9 @@ const chips = reactive(<chipsTypes[]>[
     animation: {},
     value: 500,
     action: () => {
-      if (walletStore.userWalletBalance < 500) {
-        if (!userStore.isLoggedIn) {
-          ElMessage({
-            message: 'You must be logged in first',
-            grouping: true,
-            type: 'error',
-          })
-        }
-      } else {
-        currentBet.value = chip500
-        currentBetValue.value = 500
-        closeChipsOptions()
-      }
+      currentBet.value = chip500
+      currentBetValue.value = 500
+      closeChipsOptions()
     },
   },
 ])
@@ -382,28 +300,11 @@ const closeChipsOptions = () => {
 }
 
 const placeBetPog1 = () => {
-  if (!userStore.isLoggedIn) {
-    ElMessage({
-      message: 'You must log in to place a bet.',
-      grouping: true,
-      type: 'error',
-    })
-    return
-  }
   if (Pog1BetDisplay.value + currentBetValue.value <= 500) {
-    if (walletStore.userWalletBalance >= currentBetValue.value) {
-      const placeBetSound = new Audio(placeBet)
-      placeBetSound.play()
-      walletStore.updateUserWalletBalance(-currentBetValue.value)
-      Pog1BetDisplay.value += currentBetValue.value
-      betHistory.value.push({ type: 'Pog1', value: currentBetValue.value })
-    } else {
-      ElMessage({
-        message: 'Insufficient wallet balance!',
-        grouping: true,
-        type: 'error',
-      })
-    }
+    const placeBetSound = new Audio(placeBet)
+    placeBetSound.play()
+    Pog1BetDisplay.value += currentBetValue.value
+    betHistory.value.push({ type: 'Pog1', value: currentBetValue.value })
   } else {
     ElMessage({
       message: 'You can only bet a maximum of ₱500',
@@ -414,28 +315,11 @@ const placeBetPog1 = () => {
 }
 
 const placeBetEqualizer = () => {
-  if (!userStore.isLoggedIn) {
-    ElMessage({
-      message: 'You must log in to place a bet.',
-      grouping: true,
-      type: 'error',
-    })
-    return
-  }
   if (EqualizerBetDisplay.value + currentBetValue.value <= 500) {
-    if (walletStore.userWalletBalance >= currentBetValue.value) {
-      const placeBetSound = new Audio(placeBet)
-      placeBetSound.play()
-      walletStore.updateUserWalletBalance(-currentBetValue.value)
-      EqualizerBetDisplay.value += currentBetValue.value
-      betHistory.value.push({ type: 'Equalizer', value: currentBetValue.value })
-    } else {
-      ElMessage({
-        message: 'Insufficient wallet balance!',
-        grouping: true,
-        type: 'error',
-      })
-    }
+    const placeBetSound = new Audio(placeBet)
+    placeBetSound.play()
+    EqualizerBetDisplay.value += currentBetValue.value
+    betHistory.value.push({ type: 'Equalizer', value: currentBetValue.value })
   } else {
     ElMessage({
       message: 'You can only bet a maximum of ₱500',
@@ -446,29 +330,11 @@ const placeBetEqualizer = () => {
 }
 
 const placeBetPog2 = () => {
-  if (!userStore.isLoggedIn) {
-    ElMessage({
-      message: 'You must log in to place a bet.',
-      grouping: true,
-      type: 'error',
-    })
-    return
-  }
   if (Pog2BetDisplay.value + currentBetValue.value <= 500) {
-    if (walletStore.userWalletBalance >= currentBetValue.value) {
-      const placeBetSound = new Audio(placeBet)
-      placeBetSound.play()
-      walletStore.updateUserWalletBalance(-currentBetValue.value)
-      Pog2BetDisplay.value += currentBetValue.value
-      betHistory.value.push({ type: 'Pog2', value: currentBetValue.value })
-      console.log('Bet History:', betHistory.value)
-    } else {
-      ElMessage({
-        message: 'Insufficient wallet balance!',
-        grouping: true,
-        type: 'error',
-      })
-    }
+    const placeBetSound = new Audio(placeBet)
+    placeBetSound.play()
+    Pog2BetDisplay.value += currentBetValue.value
+    betHistory.value.push({ type: 'Pog2', value: currentBetValue.value })
   } else {
     ElMessage({
       message: 'You can only bet a maximum of ₱500',
@@ -482,7 +348,6 @@ const addWinnings = (amount: number) => {
   if (amount > 0) {
     const winSound = new Audio(win)
     winSound.play()
-    walletStore.updateUserWalletBalance(amount)
     ElMessage({
       message: `You won ₱${amount}!`,
       grouping: true,
@@ -494,7 +359,6 @@ const addWinnings = (amount: number) => {
 const refundBet = () => {
   const totalBet = Pog1BetDisplay.value + EqualizerBetDisplay.value + Pog2BetDisplay.value
   if (totalBet > 0) {
-    walletStore.updateUserWalletBalance(totalBet)
     ElMessage({
       message: `It's a draw! Your total bet of ₱${totalBet} has been refunded.`,
       type: 'success',
@@ -551,7 +415,6 @@ const clearBets = () => {
     Pog2BetDisplay.value = 0
     betHistory.value = []
 
-    walletStore.updateUserWalletBalance(totalBet)
     ElMessage({
       message: `Remove ₱${totalBet} bet in the table!`,
       type: 'success',
@@ -569,11 +432,11 @@ const clearBets = () => {
 
 const startTimer = () => {
   openBetDialog()
-  let remainingTime = 13
+  let remainingTime = 9
   const timerInterval = setInterval(() => {
     if (remainingTime > 0) {
       currentTimerImage.value = timerImages[remainingTime - 1]
-      progress.value = (remainingTime / 13) * 100
+      progress.value = (remainingTime / 9) * 100
       remainingTime--
     } else {
       flipCoin()

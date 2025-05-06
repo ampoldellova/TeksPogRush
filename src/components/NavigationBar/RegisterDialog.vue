@@ -118,8 +118,8 @@ import { COLORS } from '@/assets/theme'
 import { useRegistrationStore } from '@/stores/userStore'
 import { Back, Lock, Message, Phone, Unlock, User } from '@element-plus/icons-vue'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
-import { id } from 'element-plus/es/locales.mjs'
 import { reactive, ref } from 'vue'
+import type { registerForm } from '../models/types'
 
 const registerDialog = ref(false)
 const ruleFormRef = ref<FormInstance>()
@@ -131,14 +131,14 @@ const props = defineProps<{
   fromLogin: boolean
 }>()
 
-const ruleForm = reactive ({
-  id:'',
+const ruleForm = reactive(<registerForm>{
+  id: '',
   username: '',
   email: '',
   contact: '',
   password: '',
   confirmPassword: '',
-  wallet: 0
+  wallet: 0,
 })
 
 const validateUsername = (rule: any, value: any, callback: any) => {

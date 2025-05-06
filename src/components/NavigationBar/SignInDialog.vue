@@ -101,6 +101,7 @@ import { useAuthenticationStore } from '@/stores/userStore'
 import { Lock, Message } from '@element-plus/icons-vue'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import { reactive, ref } from 'vue'
+import type { loginForm } from '../models/types'
 
 const signInDialog = ref(false)
 const authenticationStore = useAuthenticationStore()
@@ -112,7 +113,7 @@ const emit = defineEmits([
   'closeDrawer',
 ])
 
-const SignInRuleForm = reactive({
+const SignInRuleForm = reactive(<loginForm>{
   signInEmail: '',
   signInPassword: '',
 })
