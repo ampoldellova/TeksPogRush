@@ -84,14 +84,18 @@ const updatePogSize = () => {
     currencyContainer.value = '15px'
     currencySize.value = '10px'
     betValueSize.value = '8px'
-  } else {
-    pogSize.value = '100px'
-    betLabel.value = '12px'
-    betMargin.value = '10px'
-    currencyContainer.value = '30px'
-    currencySize.value = '20px'
-    betValueSize.value = '10px'
   }
+
+  //this also
+
+  // else {
+  //   pogSize.value = '100px'
+  //   betLabel.value = '12px'
+  //   betMargin.value = '10px'
+  //   currencyContainer.value = '30px'
+  //   currencySize.value = '20px'
+  //   betValueSize.value = '10px'
+  // }
 }
 
 onMounted(() => {

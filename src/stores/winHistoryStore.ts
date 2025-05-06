@@ -1,9 +1,5 @@
 import { defineStore } from 'pinia'
-
-export interface pogWin {
-  round?:number
-  winner?:string
-}
+import type { pogWin } from '@/components/models/types';
 
 export const useWinHistoryStore = defineStore('winHistory', {
   state: () => ({
