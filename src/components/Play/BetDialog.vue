@@ -203,17 +203,21 @@ const updateDialogSize = () => {
     leftRightMargin.value = { undoButton: '70px', clearButton: '70px' }
     sideButtonSize.value = '20px'
     chipsSize.value = '50px'
-  } else {
-    dialogWidth.value = '500px'
-    dialogHeight.value = '330px'
-    dialogLabel.value = '20px'
-    dialogMargin.value = '20px'
-    changeBetChipSize.value = '100px'
-    bottomMargin.value = { betChip: '-60px', undoButton: '-20px', clearButton: '-20px' }
-    leftRightMargin.value = { undoButton: '140px', clearButton: '140px' }
-    sideButtonSize.value = '30px'
-    chipsSize.value = '80px'
   }
+
+  //do not need else since it already has a default value
+
+  // else {
+  //   dialogWidth.value = '500px'
+  //   dialogHeight.value = '330px'
+  //   dialogLabel.value = '20px'
+  //   dialogMargin.value = '20px'
+  //   changeBetChipSize.value = '100px'
+  //   bottomMargin.value = { betChip: '-60px', undoButton: '-20px', clearButton: '-20px' }
+  //   leftRightMargin.value = { undoButton: '140px', clearButton: '140px' }
+  //   sideButtonSize.value = '30px'
+  //   chipsSize.value = '80px'
+  // }
 }
 
 onMounted(() => {
