@@ -1,4 +1,5 @@
 import ForgotPasswordPage from '@/views/ForgotPasswordPage.vue'
+import FriendlyPlayPage from '@/views/FriendlyPlayPage.vue'
 import GameMode from '@/views/GameMode.vue'
 import HomePage from '@/views/HomePage.vue'
 import PlayPage from '@/views/PlayPage.vue'
@@ -27,6 +28,11 @@ const router = createRouter({
       path: '/arena',
       name: 'arena',
       component: PlayPage,
+    },
+    {
+      path: '/friendly-arena',
+      name: 'friendlyArena',
+      component: FriendlyPlayPage,
     },
     {
       path: '/shop',

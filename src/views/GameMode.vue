@@ -77,7 +77,7 @@
             :xl="12"
             style="display: flex; justify-content: center; align-items: center"
           >
-            <RouterLink to="/">
+            <RouterLink to="/friendly-arena">
               <motion.button
                 @click="buttonClick"
                 :whileHover="{

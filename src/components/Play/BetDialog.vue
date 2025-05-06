@@ -141,7 +141,11 @@
           :style="{
             backgroundColor: 'transparent',
             border: 'none',
-            cursor: walletStore.userWalletBalance < chip.value ? 'not-allowed' : 'pointer',
+            cursor: props.friendly
+              ? 'pointer'
+              : walletStore.userWalletBalance < chip.value
+                ? 'not-allowed'
+                : 'pointer',
           }"
         >
           <el-image
@@ -183,6 +187,7 @@ const props = defineProps<{
   pog1BetDisplay: number
   equalizerBetDisplay: number
   pog2BetDisplay: number
+  friendly: boolean
   chips: Array<chipsTypes>
 }>()
 
