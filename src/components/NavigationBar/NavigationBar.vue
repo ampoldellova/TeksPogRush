@@ -60,14 +60,6 @@
           </el-text>
         </div>
 
-        <el-icon
-          @click="cartDrawer = true"
-          v-if="authenticationStore.isAuthenticated"
-          :style="{ fontSize: '16px', color: 'white' }"
-        >
-          <ShoppingCart />
-        </el-icon>
-
         <el-text
           v-if="authenticationStore.isAuthenticated"
           @click="authenticationStore.logout"
@@ -85,8 +77,6 @@
     @loginDialog="openSignInDialog"
     @registerDialog="openRegisterDialog"
   />
-
-  <CartDrawer v-model="cartDrawer" @closeDrawer="cartDrawer = false" />
 
   <SignInDialog
     v-model="signInDialog"
@@ -112,16 +102,13 @@ import { onMounted, ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthenticationStore } from '@/stores/userStore'
 import { useRegistrationStore } from '@/stores/userStore'
-import CartDrawer from './CartDrawer.vue'
 
 const router = useRouter()
 const drawer = ref(false)
-const cartDrawer = ref(false)
 const fromLogin = ref(false)
 const signInDialog = ref(false)
 const registerDialog = ref(false)
 const authenticationStore = useAuthenticationStore()
-const walletDialog = ref(false)
 const registrationStore = useRegistrationStore()
 
 const openWalletDialog = () => {

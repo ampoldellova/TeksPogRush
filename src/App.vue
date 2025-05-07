@@ -19,14 +19,13 @@ const route = useRoute()
 const authenticationStore = useAuthenticationStore()
 const winHistoryStore = useWinHistoryStore()
 
-
 watch(route, (newRoute) => {
   showNavbar.value = newRoute.name !== 'gamePage'
 })
 
 onMounted(() => {
   authenticationStore.checkLoginStatus()
-  winHistoryStore.persistPogWinHistory()
+  winHistoryStore.persistPogWinHistory('friendly')
 })
 </script>
 
