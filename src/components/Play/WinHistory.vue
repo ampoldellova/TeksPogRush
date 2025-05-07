@@ -9,15 +9,15 @@
     width="400"
     class="winHistory"
     v-if="windowWidth <= 980"
-    style="max-height: 500px"
+    style="max-height: 500px; border-radius: 25px; text-align: center"
   >
     <h2>Match History</h2>
     <el-table
       :data="winHistoryStore.getHistory(gameMode)"
       height="auto"
-      style="width: 100%; padding: 12px"
+      style="width: 100%; padding: 12px; height: 400px"
     >
-      <el-table-column label="Round" width="42">
+      <el-table-column label="Round" width="80">
         <template #header>
           <span>Round</span>
         </template>
@@ -25,7 +25,7 @@
           <span>{{ row.round }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Pog1" width="70">
+      <el-table-column label="Pog1" width="90">
         <template #header>
           <img src="@/assets/pogs/Tikbalang.png" width="50" />
         </template>
@@ -34,7 +34,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="Equalizer" width="70">
+      <el-table-column label="Equalizer" width="90">
         <template #header>
           <img src="@/assets/pogs/Jeepney.png" alt="Equalizer" width="50" />
         </template>
@@ -43,7 +43,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="Pog2" width="70">
+      <el-table-column label="Pog2" width="90">
         <template #header>
           <img src="@/assets/pogs/Festival.png" alt="Pog2" width="50" />
         </template>
@@ -145,7 +145,6 @@ onUnmounted(() => {
 .el-table {
   border: 1px solid black;
   border-radius: 15px;
-  width: 100%;
   line-height: none;
 }
 

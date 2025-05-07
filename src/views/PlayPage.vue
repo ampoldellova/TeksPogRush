@@ -117,6 +117,10 @@ const walletStore = useWalletStore()
 const winHistoryStore = useWinHistoryStore()
 const friendly = ref(false)
 
+const gameMode = ref(localStorage.getItem('gameMode') as 'arena' | 'friendly')
+
+console.log('Current Game Mode:', gameMode.value)
+
 interface Bet {
   type: 'Pog1' | 'Equalizer' | 'Pog2'
   value: number
