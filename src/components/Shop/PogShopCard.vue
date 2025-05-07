@@ -37,7 +37,7 @@
       </el-col>
 
       <el-col :span="24" style="margin-top: 5px">
-        <el-button @click="paymentDialog = true" :style="buyButton">Buy Now</el-button>
+        <el-button @click="buyButtonClick" :style="buyButton">Buy Now</el-button>
       </el-col>
     </el-row>
   </motion.div>
@@ -49,8 +49,26 @@
 import { motion } from 'motion-v'
 import { computed, ref } from 'vue'
 import PaymentDialog from './PaymentDialog.vue'
+import { useAuthenticationStore } from '@/stores/userStore'
+import { ElMessage } from 'element-plus'
+const authenticationStore = useAuthenticationStore()
 
 const paymentDialog = ref(false)
+const buyButtonClick = () => {
+  if (!authenticationStore.isAuthenticated) {
+    const audio = new Audio('/src/assets/sounds/click.wav')
+    audio.play()
+    ElMessage({
+      message: 'Please login to continue',
+      type: 'warning',
+      grouping: true,
+    })
+  } else {
+    const audio = new Audio('/src/assets/sounds/click.wav')
+    audio.play()
+    paymentDialog.value = true
+  }
+}
 
 const props = defineProps<{
   chip: {

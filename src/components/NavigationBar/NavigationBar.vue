@@ -63,7 +63,13 @@
         <el-text
           v-if="authenticationStore.isAuthenticated"
           @click="authenticationStore.logout"
-          class="logout-button"
+          :style="{
+            display: 'flex',
+            fontFamily: 'regular',
+            fontSize: '16px',
+            color: 'white',
+            cursor: 'pointer',
+          }"
         >
           Logout
         </el-text>
@@ -92,8 +98,6 @@
     @backDialogButton="backDialogButton"
     @openSignInDialog="openSignInDialog"
   />
-
-  <!-- <WalletDialog v-model="walletDialog" @closeDialog="walletDialog = false" /> -->
 </template>
 
 <script setup lang="ts">
@@ -115,7 +119,7 @@ const walletDialog = ref(false)
 const registrationStore = useRegistrationStore()
 
 const openWalletDialog = () => {
- router.push('/wallet')
+  router.push('/wallet')
 }
 
 const userWalletBalance = computed(() => {
@@ -234,14 +238,6 @@ onMounted(() => {
   padding: 0 10px;
   gap: 10px;
   cursor: pointer;
-}
-
-.logout-button {
-  display: flex;
-  font-family: 'regular';
-  font-size: '16px';
-  color: white;
-  cursor: 'pointer';
 }
 
 @media (max-width: 1440px) {
