@@ -663,8 +663,8 @@ const flipCoin = () => {
           showWinner.value = true
           result.value = pog1Win
           textImageDisplay.value = 'flex'
-          winHistoryStore.history.push({
-            round: winHistoryStore.history.length + 1,
+          winHistoryStore.addWin('arena', {
+            round: winHistoryStore.getHistory('arena').length + 1,
             winner: 'Pog1',
           })
           console.log('Pog1 wins')
@@ -678,8 +678,8 @@ const flipCoin = () => {
           showWinner.value = true
           result.value = equalizerWin
           textImageDisplay.value = 'flex'
-          winHistoryStore.history.push({
-            round: winHistoryStore.history.length + 1,
+          winHistoryStore.addWin('arena', {
+            round: winHistoryStore.getHistory('arena').length + 1,
             winner: 'Equalizer',
           })
           console.log('Equalizer wins')
@@ -693,8 +693,8 @@ const flipCoin = () => {
           showWinner.value = true
           result.value = pog2Win
           textImageDisplay.value = 'flex'
-          winHistoryStore.addWin({
-            round: winHistoryStore.history.length + 1,
+          winHistoryStore.addWin('arena', {
+            round: winHistoryStore.getHistory('arena').length + 1,
             winner: 'Pog2',
           })
           console.log('Pog2 wins')
@@ -705,8 +705,8 @@ const flipCoin = () => {
           showWinner.value = true
           result.value = ''
           textImageDisplay.value = 'none'
-          winHistoryStore.history.push({
-            round: winHistoryStore.history.length + 1,
+          winHistoryStore.addWin('arena', {
+            round: winHistoryStore.getHistory('arena').length + 1,
             winner: 'Draw',
           })
           console.log('Draw')

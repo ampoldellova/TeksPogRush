@@ -4,9 +4,19 @@
     </el-button>
   </el-col>
 
-  <el-dialog v-model="dialogVisible" width="300" class="winHistory" v-if="windowWidth <= 980">
+  <el-dialog
+    v-model="dialogVisible"
+    width="400"
+    class="winHistory"
+    v-if="windowWidth <= 980"
+    style="max-height: 500px"
+  >
     <h2>Match History</h2>
-    <el-table :data="winHistoryStore.history" height="80%" style="width: 100%; padding: 12px">
+    <el-table
+      :data="winHistoryStore.getHistory(gameMode)"
+      height="auto"
+      style="width: 100%; padding: 12px"
+    >
       <el-table-column label="Round" width="42">
         <template #header>
           <span>Round</span>
@@ -46,7 +56,10 @@
 
   <div v-if="windowWidth > 980" class="winHistory">
     <h2>Match History</h2>
-    <el-table :data="winHistoryStore.history" height="80%" style="width: 100%; padding: 12px">
+    <el-table
+      :data="winHistoryStore.getHistory(gameMode)"
+      style="width: 100%; padding: 12px; height: 330px"
+    >
       <el-table-column label="Round" width="42">
         <template #header>
           <span>Round</span>
@@ -93,6 +106,11 @@ import { Menu } from '@element-plus/icons-vue'
 const dialogVisible = ref(false)
 const winHistoryStore = useWinHistoryStore()
 const windowWidth = ref(window.innerWidth)
+
+// const gameMode = ref(localStorage.getItem('gameMode') || 'arena')
+const gameMode = ref<'arena' | 'friendly'>(
+  (localStorage.getItem('gameMode') as 'arena' | 'friendly') || 'arena',
+)
 
 const updateWidth = () => {
   windowWidth.value = window.innerWidth

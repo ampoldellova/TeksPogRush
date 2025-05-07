@@ -5,27 +5,39 @@ export interface pogWin {
   winner?: string
 }
 
-export const useWinHistoryStore = defineStore('winHistory', {
+export const useWinHistoryStore = defineStore('winHistoryStore', {
   state: () => ({
-    history: JSON.parse(localStorage.getItem('winHistory') || '[]'),
-    win: JSON.parse(localStorage.getItem('PogWinHistory') || 'null'),
+    arenaHistory: JSON.parse(localStorage.getItem('arenaHistory') || '[]'),
+    friendlyHistory: JSON.parse(localStorage.getItem('friendlyHistory') || '[]'),
   }),
   actions: {
-    addWin({ round, winner }: pogWin) {
-      this.history.push({ round, winner })
-      this.win = { round, winner }
-      localStorage.setItem('winHistory', JSON.stringify(this.history))
-      localStorage.setItem('PogWinHistory', JSON.stringify(this.win))
+    addWin(mode: 'arena' | 'friendly', { round, winner }: pogWin) {
+      if (mode === 'arena') {
+        this.arenaHistory.push({ round, winner })
+        localStorage.setItem('arenaHistory', JSON.stringify(this.arenaHistory))
+      } else {
+        this.friendlyHistory.push({ round, winner })
+        localStorage.setItem('friendlyHistory', JSON.stringify(this.friendlyHistory))
+      }
     },
-    clearHistory() {
-      this.history = []
-      this.win = null
-      localStorage.removeItem('winHistory')
-      localStorage.removeItem('PogWinHistory')
+    // clearHistory(mode: 'arena' | 'friendly') {
+    //   if (mode === 'arena') {
+    //     this.arenaHistory = []
+    //     localStorage.removeItem('arenaHistory')
+    //   } else {
+    //     this.friendlyHistory = []
+    //     localStorage.removeItem('friendlyHistory')
+    //   }
+    // },
+    persistPogWinHistory(mode: 'arena' | 'friendly') {
+      if (mode === 'arena') {
+        localStorage.setItem('arenaHistory', JSON.stringify(this.arenaHistory))
+      } else {
+        localStorage.setItem('friendlyHistory', JSON.stringify(this.friendlyHistory))
+      }
     },
-    persistPogWinHistory() {
-      localStorage.setItem('winHistory', JSON.stringify(this.history))
-      localStorage.setItem('PogWinHistory', JSON.stringify(this.win))
+    getHistory(mode: 'arena' | 'friendly') {
+      return mode === 'arena' ? this.arenaHistory : this.friendlyHistory
     },
   },
 })
