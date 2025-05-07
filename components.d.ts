@@ -43,6 +43,7 @@ declare module 'vue' {
     TransactionHistory: typeof import('./src/components/NavigationBar/TransactionHistory.vue')['default']
     WalletDialog: typeof import('./src/components/NavigationBar/WalletDialog.vue')['default']
     WinHistory: typeof import('./src/components/Play/WinHistory.vue')['default']
+    WinHistoryButton: typeof import('./src/components/Play/WinHistoryButton.vue')['default']
     WinnerDialog: typeof import('./src/components/Play/WinnerDialog.vue')['default']
     WithdrawAmountDialog: typeof import('./src/components/NavigationBar/WithdrawAmountDialog.vue')['default']
     WithdrawPayment: typeof import('./src/components/NavigationBar/WithdrawPayment.vue')['default']

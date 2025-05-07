@@ -1,8 +1,53 @@
 <template>
-  <div class="winHistory" style="margin: 20px;">
+  <el-col :span="8" class="responsive-menu" v-if="windowWidth <= 980">
+    <el-button plain @click="dialogVisible = true" size="large" color="#A61F69" :icon="Menu" circle>
+    </el-button>
+  </el-col>
+
+  <el-dialog v-model="dialogVisible" width="300" class="winHistory" v-if="windowWidth <= 980">
     <h2>Match History</h2>
-    <el-table :data="winHistoryStore.history" height="80%" style="width: 100%; padding: 12px;">
-      <el-table-column label="Round" width="70">
+    <el-table :data="winHistoryStore.history" height="80%" style="width: 100%; padding: 12px">
+      <el-table-column label="Round" width="42">
+        <template #header>
+          <span>Round</span>
+        </template>
+        <template #default="{ row }">
+          <span>{{ row.round }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="Pog1" width="70">
+        <template #header>
+          <img src="@/assets/pogs/Tikbalang.png" width="50" />
+        </template>
+        <template #default="{ row }">
+          <span v-if="row.winner === 'Pog1'" class="win-indicator"></span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="Equalizer" width="70">
+        <template #header>
+          <img src="@/assets/pogs/Jeepney.png" alt="Equalizer" width="50" />
+        </template>
+        <template #default="{ row }">
+          <span v-if="row.winner === 'Equalizer'" class="win-indicator"></span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="Pog2" width="70">
+        <template #header>
+          <img src="@/assets/pogs/Festival.png" alt="Pog2" width="50" />
+        </template>
+        <template #default="{ row }">
+          <span v-if="row.winner === 'Pog2'" class="win-indicator"></span>
+        </template>
+      </el-table-column>
+    </el-table>
+  </el-dialog>
+
+  <div v-if="windowWidth > 980" class="winHistory">
+    <h2>Match History</h2>
+    <el-table :data="winHistoryStore.history" height="80%" style="width: 100%; padding: 12px">
+      <el-table-column label="Round" width="42">
         <template #header>
           <span>Round</span>
         </template>
@@ -42,9 +87,24 @@
 
 <script setup lang="ts">
 import { useWinHistoryStore } from '@/stores/winHistoryStore'
+import { ref, onMounted, onUnmounted } from 'vue'
+import { Menu } from '@element-plus/icons-vue'
 
+const dialogVisible = ref(false)
 const winHistoryStore = useWinHistoryStore()
+const windowWidth = ref(window.innerWidth)
 
+const updateWidth = () => {
+  windowWidth.value = window.innerWidth
+}
+
+onMounted(() => {
+  window.addEventListener('resize', updateWidth)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updateWidth)
+})
 </script>
 
 <style scoped>
@@ -73,28 +133,33 @@ const winHistoryStore = useWinHistoryStore()
 
 .win-indicator {
   display: flex;
-  /* justify-content: center;
-  align-items: center; */
+  justify-content: center;
+  align-items: center;
   width: 15px;
   height: 15px;
   background-color: red;
   border-radius: 50%;
   margin-left: 18px;
-  /* margin: 2px auto; */
 }
 
-.el-table-column,
-header {
-  text-align: center;
-  background-color: blue;
-}
-
-:deep(.el-table .cell){
+:deep(.el-table .cell) {
   line-height: none;
   padding: 0%;
   overflow: none;
 }
 
+.responsive-menu {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
 
-
+@media (max-width: 980px) {
+  .responsive-menu {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+}
 </style>

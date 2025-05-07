@@ -120,6 +120,8 @@ interface Bet {
   value: number
 }
 
+const tutorial = ref(false)
+
 //Timer
 const progress = ref(0)
 const showTimer = ref('flex')
@@ -154,6 +156,9 @@ const result = ref('')
 const betButtonDisplay = ref('flex')
 const tutorialButtonDisplay = ref('flex')
 
+//History
+const drawer = ref(false)
+
 const ref1 = ref<ButtonInstance>()
 const ref2 = ref<ButtonInstance>()
 const ref3 = ref<ButtonInstance>()
@@ -168,6 +173,7 @@ const betDialog = ref(false)
 const currentBet = ref(chip10)
 const currentBetValue = ref(10)
 const isReset = ref(false)
+const resetBet = ref(false)
 const chips = reactive(<chipsTypes[]>[
   {
     src: chip10,
@@ -388,7 +394,7 @@ const placeBetPog1 = () => {
     })
     return
   }
-  if (Pog1BetDisplay.value + currentBetValue.value <= 500) {
+  if (Pog1BetDisplay.value + currentBetValue.value) {
     if (walletStore.userWalletBalance >= currentBetValue.value) {
       const placeBetSound = new Audio(placeBet)
       placeBetSound.play()
@@ -420,7 +426,7 @@ const placeBetEqualizer = () => {
     })
     return
   }
-  if (EqualizerBetDisplay.value + currentBetValue.value <= 500) {
+  if (EqualizerBetDisplay.value + currentBetValue.value) {
     if (walletStore.userWalletBalance >= currentBetValue.value) {
       const placeBetSound = new Audio(placeBet)
       placeBetSound.play()
@@ -558,8 +564,7 @@ const clearBets = () => {
     console.log('All bets . Wallet refunded:', totalBet)
   } else {
     ElMessage({
-      message: 'No bets to clear!',
-      grouping: true,
+      message: 'No bets to undo!',
       type: 'warning',
     })
   }
@@ -656,11 +661,10 @@ const flipCoin = () => {
           showWinner.value = true
           result.value = pog1Win
           textImageDisplay.value = 'flex'
-          winHistoryStore.addWin({
+          winHistoryStore.history.push({
             round: winHistoryStore.history.length + 1,
-           winner: 'Pog1',
-          }
-          )
+            winner: 'Pog1',
+          })
           console.log('Pog1 wins')
         } else if (equalizer.value !== pog1.value && equalizer.value !== pog2.value) {
           const winnings =
@@ -672,11 +676,10 @@ const flipCoin = () => {
           showWinner.value = true
           result.value = equalizerWin
           textImageDisplay.value = 'flex'
-          winHistoryStore.addWin({
+          winHistoryStore.history.push({
             round: winHistoryStore.history.length + 1,
             winner: 'Equalizer',
-          }
-          )
+          })
           console.log('Equalizer wins')
         } else if (pog2.value !== pog1.value && pog2.value !== equalizer.value) {
           const winnings =
@@ -688,12 +691,10 @@ const flipCoin = () => {
           showWinner.value = true
           result.value = pog2Win
           textImageDisplay.value = 'flex'
-          winHistoryStore.addWin(
-            {
-              round: winHistoryStore.history.length + 1,
-             winner:'Pog2',
-            }
-          )
+          winHistoryStore.history.push({
+            round: winHistoryStore.history.length + 1,
+            winner: 'Pog2',
+          })
           console.log('Pog2 wins')
         } else {
           pog1.value === pog2.value && pog1.value === equalizer.value
@@ -702,11 +703,10 @@ const flipCoin = () => {
           showWinner.value = true
           result.value = ''
           textImageDisplay.value = 'none'
-          winHistoryStore.addWin({
+          winHistoryStore.history.push({
             round: winHistoryStore.history.length + 1,
             winner: 'Draw',
-          }
-          )
+          })
           console.log('Draw')
         }
         setTimeout(() => {
