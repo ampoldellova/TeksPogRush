@@ -251,8 +251,8 @@ const resetBetDialog = () => {
 }
 
 const openBetDialog = () => {
-  const audio = new Audio(clickSound)
-  audio.play()
+  // const audio = new Audio(clickSound)
+  // audio.play()
   betDialog.value = true
   betButtonDisplay.value = 'flex'
   tutorialButtonDisplay.value = 'flex'
