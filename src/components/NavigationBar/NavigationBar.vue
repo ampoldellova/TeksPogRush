@@ -60,16 +60,17 @@
           </el-text>
         </div>
 
+        <el-icon
+          v-if="authenticationStore.isAuthenticated"
+          :style="{ fontSize: '16px', color: 'white' }"
+        >
+          <ShoppingCart />
+        </el-icon>
+
         <el-text
           v-if="authenticationStore.isAuthenticated"
           @click="authenticationStore.logout"
-          :style="{
-            display: 'flex',
-            fontFamily: 'regular',
-            fontSize: '16px',
-            color: 'white',
-            cursor: 'pointer',
-          }"
+          class="logout-button"
         >
           Logout
         </el-text>
@@ -103,7 +104,7 @@
 <script setup lang="ts">
 import currency from '@/assets/currency.png'
 import logo from '@/assets/TeksPogRush-Logo-small.png'
-import { Menu } from '@element-plus/icons-vue'
+import { Menu, ShoppingCart } from '@element-plus/icons-vue'
 import { onMounted, ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthenticationStore } from '@/stores/userStore'
@@ -238,6 +239,14 @@ onMounted(() => {
   padding: 0 10px;
   gap: 10px;
   cursor: pointer;
+}
+
+.logout-button {
+  display: flex;
+  font-family: 'regular';
+  font-size: '16px';
+  color: white;
+  cursor: 'pointer';
 }
 
 @media (max-width: 1440px) {
