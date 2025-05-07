@@ -61,6 +61,7 @@
         </div>
 
         <el-icon
+          @click="cartDrawer = true"
           v-if="authenticationStore.isAuthenticated"
           :style="{ fontSize: '16px', color: 'white' }"
         >
@@ -80,17 +81,19 @@
 
   <Drawer
     v-model="drawer"
-    @closeDrawer="closeDrawer"
+    @closeDrawer="drawer = false"
     @loginDialog="openSignInDialog"
     @registerDialog="openRegisterDialog"
   />
+
+  <CartDrawer v-model="cartDrawer" @closeDrawer="cartDrawer = false" />
 
   <SignInDialog
     v-model="signInDialog"
     @registerDialogButton="registerDialogButton"
     @resetPasswordDialogButton="resetPasswordDialogButton"
     @closeSignInDialog="closeSignInDialog"
-    @closeDrawer="closeDrawer"
+    @closeDrawer="drawer = false"
   />
 
   <RegisterDialog
@@ -109,9 +112,11 @@ import { onMounted, ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthenticationStore } from '@/stores/userStore'
 import { useRegistrationStore } from '@/stores/userStore'
+import CartDrawer from './CartDrawer.vue'
 
 const router = useRouter()
 const drawer = ref(false)
+const cartDrawer = ref(false)
 const fromLogin = ref(false)
 const signInDialog = ref(false)
 const registerDialog = ref(false)
@@ -129,10 +134,6 @@ const userWalletBalance = computed(() => {
   )
   return user ? `${user.wallet}` : '₱0.00'
 })
-
-const closeDrawer = () => {
-  drawer.value = false
-}
 
 const openSignInDialog = () => {
   signInDialog.value = true
