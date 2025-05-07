@@ -1,9 +1,5 @@
 import { defineStore } from 'pinia'
-
-export interface pogWin {
-  round?: number
-  winner?: string
-}
+import type { pogWin } from '@/components/models/types'
 
 export const useWinHistoryStore = defineStore('winHistoryStore', {
   state: () => ({
@@ -29,13 +25,13 @@ export const useWinHistoryStore = defineStore('winHistoryStore', {
     //     localStorage.removeItem('friendlyHistory')
     //   }
     // },
-    persistPogWinHistory(mode: 'arena' | 'friendly') {
-      if (mode === 'arena') {
-        localStorage.setItem('arenaHistory', JSON.stringify(this.arenaHistory))
-      } else {
-        localStorage.setItem('friendlyHistory', JSON.stringify(this.friendlyHistory))
-      }
-    },
+    // persistPogWinHistory(mode: 'arena' | 'friendly') {
+    //   if (mode === 'arena') {
+    //     localStorage.setItem('arenaHistory', JSON.stringify(this.arenaHistory))
+    //   } else {
+    //     localStorage.setItem('friendlyHistory', JSON.stringify(this.friendlyHistory))
+    //   }
+    // },
     getHistory(mode: 'arena' | 'friendly') {
       return mode === 'arena' ? this.arenaHistory : this.friendlyHistory
     },
