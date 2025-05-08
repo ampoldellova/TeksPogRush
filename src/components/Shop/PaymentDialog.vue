@@ -165,29 +165,30 @@
 
 <script setup lang="ts">
 import { COLORS } from '@/assets/theme'
-import gcash from '@/assets/shop/gcash.png'
-import creditCard from '@/assets/shop/creditCard.png'
+// import gcash from '@/assets/shop/gcash.png'
+// import creditCard from '@/assets/shop/creditCard.png'
 import { reactive, ref } from 'vue'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import { useMoneyTransactionsStore } from '@/stores/moneyTransaction'
+import { paymentMethods } from '../models/constants'
 
 const quantity = ref(1)
 const payment = useMoneyTransactionsStore()
 const ruleFormRef = ref<FormInstance>()
 const paymentDialog = ref(false)
 const paymentSelected = ref('GCash')
-const paymentMethods = ref([
-  {
-    id: '001',
-    name: 'GCash',
-    image: gcash,
-  },
-  {
-    id: '002',
-    name: 'Credit Card',
-    image: creditCard,
-  },
-])
+// const paymentMethods = ref([
+//   {
+//     id: '001',
+//     name: 'GCash',
+//     image: gcash,
+//   },
+//   {
+//     id: '002',
+//     name: 'Credit Card',
+//     image: creditCard,
+//   },
+// ])
 
 const emit = defineEmits(['closeDialog'])
 

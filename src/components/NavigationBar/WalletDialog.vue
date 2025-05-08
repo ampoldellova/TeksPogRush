@@ -205,28 +205,29 @@
 <script setup lang="ts">
 import backgrounds from '@/assets/Background.png'
 import { COLORS } from '@/assets/theme'
-import gcash from '@/assets/shop/gcash.png'
-import creditCard from '@/assets/shop/creditCard.png'
+// import gcash from '@/assets/shop/gcash.png'
+// import creditCard from '@/assets/shop/creditCard.png'
 import { reactive, ref } from 'vue'
 import WithdrawAmountDialog from './WithdrawAmountDialog.vue'
 import { type FormInstance, type FormRules } from 'element-plus'
+import { paymentMethods } from '../models/constants'
 
 const ruleFormRef = ref<FormInstance>()
 const walletDialog = ref(false)
 const withdrawAmountDialog = ref(false)
 const paymentSelected = ref('GCash')
-const paymentMethods = ref([
-  {
-    id: '001',
-    name: 'GCash',
-    image: gcash,
-  },
-  {
-    id: '002',
-    name: 'Credit Card',
-    image: creditCard,
-  },
-])
+// const paymentMethods = ref([
+//   {
+//     id: '001',
+//     name: 'GCash',
+//     image: gcash,
+//   },
+//   {
+//     id: '002',
+//     name: 'Credit Card',
+//     image: creditCard,
+//   },
+// ])
 
 const emit = defineEmits(['closeDialog'])
 

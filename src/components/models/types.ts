@@ -91,3 +91,8 @@ export interface TokenWallet {
   userEmail: string
   tokenBalance: number
 }
+
+export interface cartItem {
+  id: string
+  quantity: number
+}
