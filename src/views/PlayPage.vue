@@ -25,7 +25,7 @@
     </div>
   </div>
 
-  <winHistory />
+  <WinHistory />
 
   <BetDialog
     v-model="betDialog"
@@ -112,6 +112,7 @@ import win from '@/assets/sounds/win.wav'
 import type { chipsTypes } from '@/components/models/types'
 import { useWinHistoryStore } from '../stores/winHistoryStore'
 import type { Bet } from '@/components/models/types'
+import WinHistory from '@/components/Play/WinHistory.vue'
 
 const userStore = useAuthenticationStore()
 const walletStore = useWalletStore()
