@@ -321,11 +321,10 @@ const resetForm = (formEl: FormInstance | undefined) => {
 
 <style scoped>
 .withdrawContainer {
-  width: auto;
-  height: auto;
+  width: 300px;
   background-color: white;
-  border-radius: 20px;
-  padding: 50px;
+  border-radius: 10px;
+  padding: 10px;
   margin: 20px;
 }
 </style>
