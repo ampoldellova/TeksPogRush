@@ -108,6 +108,7 @@ import win from '@/assets/sounds/win.wav'
 import type { chipsTypes } from '@/components/models/types'
 import { useWinHistoryStore } from '../stores/winHistoryStore'
 import type { Bet } from '@/components/models/types'
+import { MaxBetMessage } from '@/components/composables/useGlobalUtils'
 
 const userStore = useAuthenticationStore()
 const walletStore = useWalletStore()
@@ -124,6 +125,9 @@ const progress = ref(0)
 const showTimer = ref('flex')
 const currentTimerImage = ref(timer8)
 const timerImages = [timer0, timer1, timer2, timer3, timer4, timer5, timer6, timer7, timer8]
+
+//elmessageDialogs
+const maxbet = MaxBetMessage
 
 //Pogs
 const pog1 = ref({})
@@ -307,11 +311,7 @@ const placeBetPog1 = () => {
     Pog1BetDisplay.value += currentBetValue.value
     betHistory.value.push({ type: 'Pog1', value: currentBetValue.value })
   } else {
-    ElMessage({
-      message: 'You can only bet a maximum of ₱500',
-      grouping: true,
-      type: 'error',
-    })
+    maxbet()
   }
 }
 
@@ -322,11 +322,7 @@ const placeBetEqualizer = () => {
     EqualizerBetDisplay.value += currentBetValue.value
     betHistory.value.push({ type: 'Equalizer', value: currentBetValue.value })
   } else {
-    ElMessage({
-      message: 'You can only bet a maximum of ₱500',
-      grouping: true,
-      type: 'error',
-    })
+    maxbet()
   }
 }
 
@@ -337,11 +333,7 @@ const placeBetPog2 = () => {
     Pog2BetDisplay.value += currentBetValue.value
     betHistory.value.push({ type: 'Pog2', value: currentBetValue.value })
   } else {
-    ElMessage({
-      message: 'You can only bet a maximum of ₱500',
-      grouping: true,
-      type: 'error',
-    })
+    maxbet()
   }
 }
 
@@ -400,13 +392,13 @@ const undoBet = () => {
       type: 'success',
     })
   } else {
-    ElMessage({
-      message: 'No bets to undo!',
-      grouping: true,
-      type: 'warning',
-    })
+    NoBetToUndo()
   }
 }
+
+import { NoBetUndoMessage, NoBetToClearMessage } from '@/components/composables/useGlobalUtils'
+const NoBetToUndo = NoBetUndoMessage
+const NoBetToClear = NoBetToClearMessage
 
 const clearBets = () => {
   const totalBet = Pog1BetDisplay.value + EqualizerBetDisplay.value + Pog2BetDisplay.value
@@ -423,11 +415,7 @@ const clearBets = () => {
 
     console.log('All bets . Wallet refunded:', totalBet)
   } else {
-    ElMessage({
-      message: 'No bets to clear!',
-      grouping: true,
-      type: 'warning',
-    })
+    NoBetToClear()
   }
 }
 const intervals = ref<number[]>([])

@@ -113,6 +113,7 @@ import type { chipsTypes } from '@/components/models/types'
 import { useWinHistoryStore } from '../stores/winHistoryStore'
 import type { Bet } from '@/components/models/types'
 import WinHistory from '@/components/Play/WinHistory.vue'
+import { MaxBetMessage } from '@/components/composables/useGlobalUtils'
 
 const userStore = useAuthenticationStore()
 const walletStore = useWalletStore()
@@ -145,6 +146,8 @@ const timerImages = [
   timer11,
   timer12,
 ]
+//elMessages
+const maxbet = MaxBetMessage
 
 //Pogs
 const pog1 = ref({})
@@ -178,6 +181,10 @@ const currentBet = ref(chip10)
 const currentBetValue = ref(10)
 const isReset = ref(false)
 const resetBet = ref(false)
+
+import { MustLogInFirst } from '@/components/composables/useGlobalUtils'
+const LogInFirst = MustLogInFirst
+
 const chips = reactive(<chipsTypes[]>[
   {
     src: chip10,
@@ -186,11 +193,7 @@ const chips = reactive(<chipsTypes[]>[
     action: () => {
       if (walletStore.userWalletBalance < 10) {
         if (!userStore.isLoggedIn) {
-          ElMessage({
-            message: 'You must be logged in first',
-            grouping: true,
-            type: 'error',
-          })
+          LogInFirst()
         }
       } else {
         currentBet.value = chip10
@@ -206,11 +209,7 @@ const chips = reactive(<chipsTypes[]>[
     action: () => {
       if (walletStore.userWalletBalance < 20) {
         if (!userStore.isLoggedIn) {
-          ElMessage({
-            message: 'You must be logged in first',
-            grouping: true,
-            type: 'error',
-          })
+          LogInFirst()
         }
       } else {
         currentBet.value = chip20
@@ -226,11 +225,7 @@ const chips = reactive(<chipsTypes[]>[
     action: () => {
       if (walletStore.userWalletBalance < 50) {
         if (!userStore.isLoggedIn) {
-          ElMessage({
-            message: 'You must be logged in first',
-            grouping: true,
-            type: 'error',
-          })
+          LogInFirst()
         }
       } else {
         currentBet.value = chip50
@@ -246,11 +241,7 @@ const chips = reactive(<chipsTypes[]>[
     action: () => {
       if (walletStore.userWalletBalance < 100) {
         if (!userStore.isLoggedIn) {
-          ElMessage({
-            message: 'You must be logged in first',
-            grouping: true,
-            type: 'error',
-          })
+          LogInFirst()
         }
       } else {
         currentBet.value = chip100
@@ -266,11 +257,7 @@ const chips = reactive(<chipsTypes[]>[
     action: () => {
       if (walletStore.userWalletBalance < 200) {
         if (!userStore.isLoggedIn) {
-          ElMessage({
-            message: 'You must be logged in first',
-            grouping: true,
-            type: 'error',
-          })
+          LogInFirst()
         }
       } else {
         currentBet.value = chip200
@@ -286,11 +273,7 @@ const chips = reactive(<chipsTypes[]>[
     action: () => {
       if (walletStore.userWalletBalance < 500) {
         if (!userStore.isLoggedIn) {
-          ElMessage({
-            message: 'You must be logged in first',
-            grouping: true,
-            type: 'error',
-          })
+          LogInFirst()
         }
       } else {
         currentBet.value = chip500
@@ -389,16 +372,19 @@ const closeChipsOptions = () => {
   chips[5].animation = { x: '0px', y: '0px' }
 }
 
+import { LoggedInMessageToBet } from '@/components/composables/useGlobalUtils'
+const mustLogInToBet = LoggedInMessageToBet
+
+import { InsufficientBalanceMessage } from '@/components/composables/useGlobalUtils'
+const InsufficientBalance = InsufficientBalanceMessage
+
 const placeBetPog1 = () => {
   if (!userStore.isLoggedIn) {
-    ElMessage({
-      message: 'You must log in to place a bet.',
-      grouping: true,
-      type: 'error',
-    })
+    mustLogInToBet()
     return
   }
-  if (Pog1BetDisplay.value + currentBetValue.value) {
+  //nawala yung max Bet? AHAHHAA
+  if (Pog1BetDisplay.value + currentBetValue.value <= 500) {
     if (walletStore.userWalletBalance >= currentBetValue.value) {
       const placeBetSound = new Audio(placeBet)
       placeBetSound.play()
@@ -406,31 +392,21 @@ const placeBetPog1 = () => {
       Pog1BetDisplay.value += currentBetValue.value
       betHistory.value.push({ type: 'Pog1', value: currentBetValue.value })
     } else {
-      ElMessage({
-        message: 'Insufficient wallet balance!',
-        grouping: true,
-        type: 'error',
-      })
+      InsufficientBalance()
     }
   } else {
-    ElMessage({
-      message: 'You can only bet a maximum of ₱500',
-      grouping: true,
-      type: 'error',
-    })
+    maxbet()
   }
 }
 
 const placeBetEqualizer = () => {
   if (!userStore.isLoggedIn) {
-    ElMessage({
-      message: 'You must log in to place a bet.',
-      grouping: true,
-      type: 'error',
-    })
+    mustLogInToBet()
     return
   }
-  if (EqualizerBetDisplay.value + currentBetValue.value) {
+
+  //Nawala yung maxBet? AHAHHAHA
+  if (EqualizerBetDisplay.value + currentBetValue.value <= 500) {
     if (walletStore.userWalletBalance >= currentBetValue.value) {
       const placeBetSound = new Audio(placeBet)
       placeBetSound.play()
@@ -438,28 +414,16 @@ const placeBetEqualizer = () => {
       EqualizerBetDisplay.value += currentBetValue.value
       betHistory.value.push({ type: 'Equalizer', value: currentBetValue.value })
     } else {
-      ElMessage({
-        message: 'Insufficient wallet balance!',
-        grouping: true,
-        type: 'error',
-      })
+      InsufficientBalanceMessage()
     }
   } else {
-    ElMessage({
-      message: 'You can only bet a maximum of ₱500',
-      grouping: true,
-      type: 'error',
-    })
+    maxbet()
   }
 }
 
 const placeBetPog2 = () => {
   if (!userStore.isLoggedIn) {
-    ElMessage({
-      message: 'You must log in to place a bet.',
-      grouping: true,
-      type: 'error',
-    })
+    mustLogInToBet()
     return
   }
   if (Pog2BetDisplay.value + currentBetValue.value <= 500) {
@@ -471,18 +435,10 @@ const placeBetPog2 = () => {
       betHistory.value.push({ type: 'Pog2', value: currentBetValue.value })
       console.log('Bet History:', betHistory.value)
     } else {
-      ElMessage({
-        message: 'Insufficient wallet balance!',
-        grouping: true,
-        type: 'error',
-      })
+      InsufficientBalance()
     }
   } else {
-    ElMessage({
-      message: 'You can only bet a maximum of ₱500',
-      grouping: true,
-      type: 'error',
-    })
+    maxbet()
   }
 }
 
@@ -524,6 +480,10 @@ if (totalBet > 0) {
   textImageDisplay.value = 'none'
 }
 
+import { NoBetUndoMessage, NoBetToClearMessage } from '@/components/composables/useGlobalUtils'
+const NoBetToUndo = NoBetUndoMessage
+const NoBetToClear = NoBetToClearMessage
+
 const undoBet = () => {
   const lastBet = betHistory.value.pop()
   if (lastBet) {
@@ -543,11 +503,7 @@ const undoBet = () => {
       type: 'success',
     })
   } else {
-    ElMessage({
-      message: 'No bets to undo!',
-      grouping: true,
-      type: 'warning',
-    })
+    NoBetToUndo()
   }
 }
 
@@ -567,10 +523,7 @@ const clearBets = () => {
 
     console.log('All bets . Wallet refunded:', totalBet)
   } else {
-    ElMessage({
-      message: 'No bets to undo!',
-      type: 'warning',
-    })
+    NoBetToClear()
   }
 }
 
