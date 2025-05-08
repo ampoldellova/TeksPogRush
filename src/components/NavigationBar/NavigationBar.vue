@@ -63,13 +63,7 @@
         <el-text
           v-if="authenticationStore.isAuthenticated"
           @click="authenticationStore.logout"
-          :style="{
-            display: 'flex',
-            fontFamily: 'regular',
-            fontSize: '16px',
-            color: 'white',
-            cursor: 'pointer',
-          }"
+          class="logout-button"
         >
           Logout
         </el-text>
@@ -79,7 +73,7 @@
 
   <Drawer
     v-model="drawer"
-    @closeDrawer="closeDrawer"
+    @closeDrawer="drawer = false"
     @loginDialog="openSignInDialog"
     @registerDialog="openRegisterDialog"
   />
@@ -89,7 +83,7 @@
     @registerDialogButton="registerDialogButton"
     @resetPasswordDialogButton="resetPasswordDialogButton"
     @closeSignInDialog="closeSignInDialog"
-    @closeDrawer="closeDrawer"
+    @closeDrawer="drawer = false"
   />
 
   <RegisterDialog
@@ -103,7 +97,7 @@
 <script setup lang="ts">
 import currency from '@/assets/currency.png'
 import logo from '@/assets/TeksPogRush-Logo-small.png'
-import { Menu } from '@element-plus/icons-vue'
+import { Menu, ShoppingCart } from '@element-plus/icons-vue'
 import { onMounted, ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthenticationStore } from '@/stores/userStore'
@@ -115,7 +109,6 @@ const fromLogin = ref(false)
 const signInDialog = ref(false)
 const registerDialog = ref(false)
 const authenticationStore = useAuthenticationStore()
-const walletDialog = ref(false)
 const registrationStore = useRegistrationStore()
 
 const openWalletDialog = () => {
@@ -128,10 +121,6 @@ const userWalletBalance = computed(() => {
   )
   return user ? `${user.wallet}` : '₱0.00'
 })
-
-const closeDrawer = () => {
-  drawer.value = false
-}
 
 const openSignInDialog = () => {
   signInDialog.value = true
@@ -238,6 +227,14 @@ onMounted(() => {
   padding: 0 10px;
   gap: 10px;
   cursor: pointer;
+}
+
+.logout-button {
+  display: flex;
+  font-family: 'regular';
+  font-size: '16px';
+  color: white;
+  cursor: 'pointer';
 }
 
 @media (max-width: 1440px) {

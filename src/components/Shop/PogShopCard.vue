@@ -37,7 +37,7 @@
       </el-col>
 
       <el-col :span="24" style="margin-top: 5px">
-        <el-button @click="buyButtonClick" :style="buyButton">Buy Now</el-button>
+        <el-button @click="buyButtonClick" :style="buyButton">Add to Cart</el-button>
       </el-col>
     </el-row>
   </motion.div>
@@ -51,7 +51,9 @@ import { computed, ref } from 'vue'
 import PaymentDialog from './PaymentDialog.vue'
 import { useAuthenticationStore } from '@/stores/userStore'
 import { ElMessage } from 'element-plus'
+import { useCartStore } from '@/stores/cartStore'
 const authenticationStore = useAuthenticationStore()
+const cartStore = useCartStore()
 
 const paymentDialog = ref(false)
 const buyButtonClick = () => {
@@ -77,6 +79,7 @@ const props = defineProps<{
     price: number
     image: string
     value: number
+    quantity: number
   }
 }>()
 

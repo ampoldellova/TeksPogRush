@@ -40,7 +40,7 @@ export const useRegistrationStore = defineStore('registration', {
 export const useAuthenticationStore = defineStore('auth', {
   state: () => ({
     isLoggedIn: false,
-    user:null as { id: string; email: string; wallet: number; username: string } | null,
+    user: null as { id: string; email: string; wallet: number; username: string } | null,
   }),
   getters: {
     isAuthenticated: (state) => state.isLoggedIn,
@@ -52,7 +52,6 @@ export const useAuthenticationStore = defineStore('auth', {
       const user = registeredUsers.find(
         (u: { email: string; password: string }) => u.email === email && u.password === password,
       )
-      console.log(user)
 
       if (user) {
         this.isLoggedIn = true

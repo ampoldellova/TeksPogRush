@@ -25,7 +25,9 @@ watch(route, (newRoute) => {
 
 onMounted(() => {
   authenticationStore.checkLoginStatus()
-  // winHistoryStore.persistPogWinHistory()
+
+  winHistoryStore.persistPogWinHistory()
+
 })
 </script>
 
