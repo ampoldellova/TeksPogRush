@@ -25,6 +25,27 @@
     </div>
   </div>
 
+
+      <!-- Player activity log -->
+  <!-- <div class="wallet-balance">Wallet Balance: ₱{{ walletStore.userWalletBalance }}
+  <p v-if="Pog1BetDisplay">Bet on Pog1: ₱{{ Pog1BetDisplay }}</p>
+  <p v-if="EqualizerBetDisplay">Bet on Equalizer: ₱{{ EqualizerBetDisplay }}</p>
+  <p v-if="Pog2BetDisplay">Bet on Pog2: ₱{{ Pog2BetDisplay }}</p>
+  <p ><strong>Total Bet: ₱{{ totalBet }}</strong></p>
+  </div> -->
+
+  <!-- <div class="wallet-balance">
+        <p>Wallet Balance: ₱{{ walletStore.userWalletBalance }} </p>
+
+        <p v-if="Pog1BetDisplay">POG1: ₱{{ Pog1BetDisplay }} </p>
+        <p v-if="EqualizerBetDisplay">EQUALIZER: ₱{{ EqualizerBetDisplay }} </p>
+        <p v-if="Pog2BetDisplay">POG2: ₱{{ Pog2BetDisplay }} </p>
+<hr>
+        <p>Total Bet: ₱{{ Pog1BetDisplay + EqualizerBetDisplay + Pog2BetDisplay }} </p>
+      </div>
+     -->
+
+  <ActivityLog/>
   <winHistory />
 
   <BetDialog
@@ -741,15 +762,31 @@ onMounted(() => {
 <style scoped>
 .wallet-balance {
   position: absolute;
-  bottom: 10px;
+  bottom: 20px;
+  right: 20px;
   left: 10px;
-  width: 230px;
+  max-width: 260px;
   color: white;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: bold;
   border: 2px solid white;
   border-radius: 10px;
-  padding: 10px;
-  background-color: rgba(122, 129, 129, 0.6);
+  padding: 16px 20px;
+  line-height: 1.5;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 100;
 }
+
+.wallet-balance p {
+  margin: 4px 0;
+}
+
+.wallet-balance hr {
+  margin: 10px 0;
+  border: 0;
+  height: 1px;
+  background: #ffffff40;
+}
+
+
 </style>
