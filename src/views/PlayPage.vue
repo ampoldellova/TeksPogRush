@@ -98,7 +98,7 @@ import pog1Win from '@/assets/play/pog1Win.png'
 import pog2Win from '@/assets/play/pog2Win.png'
 import equalizerWin from '@/assets/play/equalizerWin.png'
 
-import { reactive, ref, onMounted, watch } from 'vue'
+import { reactive, ref, onMounted, watch, onUnmounted } from 'vue'
 import { ElMessage, type ButtonInstance } from 'element-plus'
 import { useRouter } from 'vue-router'
 
@@ -111,16 +111,17 @@ import placeBet from '@/assets/sounds/placeBet.wav'
 import win from '@/assets/sounds/win.wav'
 import type { chipsTypes } from '@/components/models/types'
 import { useWinHistoryStore } from '../stores/winHistoryStore'
+import type { Bet } from '@/components/models/types'
 
 const userStore = useAuthenticationStore()
 const walletStore = useWalletStore()
 const winHistoryStore = useWinHistoryStore()
 const friendly = ref(false)
 
-interface Bet {
-  type: 'Pog1' | 'Equalizer' | 'Pog2'
-  value: number
-}
+// interface Bet {
+//   type: 'Pog1' | 'Equalizer' | 'Pog2'
+//   value: number
+// }
 
 const tutorial = ref(false)
 
@@ -572,6 +573,7 @@ const clearBets = () => {
   }
 }
 
+const intervals = ref<number[]>([])
 const startTimer = () => {
   openBetDialog()
   let remainingTime = 13
@@ -587,6 +589,7 @@ const startTimer = () => {
       showHand.value = true
     }
   }, 1000)
+  intervals.value.push(timerInterval)
 }
 
 const multiplierValues = [1, 2, 3, 4, 5, 15, 25, 35, 100, 700, 1000]
@@ -614,6 +617,7 @@ const resetMultipliers = () => {
   }
 }
 
+const timeouts = ref<number[]>([])
 const flipCoin = () => {
   closeBetDialog()
   showTimer.value = 'none'
@@ -621,12 +625,12 @@ const flipCoin = () => {
   animation2.value = { x: '0vw', y: '0vh', rotate: 0, rotateY: 180 }
   animation3.value = { x: '-30vw', y: '0vh', rotate: 0, rotateY: 180 }
 
-  setTimeout(() => {
+  const timeOut1 = setTimeout(() => {
     animation1.value = { x: '30vw', y: '18vh', rotate: 0, rotateY: 180 }
     animation2.value = { x: '0vw', y: '18vh', rotate: 0, rotateY: 180 }
     animation3.value = { x: '-30vw', y: '18vh', rotate: 0, rotateY: 180 }
 
-    setTimeout(() => {
+    const timeOut2 = setTimeout(() => {
       currentHand.value = hand2
 
       pog1.value = Math.random() > 0.5 ? 'Tails' : 'Heads'
@@ -652,7 +656,7 @@ const flipCoin = () => {
         rotateY: pog2.value === 'Tails' ? 360 : 540,
       }
 
-      setTimeout(() => {
+      const timeOut3 = setTimeout(() => {
         if (pog1.value !== pog2.value && pog1.value !== equalizer.value) {
           const winnings =
             pog1Multiplier.value === 1
@@ -711,7 +715,7 @@ const flipCoin = () => {
           })
           console.log('Draw')
         }
-        setTimeout(() => {
+        const timeOut4 = setTimeout(() => {
           showTimer.value = 'flex'
           showWinner.value = false
           currentHand.value = hand1
@@ -724,13 +728,23 @@ const flipCoin = () => {
           resetBetDialog()
           startTimer()
         }, 2000)
+        timeouts.value.push(timeOut4)
       }, 2000)
+      timeouts.value.push(timeOut3)
     }, 2000)
+    timeouts.value.push(timeOut2)
   }, 1000)
+  timeouts.value.push(timeOut1)
 }
 
 onMounted(() => {
   startTimer()
+})
+
+onUnmounted(() => {
+  timeouts.value.forEach(clearTimeout)
+  intervals.value.forEach(clearInterval)
+  console.log('Game stopped when leaving page.')
 })
 </script>
 
