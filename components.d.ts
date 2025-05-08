@@ -12,6 +12,7 @@ declare module 'vue' {
     BetDialog: typeof import('./src/components/Play/BetDialog.vue')['default']
     BetPogButton: typeof import('./src/components/Play/BetPogButton.vue')['default']
     CartDrawer: typeof import('./src/components/NavigationBar/CartDrawer.vue')['default']
+    ConfirmationDialog: typeof import('./src/components/Play/ConfirmationDialog.vue')['default']
     Drawer: typeof import('./src/components/NavigationBar/Drawer.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCol: typeof import('element-plus/es')['ElCol']
