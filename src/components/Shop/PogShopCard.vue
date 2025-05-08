@@ -51,9 +51,7 @@ import { computed, ref } from 'vue'
 import PaymentDialog from './PaymentDialog.vue'
 import { useAuthenticationStore } from '@/stores/userStore'
 import { ElMessage } from 'element-plus'
-import { useCartStore } from '@/stores/cartStore'
 const authenticationStore = useAuthenticationStore()
-const cartStore = useCartStore()
 
 const paymentDialog = ref(false)
 const buyButtonClick = () => {
