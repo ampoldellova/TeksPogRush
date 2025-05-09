@@ -1,18 +1,11 @@
 import { defineStore } from 'pinia'
 import { useAuthenticationStore } from './userStore'
 import { useRegistrationStore } from './userStore'
-
-export interface TokenWallet {
-  userEmail: string
-  tokenBalance: number
-}
+import type { TokenWallet } from '@/components/models/types'
 
 export const useTokenStore = defineStore('tokenStore', {
   state: () => ({
-    tokenWallets: JSON.parse(localStorage.getItem('tokenWallets') || '[]') as {
-      userEmail: string
-      tokenBalance: number
-    }[],
+    tokenWallets: JSON.parse(localStorage.getItem('tokenWallets') || '[]') as TokenWallet[],
   }),
 
   getters: {

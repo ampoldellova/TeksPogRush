@@ -8,8 +8,8 @@
     v-model="dialogVisible"
     width="400"
     class="winHistory"
-    v-if="windowWidth <= 980"
-    style="max-height: 500px; border-radius: 25px; text-align: center"
+    v-if="windowWidth <= 600"
+    style="max-height: 500px"
   >
     <h2>Match History</h2>
     <el-table
@@ -54,7 +54,7 @@
     </el-table>
   </el-dialog>
 
-  <div v-if="windowWidth > 980" class="winHistory">
+  <div v-if="windowWidth > 600" class="winHistory">
     <h2>Match History</h2>
     <el-table
       :data="winHistoryStore.getHistory(gameMode)"

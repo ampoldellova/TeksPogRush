@@ -73,7 +73,7 @@
 
   <Drawer
     v-model="drawer"
-    @closeDrawer="closeDrawer"
+    @closeDrawer="drawer = false"
     @loginDialog="openSignInDialog"
     @registerDialog="openRegisterDialog"
   />
@@ -83,7 +83,7 @@
     @registerDialogButton="registerDialogButton"
     @resetPasswordDialogButton="resetPasswordDialogButton"
     @closeSignInDialog="closeSignInDialog"
-    @closeDrawer="closeDrawer"
+    @closeDrawer="drawer = false"
   />
 
   <RegisterDialog
@@ -92,14 +92,12 @@
     @backDialogButton="backDialogButton"
     @openSignInDialog="openSignInDialog"
   />
-
-  <!-- <WalletDialog v-model="walletDialog" @closeDialog="walletDialog = false" /> -->
 </template>
 
 <script setup lang="ts">
 import currency from '@/assets/currency.png'
 import logo from '@/assets/TeksPogRush-Logo-small.png'
-import { Menu } from '@element-plus/icons-vue'
+import { Menu, ShoppingCart } from '@element-plus/icons-vue'
 import { onMounted, ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthenticationStore } from '@/stores/userStore'
@@ -111,11 +109,10 @@ const fromLogin = ref(false)
 const signInDialog = ref(false)
 const registerDialog = ref(false)
 const authenticationStore = useAuthenticationStore()
-const walletDialog = ref(false)
 const registrationStore = useRegistrationStore()
 
 const openWalletDialog = () => {
- router.push('/wallet')
+  router.push('/wallet')
 }
 
 const userWalletBalance = computed(() => {
@@ -124,10 +121,6 @@ const userWalletBalance = computed(() => {
   )
   return user ? `${user.wallet}` : '₱0.00'
 })
-
-const closeDrawer = () => {
-  drawer.value = false
-}
 
 const openSignInDialog = () => {
   signInDialog.value = true

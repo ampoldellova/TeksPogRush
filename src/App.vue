@@ -12,14 +12,13 @@ import { RouterView, useRoute } from 'vue-router'
 import NavigationBar from './components/NavigationBar/NavigationBar.vue'
 import { ref, watch, onMounted } from 'vue'
 import { useAuthenticationStore } from '@/stores/userStore'
-import { useWinHistoryStore } from './stores/winHistoryStore'
 
 const showNavbar = ref(true)
 const route = useRoute()
 const authenticationStore = useAuthenticationStore()
 const winHistoryStore = useWinHistoryStore()
-
 const gameMode = (localStorage.getItem('gameMode') as 'arena' | 'friendly') || 'arena'
+
 
 watch(route, (newRoute) => {
   showNavbar.value = newRoute.name !== 'gamePage'

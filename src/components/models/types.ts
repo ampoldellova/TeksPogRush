@@ -77,3 +77,22 @@ export interface loginForm {
   signInEmail: string
   signInPassword: string
 }
+export interface Bet {
+  type: 'Pog1' | 'Equalizer' | 'Pog2'
+  value: number
+}
+
+export interface pogWin {
+  round?: number
+  winner?: string
+}
+
+export interface TokenWallet {
+  userEmail: string
+  tokenBalance: number
+}
+
+export interface cartItem {
+  id: string
+  quantity: number
+}

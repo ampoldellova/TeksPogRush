@@ -124,23 +124,11 @@
     </div>
   </div>
 
-  <el-dialog v-model="confirmationDialog" title="Warning" width="400" align-center>
-    <template #header>
-      <el-text :style="{ fontFamily: 'bold', color: COLORS.dark }">Oops!</el-text>
-    </template>
-
-    <el-result
-      icon="warning"
-      title="Warning Tip"
-      sub-title="It seems you don't have enough chips to enter the arena, you can buy chips from the shop or
-      would you like to try friendly arena instead?"
-    >
-      <template #extra>
-        <el-button type="primary">Back</el-button>
-        <el-button @click="friendlyButtonClick" type="primary">Friendly Arena</el-button>
-      </template>
-    </el-result>
-  </el-dialog>
+  <ConfirmationDialog
+    v-model="confirmationDialog"
+    @onClose="confirmationDialog = false"
+    @onFriendlyButtonClick="friendlyButtonClick"
+  />
 </template>
 
 <script setup lang="ts">
@@ -152,6 +140,7 @@ import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthenticationStore, useRegistrationStore } from '@/stores/userStore'
 import { COLORS } from '@/assets/theme'
+import ConfirmationDialog from '@/components/Play/ConfirmationDialog.vue'
 
 const registrationStore = useRegistrationStore()
 const authenticationStore = useAuthenticationStore()

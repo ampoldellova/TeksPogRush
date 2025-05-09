@@ -36,9 +36,21 @@
       </div>
     </div>
 
-    <el-text :style="{ fontFamily: 'bold', fontSize: '12px', color: COLORS.dark }">
-      Amount Due: Php. {{ props.chip.price }}.00
-    </el-text>
+    <div
+      :style="{
+        marginTop: '10px',
+        marginBottom: '10px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      }"
+    >
+      <el-text :style="{ fontFamily: 'bold', fontSize: '12px', color: COLORS.dark }">
+        Amount Due: Php. {{ props.chip.price * quantity }}.00
+      </el-text>
+
+      <el-input-number v-model="quantity" :min="1" :max="10" @change="handleChange" />
+    </div>
 
     <el-divider :style="{ margin: 0, marginBottom: '10px' }" />
     <div v-if="paymentSelected === 'GCash'">
@@ -153,30 +165,30 @@
 
 <script setup lang="ts">
 import { COLORS } from '@/assets/theme'
-import gcash from '@/assets/shop/gcash.png'
-import creditCard from '@/assets/shop/creditCard.png'
+// import gcash from '@/assets/shop/gcash.png'
+// import creditCard from '@/assets/shop/creditCard.png'
 import { reactive, ref } from 'vue'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import { useMoneyTransactionsStore } from '@/stores/moneyTransaction'
-import { useTokenStore } from '@/stores/tokenStore'
+import { paymentMethods } from '../models/constants'
 
-const tokenStore = useTokenStore()
+const quantity = ref(1)
 const payment = useMoneyTransactionsStore()
 const ruleFormRef = ref<FormInstance>()
 const paymentDialog = ref(false)
 const paymentSelected = ref('GCash')
-const paymentMethods = ref([
-  {
-    id: '001',
-    name: 'GCash',
-    image: gcash,
-  },
-  {
-    id: '002',
-    name: 'Credit Card',
-    image: creditCard,
-  },
-])
+// const paymentMethods = ref([
+//   {
+//     id: '001',
+//     name: 'GCash',
+//     image: gcash,
+//   },
+//   {
+//     id: '002',
+//     name: 'Credit Card',
+//     image: creditCard,
+//   },
+// ])
 
 const emit = defineEmits(['closeDialog'])
 
@@ -239,7 +251,13 @@ const submitGcashDetails = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
-      payment.gCashPayment(props.chip.price, props.chip.value, gCashRuleForm.mobileNumber, 'CashIn')
+      payment.gCashPayment(
+        props.chip.price,
+        props.chip.value,
+        quantity.value,
+        gCashRuleForm.mobileNumber,
+        'CashIn',
+      )
       emit('closeDialog')
       ElMessage({
         message: 'Payment successful!',
@@ -259,10 +277,11 @@ const submitCardDetails = (formEl: FormInstance | undefined) => {
       payment.cardPayment(
         props.chip.price,
         props.chip.value,
+        quantity.value,
         creditCardRuleForm.cardNumber,
         creditCardRuleForm.expiryDate,
         creditCardRuleForm.securityCode,
-        'CashIn'
+        'CashIn',
       )
       emit('closeDialog')
       ElMessage({
@@ -285,6 +304,10 @@ const props = defineProps<{
     value: number
   }
 }>()
+
+const handleChange = (value: number | undefined) => {
+  console.log(value)
+}
 </script>
 
 <style scoped></style>
