@@ -60,11 +60,7 @@
           </el-text>
         </div>
 
-        <el-text
-          v-if="authenticationStore.isAuthenticated"
-          @click="authenticationStore.logout"
-          class="logout-button"
-        >
+        <el-text v-if="authenticationStore.isAuthenticated" @click="logout" class="logout-button">
           Logout
         </el-text>
       </el-col>
@@ -113,6 +109,11 @@ const registrationStore = useRegistrationStore()
 
 const openWalletDialog = () => {
   router.push('/wallet')
+}
+
+const logout = () => {
+  authenticationStore.logout()
+  router.push('/')
 }
 
 const userWalletBalance = computed(() => {

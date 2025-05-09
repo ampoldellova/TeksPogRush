@@ -44,8 +44,8 @@ const router = createRouter({
     {
       path: '/wallet',
       name: 'wallet',
-      component: WalletDialog
-    }
+      component: WalletDialog,
+    },
   ],
 })
 
