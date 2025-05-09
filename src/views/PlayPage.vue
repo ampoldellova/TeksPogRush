@@ -75,7 +75,6 @@
 
   <WinHistory />
 
-
   <BetDialog
     v-model="betDialog"
     :chips="chips"
@@ -172,11 +171,10 @@ const friendly = ref(false)
 
 const gameMode = ref(localStorage.getItem('gameMode') as 'arena' | 'friendly')
 console.log('Current Game Mode:', gameMode.value)
-interface Bet {
-  type: 'Pog1' | 'Equalizer' | 'Pog2'
-  value: number
-}
-
+// interface Bet {
+//   type: 'Pog1' | 'Equalizer' | 'Pog2'
+//   value: number
+// }
 
 const tutorial = ref(false)
 
@@ -600,7 +598,7 @@ const startTimer = () => {
   intervals.value.push(timerInterval)
 }
 
-const multiplierValues = [1, 2, 3, 4, 5, 15, 25, 35, 100, 700, 1000]
+// const multiplierValues = [1, 2, 3, 4, 5]
 
 const pog1Multiplier = ref(1)
 const equalizerMultiplier = ref(1)
@@ -608,20 +606,20 @@ const pog2Multiplier = ref(1)
 
 const resetMultipliers = () => {
   const randomIndex = Math.floor(Math.random() * 3)
-  const selectedMultiplier = multiplierValues[Math.floor(Math.random() * multiplierValues.length)]
+  // const selectedMultiplier = multiplierValues[Math.floor(Math.random() * multiplierValues.length)]
 
   if (randomIndex === 0) {
-    pog1Multiplier.value = selectedMultiplier
+    // pog1Multiplier.value = selectedMultiplier
     equalizerMultiplier.value = 1
     pog2Multiplier.value = 1
   } else if (randomIndex === 1) {
     pog1Multiplier.value = 1
-    equalizerMultiplier.value = selectedMultiplier
+    // equalizerMultiplier.value = selectedMultiplier
     pog2Multiplier.value = 1
   } else {
     pog1Multiplier.value = 1
     equalizerMultiplier.value = 1
-    pog2Multiplier.value = selectedMultiplier
+    // pog2Multiplier.value = selectedMultiplier
   }
 }
 
@@ -749,24 +747,6 @@ onMounted(() => {
   startTimer()
 })
 
-
-const dialogVisible = ref(false)
-
-  const windowWidth = ref(window.innerWidth)
-  
-  const updateWindowWidth = () => {
-    windowWidth.value = window.innerWidth
-  }
-  
-  onMounted(() => {
-    window.addEventListener('resize', updateWindowWidth)
-  })
-  
-  onBeforeUnmount(() => {
-    window.removeEventListener('resize', updateWindowWidth)
-  })
-
-
 onUnmounted(() => {
   timeouts.value.forEach(clearTimeout)
   intervals.value.forEach(clearInterval)
@@ -792,12 +772,6 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .wallet-balance {
-
-</script>
-
-<style scoped>
-  .wallet-balance {
-
   position: fixed;
   bottom: 20px;
   left: 20px;
@@ -828,7 +802,46 @@ onBeforeUnmount(() => {
   text-align: center;
 }
 
+.wallet-balance p {
+  margin: 4px 0;
+}
 
+.wallet-balance hr {
+  margin: 10px 0;
+  border: 0;
+  height: 1px;
+  background: #ffffff40;
+}
+
+.responsive-menu {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+@media (max-width: 980px) {
+  .responsive-menu {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+}
+
+.wallet-balance2 {
+  margin: auto;
+  max-width: 260px;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  border: 2px solid white;
+  border-radius: 10px;
+  padding: 16px 20px;
+  line-height: 1.5;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 100;
+  text-align: center;
+}
 
 .wallet-balance p {
   margin: 4px 0;
@@ -854,49 +867,5 @@ onBeforeUnmount(() => {
     align-items: center;
     justify-content: flex-start;
   }
-
 }
-
-  .wallet-balance2 {
-    margin: auto;
-    max-width: 260px;
-    color: white;
-    font-size: 15px;
-    font-weight: bold;
-    border: 2px solid white;
-    border-radius: 10px;
-    padding: 16px 20px;
-    line-height: 1.5;
-    background-color: rgba(0, 0, 0, 0.75);
-    z-index: 100;
-    text-align: center;
-  }
-
-  .wallet-balance p {
-    margin: 4px 0;
-  }
-  
-  .wallet-balance hr {
-    margin: 10px 0;
-    border: 0;
-    height: 1px;
-    background: #ffffff40;
-  }
-  
-  .responsive-menu {
-    display: none;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-  }
-  
-  @media (max-width: 980px) {
-    .responsive-menu {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-    }
-  }
-
-
 </style>
