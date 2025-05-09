@@ -8,6 +8,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    ActivityLog: typeof import('./src/components/Play/ActivityLog.vue')['default']
     BetButton: typeof import('./src/components/Play/BetButton.vue')['default']
     BetDialog: typeof import('./src/components/Play/BetDialog.vue')['default']
     BetPogButton: typeof import('./src/components/Play/BetPogButton.vue')['default']
@@ -26,6 +27,7 @@ declare module 'vue' {
     ElInput: typeof import('element-plus/es')['ElInput']
     ElInputNumber: typeof import('element-plus/es')['ElInputNumber']
     ElPopover: typeof import('element-plus/es')['ElPopover']
+    ElRadio: typeof import('element-plus/es')['ElRadio']
     ElResult: typeof import('element-plus/es')['ElResult']
     ElRow: typeof import('element-plus/es')['ElRow']
     ElTable: typeof import('element-plus/es')['ElTable']

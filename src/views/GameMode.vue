@@ -146,7 +146,7 @@ const registrationStore = useRegistrationStore()
 const authenticationStore = useAuthenticationStore()
 const router = useRouter()
 
-const gameMode = ref(localStorage.getItem('gameMode') || 'arena')
+const gameMode = ref<'arena' | 'friendly'>()
 
 const userWalletBalance = computed(() => {
   const user = registrationStore.registeredUsers.find(
@@ -156,7 +156,12 @@ const userWalletBalance = computed(() => {
 })
 
 const buttonClick = () => {
+  gameMode.value = 'arena'
   localStorage.setItem('gameMode', 'arena')
+
+  console.log('game mode: ', gameMode.value)
+  console.log('arena mode activated')
+
   const audio = new Audio(clickSound)
   audio.play()
 
@@ -168,18 +173,15 @@ const buttonClick = () => {
 }
 
 const friendlyButtonClick = () => {
+  gameMode.value = 'friendly'
   localStorage.setItem('gameMode', 'friendly')
+
+  console.log('game mode: ', gameMode.value)
+  console.log('friendly mode activated')
+
   const audio = new Audio(clickSound)
   audio.play()
   router.push('/friendly-arena')
-}
-
-console.log('Current game mode:', gameMode.value)
-
-if (gameMode.value === 'arena') {
-  console.log('Arena Mode Activated')
-} else {
-  console.log('Friendly Mode Activated')
 }
 
 const confirmationDialog = ref(false)
