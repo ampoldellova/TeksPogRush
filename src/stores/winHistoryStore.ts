@@ -8,6 +8,14 @@ export const useWinHistoryStore = defineStore('winHistoryStore', {
   }),
   actions: {
     addWin(mode: 'arena' | 'friendly', { round, winner }: pogWin) {
+      const currentMode = localStorage.getItem('gameMode') as 'arena' | 'friendly'
+
+      if (mode !== currentMode || !winner || round == null) {
+        console.warn(
+          `Ignoring win record: mode=${mode}, currentMode=${currentMode}, round=${round}, winner=${winner}`,
+        )
+        return
+      }
       if (mode === 'arena') {
         this.arenaHistory.push({ round, winner })
         localStorage.setItem('arenaHistory', JSON.stringify(this.arenaHistory))
