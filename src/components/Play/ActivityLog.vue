@@ -10,7 +10,7 @@
       v-if="windowWidth <= 980"
       style="max-height: 500px; border-radius: 25px; text-align: center; background-color: rgba(0, 0, 0, 0.75) ;"
     >
-      <div v-if="showWallet" class="wallet-balance">
+      <div class="wallet-balance">
         <p>Activity Log:</p>
         <br>
         <p>Wallet Balance: ₱{{ walletStore.userWalletBalance }}</p>
@@ -23,12 +23,13 @@
     </el-dialog>
 
     <div v-if="windowWidth > 980" class="wallet-balance2">
-        <p>Wallet Balance: ₱{{ walletStore.userWalletBalance }}</p>
-        <p v-if="Pog1BetDisplay">POG1: ₱{{ Pog1BetDisplay }}</p>
-        <p v-if="EqualizerBetDisplay">EQUALIZER: ₱{{ EqualizerBetDisplay }}</p>
-        <p v-if="Pog2BetDisplay">POG2: ₱{{ Pog2BetDisplay }}</p>
-        <hr />
-        <p>Total Bet: ₱{{ Pog1BetDisplay + EqualizerBetDisplay + Pog2BetDisplay }}</p>
+<p>Wallet Balance: ₱{{ walletStore.userWalletBalance }} </p>
+
+        <p v-if="Pog1BetDisplay">POG1: ₱{{ Pog1BetDisplay }} </p>
+        <p v-if="EqualizerBetDisplay">EQUALIZER: ₱{{ EqualizerBetDisplay }} </p>
+        <p v-if="Pog2BetDisplay">POG2: ₱{{ Pog2BetDisplay }} </p>
+<hr>
+          <p><strong>Total Bet:</strong> ₱{{ totalBet }}</p>
       </div>
 
 
@@ -37,13 +38,14 @@
   </template>
   
   <script lang="ts" setup>
-  import { ref, onMounted, onBeforeUnmount } from 'vue'
+  import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
   import { useWalletStore } from '@/stores/walletStore'
   import { Menu } from '@element-plus/icons-vue'
   
   const dialogVisible = ref(false)
-  const showWallet = ref(true)
+
   const walletStore = useWalletStore()
+
   
   const Pog1BetDisplay = ref(0)
   const EqualizerBetDisplay = ref(0)
@@ -62,7 +64,28 @@
   onBeforeUnmount(() => {
     window.removeEventListener('resize', updateWindowWidth)
   })
-  </script>
+
+
+
+
+const gameMode = ref(localStorage.getItem('gameMode') as 'arena' | 'friendly')
+
+console.log('Current Game Mode:', gameMode.value)
+
+const hasActiveBet = ref(false)
+watch([Pog1BetDisplay, EqualizerBetDisplay, Pog2BetDisplay], ([pog1, equalizer, pog2]) => {
+  hasActiveBet.value = pog1 > 0 || equalizer > 0 || pog2 > 0
+})
+
+
+const Pog1Bet = Pog1BetDisplay.value || 0
+const EqualizerBet = EqualizerBetDisplay.value || 0
+const Pog2Bet = Pog2BetDisplay.value || 0
+
+const totalBet = Pog1Bet + EqualizerBet + Pog2Bet
+
+
+</script>
   
   <style scoped>
   .wallet-balance {
@@ -120,6 +143,8 @@
       justify-content: flex-start;
     }
   }
+
+  
 
 
   </style>
