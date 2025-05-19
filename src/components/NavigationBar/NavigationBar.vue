@@ -62,7 +62,7 @@
 
         <el-text
           v-if="authenticationStore.isAuthenticated"
-          @click="authenticationStore.logout"
+          @click="logoutConfirmDialog = true"
           class="logout-button"
         >
           Logout
@@ -70,6 +70,14 @@
       </el-col>
     </el-row>
   </div>
+
+  <el-dialog v-model="logoutConfirmDialog" title="Confirm Logout" width="300px" align-center>
+    <span>Are you sure you want to logout?</span>
+    <template #footer>
+      <el-button @click="logoutConfirmDialog = false">Cancel</el-button>
+      <el-button type="primary" @click="confirmLogout">Logout</el-button>
+    </template>
+  </el-dialog>
 
   <Drawer
     v-model="drawer"
@@ -151,6 +159,13 @@ const resetPasswordDialogButton = () => {
 const backDialogButton = () => {
   registerDialog.value = false
   signInDialog.value = true
+}
+
+const logoutConfirmDialog = ref(false)
+
+const confirmLogout = () => {
+  authenticationStore.logout()
+  logoutConfirmDialog.value = false
 }
 
 onMounted(() => {
