@@ -155,10 +155,10 @@ const loginForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
-      const { success, message } = authenticationStore.login(
-        SignInRuleForm.signInEmail,
-        SignInRuleForm.signInPassword,
-      )
+      const email = SignInRuleForm.signInEmail.toLocaleLowerCase().trim()
+      const password = SignInRuleForm.signInPassword.trim()
+
+      const { success, message } = authenticationStore.login(email, password)
       if (success) {
         ElMessage({
           message,
