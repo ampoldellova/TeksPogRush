@@ -14,17 +14,7 @@
           Home
         </el-text>
         <el-text
-          @click="router.push('/play')"
-          :style="{
-            fontFamily: 'regular',
-            fontSize: '16px',
-            color: route.path === '/play' ? COLORS.quarternary : 'white',
-            cursor: 'pointer',
-          }"
-        >
-          Play
-        </el-text>
-        <el-text
+          v-if="authenticationStore.isAuthenticated"
           @click="router.push('/shop')"
           :style="{
             fontFamily: 'regular',
