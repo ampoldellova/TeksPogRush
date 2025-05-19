@@ -19,9 +19,26 @@ export const useRegistrationStore = defineStore('registration', {
       const { username, email, contact, password, confirmPassword } = userData
 
       const id = uuidv4()
-      const wallet = 0
+      const wallet = '0'
       this.registeredUsers.push({ id, username, email, contact, password, confirmPassword, wallet })
       localStorage.setItem('registeredUsers', JSON.stringify(this.registeredUsers))
+
+      // Check if the email, contact, or username already exists
+      const isExistingUser = this.registeredUsers.some(
+        (user) =>
+          user.email === email ||
+          user.contact === contact ||
+          user.username.toLowerCase() === username.toLowerCase(),
+      )
+
+      if (isExistingUser) {
+        ElMessage({
+          message: 'User already exists!',
+          grouping: true,
+          type: 'error',
+        })
+        return
+      }
 
       ElMessage({
         message: 'User registered successfully!',
