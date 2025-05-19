@@ -250,6 +250,8 @@ const validatePhoneNumber = (rule: any, value: any, callback: any) => {
 const validateCardNumber = (rule: any, value: any, callback: any) => {
   if (value === '') {
     callback(new Error('Please input card number'))
+  }else if(value.length > 19){
+    callback(new Error('Invalid Card Number'))
   } else {
     callback()
   }
