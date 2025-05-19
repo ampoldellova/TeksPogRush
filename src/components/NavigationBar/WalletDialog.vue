@@ -268,7 +268,9 @@ const validateExpiryDate = (rule: any, value: any, callback: any) => {
 const validateSecurityCode = (rule: any, value: any, callback: any) => {
   if (value === '') {
     callback(new Error('Please input security code'))
-  } else {
+  } else if(value.length < 3 || value.length > 4){
+    callback(new Error('Please input a valid security code'))
+  } {
     callback()
   }
 }
