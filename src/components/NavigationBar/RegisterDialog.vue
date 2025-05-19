@@ -14,6 +14,10 @@
               :prefix-icon="User"
               placeholder="Enter your username"
               input-style="font-family:regular"
+              @blur="cleanInputOnBlur('username')"
+              @input="removeWhitespace('username')"
+              minlength="8"
+              maxlength="20"
             />
           </el-form-item>
         </el-col>
@@ -28,6 +32,7 @@
               :prefix-icon="Message"
               placeholder="Enter your email"
               input-style="font-family:regular"
+              @input="removeWhitespace('email')"
             />
           </el-form-item>
         </el-col>
@@ -42,6 +47,7 @@
               :prefix-icon="Phone"
               placeholder="Enter your contact number"
               input-style="font-family:regular"
+              @input="removeWhitespace('contact')"
             />
           </el-form-item>
         </el-col>
@@ -57,6 +63,8 @@
               type="password"
               placeholder="Enter your password"
               input-style="font-family:regular"
+              @input="removeWhitespace('password')"
+              @blur="cleanInputOnBlur('password')"
               show-password
             />
           </el-form-item>
@@ -73,6 +81,8 @@
               type="password"
               placeholder="Confirm your password"
               input-style="font-family:regular"
+              @input="removeWhitespace('confirmPassword')"
+              @blur="cleanInputOnBlur('confirmPassword')"
               show-password
             />
           </el-form-item>
@@ -138,10 +148,11 @@ const ruleForm = reactive(<userRegistrationStore>{
   contact: '',
   password: '',
   confirmPassword: '',
-  wallet: 0,
+  wallet: '',
 })
 
 const validateUsername = (rule: any, value: any, callback: any) => {
+  console.log('value', value)
   if (value === '') {
     callback(new Error('Please input the username'))
   } else if (value.length < 8) {
@@ -218,6 +229,15 @@ const submitForm = (formEl: FormInstance | undefined) => {
       })
     }
   })
+}
+
+// REMOVE EXCESS WHITESPACE FUNCTION FOR THE INPUT FIELDS
+const removeWhitespace = (field: keyof typeof ruleForm) => {
+  ruleForm[field] = ruleForm[field].replace(/\s{2,}/g, ' ')
+}
+
+const cleanInputOnBlur = (field: keyof typeof ruleForm) => {
+  ruleForm[field] = ruleForm[field].trim()
 }
 
 const backDialogButton = () => {
