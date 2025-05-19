@@ -221,9 +221,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
-      registrationStore.registerUser(ruleForm)
-      formEl.resetFields() //built in reset fields in fromEl
-      emit('openSignInDialog')
+      const success = registrationStore.registerUser(ruleForm)
+
+      if (success) {
+        formEl.resetFields()
+        emit('openSignInDialog')
+      }
     } else {
       ElMessage({
         message: 'Error during form submission!',
