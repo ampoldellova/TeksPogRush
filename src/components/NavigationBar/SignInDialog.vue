@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="signInDialog" width="300" align-center>
+  <el-dialog v-model="signInDialog" width="300" align-center @close="handleDialogClose">
     <div style="display: flex; align-items: center; justify-content: center">
       <el-image :src="logo" fit="cover" style="height: 100px; width: 190px" />
     </div>
@@ -104,7 +104,7 @@ import { COLORS } from '@/assets/theme'
 import { useAuthenticationStore } from '@/stores/userStore'
 import { Lock, Message } from '@element-plus/icons-vue'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
-import { reactive, ref } from 'vue'
+import { reactive, ref, watch } from 'vue'
 import type { loginForm } from '../models/types'
 
 const signInDialog = ref(false)
@@ -121,6 +121,14 @@ const SignInRuleForm = reactive(<loginForm>{
   signInEmail: '',
   signInPassword: '',
 })
+
+const handleDialogClose = () => {
+  if (ruleFormRef.value) {
+    ruleFormRef.value.resetFields()
+  }
+  SignInRuleForm.signInEmail = ''
+  SignInRuleForm.signInPassword = ''
+}
 
 const validateSignInEmail = (rule: any, value: any, callback: any) => {
   if (value === '') {

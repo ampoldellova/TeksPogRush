@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="registerDialog" width="400" align-center>
+  <el-dialog v-model="registerDialog" width="400" align-center @close="handleDialogClose">
     <div style="display: flex; align-items: center; justify-content: center">
       <el-image :src="logo" fit="cover" style="height: 100px; width: 190px" />
     </div>
@@ -231,6 +231,19 @@ const submitForm = (formEl: FormInstance | undefined) => {
       })
     }
   })
+}
+
+const handleDialogClose = () => {
+  if (ruleFormRef.value) {
+    ruleFormRef.value.resetFields()
+  }
+  // Reset the ruleForm properties to their initial values
+  ruleFormRef.value?.resetFields()
+  ruleForm.username = ''
+  ruleForm.email = ''
+  ruleForm.contact = ''
+  ruleForm.password = ''
+  ruleForm.confirmPassword = ''
 }
 
 // REMOVE EXCESS WHITESPACE FUNCTION FOR THE INPUT FIELDS
