@@ -15,6 +15,8 @@
               style="width: 100%"
               placeholder="Enter your email"
               input-style="font-family:regular"
+              @input="removeWhitespace('signInEmail')"
+              @blur="cleanInputOnBlur('signInEmail')"
             />
           </el-form-item>
         </el-col>
@@ -33,6 +35,8 @@
               placeholder="Enter your password"
               input-style="font-family:regular"
               type="password"
+              @input="removeWhitespace('signInPassword')"
+              @blur="cleanInputOnBlur('signInPassword')"
               show-password
             />
           </el-form-item>
@@ -173,6 +177,15 @@ const loginForm = (formEl: FormInstance | undefined) => {
       })
     }
   })
+}
+
+// REMOVE EXCESS WHITESPACE FUNCTION FOR THE INPUT FIELDS
+const removeWhitespace = (field: keyof typeof SignInRuleForm) => {
+  SignInRuleForm[field] = SignInRuleForm[field].replace(/\s{2,}/g, ' ')
+}
+
+const cleanInputOnBlur = (field: keyof typeof SignInRuleForm) => {
+  SignInRuleForm[field] = SignInRuleForm[field].trim()
 }
 
 const registerDialogButton = () => {

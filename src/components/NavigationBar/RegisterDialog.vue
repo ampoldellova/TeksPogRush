@@ -66,6 +66,7 @@
               @input="removeWhitespace('password')"
               @blur="cleanInputOnBlur('password')"
               show-password
+              maxlength="13"
             />
           </el-form-item>
         </el-col>
@@ -84,6 +85,7 @@
               @input="removeWhitespace('confirmPassword')"
               @blur="cleanInputOnBlur('confirmPassword')"
               show-password
+              maxlength="13"
             />
           </el-form-item>
         </el-col>
