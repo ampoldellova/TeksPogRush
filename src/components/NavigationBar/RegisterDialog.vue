@@ -39,13 +39,14 @@
       </el-row>
 
       <el-row>
-        <el-text :style="{ fontFamily: 'bold', color: 'black' }">Contact</el-text>
+        <el-text :style="{ fontFamily: 'bold', color: 'black' }">Mobile Number</el-text>
         <el-col :span="24">
           <el-form-item prop="contact">
             <el-input
               v-model="ruleForm.contact"
               :prefix-icon="Phone"
-              placeholder="Enter your contact number"
+              placeholder="Enter your mobile number"
+              :maxlength="13"
               input-style="font-family:regular"
               @input="removeWhitespace('contact')"
             />
