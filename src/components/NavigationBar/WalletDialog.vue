@@ -258,8 +258,11 @@ const validateCardNumber = (rule: any, value: any, callback: any) => {
 }
 
 const validateExpiryDate = (rule: any, value: any, callback: any) => {
+  const expiryRegex = /^\d+$/
   if (value === '') {
     callback(new Error('Please input expiry date'))
+  }else if(!expiryRegex.test(value)){
+    callback(new Error('Invalid Expiry Date'))
   } else {
     callback()
   }
