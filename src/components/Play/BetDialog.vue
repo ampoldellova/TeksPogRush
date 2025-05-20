@@ -162,7 +162,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue'
 import { motion } from 'motion-v'
-import BetDialog from '@/assets/BetDialog.png'
+import BetDialog from '@/assets/play/BetDialog.png'
 import { COLORS } from '@/assets/theme'
 import clear from '@/assets/chips/clear.png'
 import undo from '@/assets/chips/undo.png'
@@ -172,8 +172,8 @@ import type { chipsTypes } from '../models/types'
 
 const walletStore = useWalletStore()
 const betDialog = ref(false)
-const dialogWidth = ref('500px')
-const dialogHeight = ref('330px')
+const dialogWidth = ref('600px')
+const dialogHeight = ref('430px')
 const dialogLabel = ref('20px')
 const dialogMargin = ref('20px')
 const changeBetChipSize = ref('100px')
