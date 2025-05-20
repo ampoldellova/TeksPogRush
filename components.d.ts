@@ -37,6 +37,8 @@ declare module 'vue' {
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElText: typeof import('element-plus/es')['ElText']
+    ElTooltip: typeof import('element-plus/es')['ElTooltip']
+    ForgotPassword: typeof import('./src/components/NavigationBar/ForgotPassword.vue')['default']
     FriendlyButton: typeof import('./src/components/GameMode/FriendlyButton.vue')['default']
     Hand: typeof import('./src/components/Play/Hand.vue')['default']
     NavBarButton: typeof import('./src/components/NavigationBar/NavBarButton.vue')['default']

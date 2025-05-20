@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="registerDialog" width="400" align-center>
+  <el-dialog v-model="registerDialog" width="400" align-center @close="handleDialogClose">
     <div style="display: flex; align-items: center; justify-content: center">
       <el-image :src="logo" fit="cover" style="height: 100px; width: 190px" />
     </div>
@@ -14,6 +14,10 @@
               :prefix-icon="User"
               placeholder="Enter your username"
               input-style="font-family:regular"
+              @blur="cleanInputOnBlur('username')"
+              @input="removeWhitespace('username')"
+              minlength="8"
+              maxlength="20"
             />
           </el-form-item>
         </el-col>
@@ -28,20 +32,23 @@
               :prefix-icon="Message"
               placeholder="Enter your email"
               input-style="font-family:regular"
+              @input="removeWhitespace('email')"
             />
           </el-form-item>
         </el-col>
       </el-row>
 
       <el-row>
-        <el-text :style="{ fontFamily: 'bold', color: 'black' }">Contact</el-text>
+        <el-text :style="{ fontFamily: 'bold', color: 'black' }">Mobile Number</el-text>
         <el-col :span="24">
           <el-form-item prop="contact">
             <el-input
               v-model="ruleForm.contact"
               :prefix-icon="Phone"
-              placeholder="Enter your contact number"
+              placeholder="Enter your mobile number"
+              :maxlength="13"
               input-style="font-family:regular"
+              @input="removeWhitespace('contact')"
             />
           </el-form-item>
         </el-col>
@@ -57,7 +64,10 @@
               type="password"
               placeholder="Enter your password"
               input-style="font-family:regular"
+              @input="removeWhitespace('password')"
+              @blur="cleanInputOnBlur('password')"
               show-password
+              maxlength="13"
             />
           </el-form-item>
         </el-col>
@@ -73,7 +83,10 @@
               type="password"
               placeholder="Confirm your password"
               input-style="font-family:regular"
+              @input="removeWhitespace('confirmPassword')"
+              @blur="cleanInputOnBlur('confirmPassword')"
               show-password
+              maxlength="13"
             />
           </el-form-item>
         </el-col>
@@ -141,12 +154,16 @@ const ruleForm = reactive(<userRegistrationStore>{
   wallet: 0,
 })
 
-const validateUsername = (rule: any, value: any, callback: any) => {
+type StringFieldsOnly<T> = {
+  [K in keyof T]: T[K] extends string ? K : never
+}[keyof T]
 
-  const username = value.trim()
-  if (username === '') {
+type RuleFormStringFields = StringFieldsOnly<userRegistrationStore>
+
+const validateUsername = (rule: any, value: any, callback: any) => {
+  if (value === '') {
     callback(new Error('Please input the username'))
-  } else if (username.length < 8 ) {
+  } else if (value.length < 8) {
     callback(new Error('Username must be at least 8 characters long'))
   } else {
     callback()
@@ -209,9 +226,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
-      registrationStore.registerUser(ruleForm)
-      formEl.resetFields() //built in reset fields in fromEl
-      emit('openSignInDialog')
+      const success = registrationStore.registerUser(ruleForm)
+
+      if (success) {
+        formEl.resetFields()
+        emit('openSignInDialog')
+      }
     } else {
       ElMessage({
         message: 'Error during form submission!',
@@ -220,6 +240,36 @@ const submitForm = (formEl: FormInstance | undefined) => {
       })
     }
   })
+}
+
+const handleDialogClose = () => {
+  if (ruleFormRef.value) {
+    ruleFormRef.value.resetFields()
+  }
+  // Reset the ruleForm properties to their initial values
+  ruleFormRef.value?.resetFields()
+  ruleForm.username = ''
+  ruleForm.email = ''
+  ruleForm.contact = ''
+  ruleForm.password = ''
+  ruleForm.confirmPassword = ''
+}
+
+// REMOVE EXCESS WHITESPACE FUNCTION FOR THE INPUT FIELDS
+// const removeWhitespace = (field: keyof typeof ruleForm) => {
+//   ruleForm[field] = ruleForm[field].replace(/\s{2,}/g, ' ')
+// }
+
+// const cleanInputOnBlur = (field: keyof typeof ruleForm) => {
+//   ruleForm[field] = ruleForm[field].trim()
+// }
+
+const removeWhitespace = (field: RuleFormStringFields) => {
+  ruleForm[field] = ruleForm[field].replace(/\s{2,}/g, ' ')
+}
+
+const cleanInputOnBlur = (field: RuleFormStringFields) => {
+  ruleForm[field] = ruleForm[field].trim()
 }
 
 const backDialogButton = () => {

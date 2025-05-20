@@ -1,6 +1,5 @@
 import WalletDialog from '@/components/NavigationBar/WalletDialog.vue'
-import { useAuthenticationStore } from '@/stores/userStore'
-import ForgotPasswordPage from '@/views/ForgotPasswordPage.vue'
+
 import FriendlyPlayPage from '@/views/FriendlyPlayPage.vue'
 import GameMode from '@/views/GameMode.vue'
 import HomePage from '@/views/HomePage.vue'
@@ -9,6 +8,7 @@ import ProfilePage from '@/views/ProfilePage.vue'
 import ShopPage from '@/views/ShopPage.vue'
 import { Wallet } from '@element-plus/icons-vue'
 import { createRouter, createWebHistory } from 'vue-router'
+import { useAuthenticationStore } from '@/stores/userStore'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,11 +17,6 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomePage,
-    },
-    {
-      path: '/forgot-password',
-      name: 'forgotPassword',
-      component: ForgotPasswordPage,
     },
     {
       path: '/play',

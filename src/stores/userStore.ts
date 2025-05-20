@@ -4,6 +4,7 @@ import { ElMessage } from 'element-plus'
 
 import { v4 as uuidv4 } from 'uuid'
 import type { userRegistrationStore } from '@/components/models/types'
+import { fa } from 'element-plus/es/locales.mjs'
 
 export const useRegistrationStore = defineStore('registration', {
   state: () => ({
@@ -15,8 +16,25 @@ export const useRegistrationStore = defineStore('registration', {
     getUsers: (state) => state.registeredUsers,
   },
   actions: {
-    registerUser(userData: userRegistrationStore) {
+    registerUser(userData: userRegistrationStore): boolean {
       const { username, email, contact, password, confirmPassword } = userData
+
+      // Check if the email, contact, or username already exists
+      const isExistingUser = this.registeredUsers.some(
+        (user) =>
+          user.email === email ||
+          user.contact === contact ||
+          user.username.toLowerCase() === username.toLowerCase(),
+      )
+
+      if (isExistingUser) {
+        ElMessage({
+          message: 'User already exists!',
+          grouping: true,
+          type: 'error',
+        })
+        return false
+      }
 
       const id = uuidv4()
       const wallet = 0
@@ -28,6 +46,7 @@ export const useRegistrationStore = defineStore('registration', {
         grouping: true,
         type: 'success',
       })
+      return true
     },
     logUserWallets() {
       this.registeredUsers.forEach((user) => {
