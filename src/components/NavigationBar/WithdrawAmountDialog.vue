@@ -21,6 +21,7 @@
     placeholder="Enter amount to withdraw"
     input-style="font-family:regular; font-size:12px"
     v-model="withdrawAmount"
+    type="number"
     />
 
     <!-- {{ withdrawAmount }} -->
