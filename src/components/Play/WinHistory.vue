@@ -74,14 +74,28 @@
             <template #content>
               <div>
                 <div>
-                  <strong>Result: </strong>
-                  <span v-if="Array.isArray(row.result)">
-                    {{ row.result.join(', ') }}
-                  </span>
-                  <span v-else>
-                    {{ row.result }}
-                  </span>
+                  <strong>Result:</strong>
+                  <div style="margin-top: 6px">
+                    <span style="display: block; margin-bottom: 6px">
+                      {{ Array.isArray(row.result) ? row.result.join(', ') : row.result }}
+                    </span>
+                    <div style="display: flex; gap: 8px">
+                      <template v-if="Array.isArray(row.result)">
+                        <img
+                          v-for="(res, index) in row.result"
+                          :key="index"
+                          :src="getPogImage(res)"
+                          :alt="res"
+                          width="40"
+                        />
+                      </template>
+                      <template v-else>
+                        <img :src="getPogImage(row.result)" :alt="row.result" width="40" />
+                      </template>
+                    </div>
+                  </div>
                 </div>
+                <div><strong>Winner: </strong> {{ row.winner }}</div>
                 <div><strong>Total Bet:</strong> {{ row.totalBet }}</div>
                 <div><strong>Date/Time:</strong> {{ row.dateTime }}</div>
                 <div><strong>Total Win:</strong> {{ row.amount }}</div>
@@ -105,16 +119,30 @@
           >
             <template #content>
               <div>
-                <
                 <div>
-                  <strong>Result: </strong>
-                  <span v-if="Array.isArray(row.result)">
-                    {{ row.result.join(', ') }}
-                  </span>
-                  <span v-else>
-                    {{ row.result }}
-                  </span>
+                  <strong>Result:</strong>
+                  <div style="margin-top: 6px">
+                    <span style="display: block; margin-bottom: 6px">
+                      {{ Array.isArray(row.result) ? row.result.join(', ') : row.result }}
+                    </span>
+                    <div style="display: flex; gap: 8px">
+                      <template v-if="Array.isArray(row.result)">
+                        <img
+                          v-for="(res, index) in row.result"
+                          :key="index"
+                          :src="getPogImage(res)"
+                          :alt="res"
+                          width="40"
+                        />
+                      </template>
+                      <template v-else>
+                        <img :src="getPogImage(row.result)" :alt="row.result" width="40" />
+                      </template>
+                    </div>
+                  </div>
                 </div>
+
+                <div><strong>Winner: </strong> {{ row.winner }}</div>
                 <div><strong>Total Bet:</strong> {{ row.totalBet }}</div>
                 <div><strong>Date/Time:</strong> {{ row.dateTime }}</div>
                 <div><strong>Total Win:</strong> {{ row.amount }}</div>
@@ -134,14 +162,28 @@
             <template #content>
               <div>
                 <div>
-                  <strong>Result: </strong>
-                  <span v-if="Array.isArray(row.result)">
-                    {{ row.result.join(', ') }}
-                  </span>
-                  <span v-else>
-                    {{ row.result }}
-                  </span>
+                  <strong>Result:</strong>
+                  <div style="margin-top: 6px">
+                    <span style="display: block; margin-bottom: 6px">
+                      {{ Array.isArray(row.result) ? row.result.join(', ') : row.result }}
+                    </span>
+                    <div style="display: flex; gap: 8px">
+                      <template v-if="Array.isArray(row.result)">
+                        <img
+                          v-for="(res, index) in row.result"
+                          :key="index"
+                          :src="getPogImage(res)"
+                          :alt="res"
+                          width="40"
+                        />
+                      </template>
+                      <template v-else>
+                        <img :src="getPogImage(row.result)" :alt="row.result" width="40" />
+                      </template>
+                    </div>
+                  </div>
                 </div>
+                <div><strong>Winner: </strong> {{ row.winner }}</div>
                 <div><strong>Total Bet:</strong> {{ row.totalBet }}</div>
                 <div><strong>Date/Time:</strong> {{ row.dateTime }}</div>
                 <div><strong>Total Win:</strong> {{ row.amount }}</div>
@@ -169,6 +211,18 @@ const totalBet = Pog1BetDisplay.value + EqualizerBetDisplay.value + Pog2BetDispl
 const dialogVisible = ref(false)
 const winHistoryStore = useWinHistoryStore()
 const windowWidth = ref(window.innerWidth)
+
+const getPogImage = (result: string) => {
+  if (result === 'Pog1') {
+    return new URL('@/assets/pogs/Tikbalang.png', import.meta.url).href
+  } else if (result === 'Equalizer') {
+    return new URL('@/assets/pogs/Jeepney.png', import.meta.url).href
+  } else if (result === 'Pog2') {
+    return new URL('@/assets/pogs/Festival.png', import.meta.url).href
+  } else {
+    return new URL('@/assets/pogs/Tails.png', import.meta.url).href
+  }
+}
 
 // const gameMode = ref(localStorage.getItem('gameMode') || 'arena')
 const gameMode = ref<'arena' | 'friendly'>(
