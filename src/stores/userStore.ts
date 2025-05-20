@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { reactive, ref } from 'vue'
+import router from '@/router'
 import { ElMessage } from 'element-plus'
 
 import { v4 as uuidv4 } from 'uuid'
@@ -75,6 +75,7 @@ export const useAuthenticationStore = defineStore('auth', {
       this.isLoggedIn = false
       this.user = null
       localStorage.removeItem('loginStatus')
+      router.push('/')
       ElMessage({
         message: 'Logged out successfully!',
         grouping: true,

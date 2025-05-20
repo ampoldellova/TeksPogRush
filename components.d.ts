@@ -16,6 +16,7 @@ declare module 'vue' {
     CartDrawer: typeof import('./src/components/NavigationBar/CartDrawer.vue')['default']
     ConfirmationDialog: typeof import('./src/components/Play/ConfirmationDialog.vue')['default']
     Drawer: typeof import('./src/components/NavigationBar/Drawer.vue')['default']
+    DrawerNavItem: typeof import('./src/components/NavigationBar/DrawerNavItem.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCol: typeof import('element-plus/es')['ElCol']
     ElDialog: typeof import('element-plus/es')['ElDialog']

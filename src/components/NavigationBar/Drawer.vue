@@ -28,71 +28,31 @@
         margin-top: 20px;
       "
     >
-      <el-row
-        @click="navigateTo('/')"
-        style="display: flex; justify-content: center; align-items: center; cursor: pointer"
-      >
-        <el-icon :style="{ fontSize: '20px', marginRight: '10px', color: 'white' }">
-          <House />
-        </el-icon>
-        <el-text
-          :style="{ fontFamily: 'regular', color: 'white', fontSize: '16px', marginTop: '2px' }"
-        >
-          Home
-        </el-text>
-      </el-row>
-
-      <el-row
+      <DrawerNavItem label="Home" :icon="House" :onclick="() => navigateTo('/')" />
+      <DrawerNavItem
         v-if="authenticationStore.isAuthenticated"
-        @click="navigateTo('/shop')"
-        style="display: flex; justify-content: center; align-items: center; cursor: pointer"
-      >
-        <el-icon :style="{ fontSize: '20px', marginRight: '10px', color: 'white' }">
-          <TakeawayBox />
-        </el-icon>
-        <el-text :style="{ fontFamily: 'regular', color: 'white', fontSize: '16px' }">
-          Shop
-        </el-text>
-      </el-row>
-
-      <el-row
+        label="Shop"
+        :icon="TakeawayBox"
+        :onclick="() => navigateTo('/shop')"
+      />
+      <DrawerNavItem
         v-if="!authenticationStore.isAuthenticated"
-        @click="emit('loginDialog')"
-        style="display: flex; justify-content: center; align-items: center; cursor: pointer"
-      >
-        <el-icon :style="{ fontSize: '20px', marginRight: '10px', color: 'white' }">
-          <ArrowRight />
-        </el-icon>
-        <el-text :style="{ fontFamily: 'regular', color: 'white', fontSize: '16px' }">
-          Login
-        </el-text>
-      </el-row>
-
-      <el-row
+        label="Login"
+        :icon="ArrowRight"
+        :onclick="() => emit('loginDialog')"
+      />
+      <DrawerNavItem
         v-if="!authenticationStore.isAuthenticated"
-        @click="emit('registerDialog')"
-        style="display: flex; justify-content: center; align-items: center; cursor: pointer"
-      >
-        <el-icon :style="{ fontSize: '20px', marginRight: '10px', color: 'white' }">
-          <Document />
-        </el-icon>
-        <el-text :style="{ fontFamily: 'regular', color: 'white', fontSize: '16px' }">
-          Register
-        </el-text>
-      </el-row>
-
-      <el-row
+        label="Register"
+        :icon="Document"
+        :onclick="() => emit('registerDialog')"
+      />
+      <DrawerNavItem
         v-if="authenticationStore.isAuthenticated"
-        @click="authenticationStore.logout"
-        style="display: flex; justify-content: center; align-items: center; cursor: pointer"
-      >
-        <el-icon :style="{ fontSize: '20px', marginRight: '10px', color: 'white' }">
-          <ArrowLeft />
-        </el-icon>
-        <el-text :style="{ fontFamily: 'regular', color: 'white', fontSize: '16px' }">
-          Logout
-        </el-text>
-      </el-row>
+        label="Logout"
+        :icon="ArrowLeft"
+        :onclick="() => authenticationStore.logout()"
+      />
     </el-row>
   </el-drawer>
 </template>
@@ -112,6 +72,7 @@ import {
 import { onMounted, onUnmounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthenticationStore } from '@/stores/userStore'
+import DrawerNavItem from './DrawerNavItem.vue'
 
 const authenticationStore = useAuthenticationStore()
 const drawer = ref(false)
