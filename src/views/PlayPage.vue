@@ -104,7 +104,7 @@
 </template>
 
 <script setup lang="ts">
-import backgrounds from '@/assets/Background.png'
+import backgrounds from '@/assets/play/background.jpg'
 import Timer from '@/components/Play/Timer.vue'
 import timer0 from '@/assets/Timer/0.png'
 import timer1 from '@/assets/Timer/1.png'
@@ -533,6 +533,7 @@ if (totalBet > 0) {
 
 import { NoBetUndoMessage, NoBetToClearMessage } from '@/components/composables/useGlobalUtils'
 import { Tickets } from '@element-plus/icons-vue'
+import type { he } from 'element-plus/es/locales.mjs'
 const NoBetToUndo = NoBetUndoMessage
 const NoBetToClear = NoBetToClearMessage
 
