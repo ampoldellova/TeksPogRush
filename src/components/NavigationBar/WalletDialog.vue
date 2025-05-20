@@ -82,8 +82,7 @@
                       input-style="font-family:regular; font-size:12px"
                     />
                   </el-form-item>
-                </el-form>
-                <el-button
+                  <el-button
                   @click="submitGcashDetails(ruleFormRef)"
                   :style="{
                     width: '100%',
@@ -97,6 +96,22 @@
                 >
                   CONFIRM
                 </el-button>
+                </el-form>
+                  <el-button
+                  @click="cancelButton"
+                  :style="{
+                    width: '100%',
+                    background: 'linear-gradient(to right, #f2cd5c, #f2921d',
+                    borderWidth: 0,
+                    fontFamily: 'semiBold',
+                    color: 'white',
+                    borderRadius: '10px',
+                    marginTop: '10px',
+                  }"
+                >
+                  CANCEL
+                </el-button>
+                
               </div>
 
               <div v-if="paymentSelected === 'Credit Card'">
@@ -211,11 +226,18 @@ import { reactive, ref } from 'vue'
 import WithdrawAmountDialog from './WithdrawAmountDialog.vue'
 import { type FormInstance, type FormRules } from 'element-plus'
 import { paymentMethods } from '../models/constants'
+import { useRouter } from 'vue-router'
 
 const ruleFormRef = ref<FormInstance>()
 const walletDialog = ref(false)
 const withdrawAmountDialog = ref(false)
 const paymentSelected = ref('GCash')
+const router = useRouter()
+
+const cancelButton = () => {
+  router.push('/')
+}
+
 // const paymentMethods = ref([
 //   {
 //     id: '001',
