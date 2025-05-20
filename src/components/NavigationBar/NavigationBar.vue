@@ -15,6 +15,18 @@
         </el-text>
         <el-text
           v-if="authenticationStore.isAuthenticated"
+          @click="router.push('/profile')"
+          :style="{
+            fontFamily: 'regular',
+            fontSize: '16px',
+            color: route.path === '/profile' ? COLORS.quarternary : 'white',
+            cursor: 'pointer',
+          }"
+        >
+          Profile
+        </el-text>
+        <el-text
+          v-if="authenticationStore.isAuthenticated"
           @click="router.push('/shop')"
           :style="{
             fontFamily: 'regular',

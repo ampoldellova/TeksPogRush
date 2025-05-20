@@ -5,6 +5,7 @@ import FriendlyPlayPage from '@/views/FriendlyPlayPage.vue'
 import GameMode from '@/views/GameMode.vue'
 import HomePage from '@/views/HomePage.vue'
 import PlayPage from '@/views/PlayPage.vue'
+import ProfilePage from '@/views/ProfilePage.vue'
 import ShopPage from '@/views/ShopPage.vue'
 import { Wallet } from '@element-plus/icons-vue'
 import { createRouter, createWebHistory } from 'vue-router'
@@ -47,12 +48,17 @@ const router = createRouter({
       name: 'wallet',
       component: WalletDialog,
     },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: ProfilePage,
+    },
   ],
 })
 
 router.beforeEach((to, from, next) => {
   const authStore = useAuthenticationStore()
-  const protectedRoutes = ['/arena', '/shop', '/wallet']
+  const protectedRoutes = ['/arena', '/shop', '/wallet', '/profile']
 
   if (protectedRoutes.includes(to.path) && !authStore.isAuthenticated) {
     next('/')
