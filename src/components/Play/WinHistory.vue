@@ -95,7 +95,6 @@
                     </div>
                   </div>
                 </div>
-                <div><strong>Winner: </strong> {{ row.winner }}</div>
                 <div><strong>Total Bet:</strong> {{ row.totalBet }}</div>
                 <div><strong>Date/Time:</strong> {{ row.dateTime }}</div>
                 <div><strong>Total Win:</strong> {{ row.amount }}</div>
@@ -142,7 +141,6 @@
                   </div>
                 </div>
 
-                <div><strong>Winner: </strong> {{ row.winner }}</div>
                 <div><strong>Total Bet:</strong> {{ row.totalBet }}</div>
                 <div><strong>Date/Time:</strong> {{ row.dateTime }}</div>
                 <div><strong>Total Win:</strong> {{ row.amount }}</div>
@@ -183,7 +181,7 @@
                     </div>
                   </div>
                 </div>
-                <div><strong>Winner: </strong> {{ row.winner }}</div>
+
                 <div><strong>Total Bet:</strong> {{ row.totalBet }}</div>
                 <div><strong>Date/Time:</strong> {{ row.dateTime }}</div>
                 <div><strong>Total Win:</strong> {{ row.amount }}</div>
