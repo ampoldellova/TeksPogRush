@@ -248,14 +248,17 @@ const validatePhoneNumber = (rule: any, value: any, callback: any) => {
 }
 
 const validateCardNumber = (rule: any, value: any, callback: any) => {
+const cardNumberRegex = /^\d+$/ 
+
   if (value === '') {
     callback(new Error('Please input card number'))
   }else if(value.length > 19){
     callback(new Error('Invalid Card Number'))
-  } else {
-    callback()
+  } else if(!cardNumberRegex.test(value)){
+    callback(new Error('Invalid Card Number'))
+  }callback()
   }
-}
+
 
 const validateExpiryDate = (rule: any, value: any, callback: any) => {
   const expiryRegex = /^\d+$/
