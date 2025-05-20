@@ -36,47 +36,7 @@
         </motion.div>
 
         <el-row>
-          <el-col
-            :xs="24"
-            :sm="24"
-            :md="12"
-            :lg="12"
-            :xl="12"
-            style="display: flex; justify-content: center; align-items: center"
-          >
-            <el-popover
-              class="box-item"
-              title="Battle Arena"
-              content="Battle Arena is a game mode where you can compete for chips. It's a great way to test your skills and earn rewards!"
-              placement="top"
-              width="300"
-            >
-              <template #reference>
-                <motion.button
-                  @click="buttonClick"
-                  :whileHover="{
-                    scale: 1.2,
-                    transition: { duration: 0.3 },
-                  }"
-                  :whilePress="{ scale: 0.9 }"
-                  :style="{
-                    fontFamily: 'bold',
-                    width: '200px',
-                    backgroundColor: '#ffd200',
-                    color: 'black',
-                    borderWidth: 0,
-                    height: '50px',
-                    borderRadius: '15px',
-                    cursor: 'pointer',
-                    boxShadow: '5px 8px 0px 1px rgba(0, 0, 0, 1)',
-                    margin: '20px',
-                  }"
-                >
-                  A R E N A
-                </motion.button>
-              </template>
-            </el-popover>
-          </el-col>
+          <ArenaButton @buttonClick="buttonClick" />
 
           <el-col
             :xs="24"
@@ -141,6 +101,7 @@ import { useRouter } from 'vue-router'
 import { useAuthenticationStore, useRegistrationStore } from '@/stores/userStore'
 import { COLORS } from '@/assets/theme'
 import ConfirmationDialog from '@/components/Play/ConfirmationDialog.vue'
+import ArenaButton from '@/components/GameMode/ArenaButton.vue'
 
 const registrationStore = useRegistrationStore()
 const authenticationStore = useAuthenticationStore()

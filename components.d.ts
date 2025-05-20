@@ -9,6 +9,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     ActivityLog: typeof import('./src/components/Play/ActivityLog.vue')['default']
+    ArenaButton: typeof import('./src/components/GameMode/ArenaButton.vue')['default']
     BetButton: typeof import('./src/components/Play/BetButton.vue')['default']
     BetDialog: typeof import('./src/components/Play/BetDialog.vue')['default']
     BetPogButton: typeof import('./src/components/Play/BetPogButton.vue')['default']
