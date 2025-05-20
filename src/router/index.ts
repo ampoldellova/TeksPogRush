@@ -7,6 +7,7 @@ import PlayPage from '@/views/PlayPage.vue'
 import ShopPage from '@/views/ShopPage.vue'
 import { Wallet } from '@element-plus/icons-vue'
 import { createRouter, createWebHistory } from 'vue-router'
+import { useAuthenticationStore } from '@/stores/userStore'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -42,6 +43,17 @@ const router = createRouter({
       component: WalletDialog,
     },
   ],
+})
+
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthenticationStore()
+  const protectedRoutes = ['/arena', '/shop', '/wallet']
+
+  if (protectedRoutes.includes(to.path) && !authStore.isAuthenticated) {
+    next('/')
+  } else {
+    next()
+  }
 })
 
 export default router

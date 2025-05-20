@@ -4,19 +4,24 @@
       <el-col :span="8" class="responsive-button-left">
         <el-text
           @click="router.push('/')"
-          :style="{ fontFamily: 'regular', fontSize: '16px', color: 'white', cursor: 'pointer' }"
+          :style="{
+            fontFamily: 'regular',
+            fontSize: '16px',
+            color: route.path === '/' ? COLORS.quarternary : 'white',
+            cursor: 'pointer',
+          }"
         >
           Home
         </el-text>
         <el-text
-          @click="router.push('/play')"
-          :style="{ fontFamily: 'regular', fontSize: '16px', color: 'white', cursor: 'pointer' }"
-        >
-          Play
-        </el-text>
-        <el-text
-          @click="router.push('/Shop')"
-          :style="{ fontFamily: 'regular', fontSize: '16px', color: 'white', cursor: 'pointer' }"
+          v-if="authenticationStore.isAuthenticated"
+          @click="router.push('/shop')"
+          :style="{
+            fontFamily: 'regular',
+            fontSize: '16px',
+            color: route.path === '/shop' ? COLORS.quarternary : 'white',
+            cursor: 'pointer',
+          }"
         >
           Shop
         </el-text>
@@ -62,7 +67,7 @@
 
         <el-text
           v-if="authenticationStore.isAuthenticated"
-          @click="logoutConfirmDialog = true"
+          @click="authenticationStore.logout"
           class="logout-button"
         >
           Logout
@@ -115,11 +120,13 @@ import currency from '@/assets/currency.png'
 import logo from '@/assets/TeksPogRush-Logo-small.png'
 import { Menu, ShoppingCart } from '@element-plus/icons-vue'
 import { onMounted, ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useAuthenticationStore } from '@/stores/userStore'
 import { useRegistrationStore } from '@/stores/userStore'
+import { COLORS } from '@/assets/theme'
 
 const router = useRouter()
+const route = useRoute()
 const drawer = ref(false)
 const fromLogin = ref(false)
 const signInDialog = ref(false)
@@ -131,6 +138,11 @@ const registrationStore = useRegistrationStore()
 
 const openWalletDialog = () => {
   router.push('/wallet')
+}
+
+const logout = () => {
+  authenticationStore.logout()
+  router.push('/')
 }
 
 const userWalletBalance = computed(() => {

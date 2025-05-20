@@ -38,12 +38,13 @@
   </div>
 
   <el-col :span="8" class="responsive-menu" v-if="windowWidth <= 980">
+    <!-- <el-icon><Tickets /></el-icon> -->
     <el-button
       plain
       @click="dialogVisible = true"
       size="large"
       color="#A61F69"
-      :icon="Menu"
+      :icon="Tickets"
       circle
     />
   </el-col>
@@ -72,18 +73,7 @@
     </div>
   </el-dialog>
 
-  <!-- <div class="wallet-balance">
-        <p>Wallet Balance: ₱{{ walletStore.userWalletBalance }} </p>
-
-        <p v-if="Pog1BetDisplay">POG1: ₱{{ Pog1BetDisplay }} </p>
-        <p v-if="EqualizerBetDisplay">EQUALIZER: ₱{{ EqualizerBetDisplay }} </p>
-        <p v-if="Pog2BetDisplay">POG2: ₱{{ Pog2BetDisplay }} </p>
-<hr>
-        <p>Total Bet: ₱{{ Pog1BetDisplay + EqualizerBetDisplay + Pog2BetDisplay }} </p>
-      </div> -->
-
-  <!-- <ActivityLog/> -->
-  <winHistory />
+  <WinHistory />
 
   <BetDialog
     v-model="betDialog"
@@ -155,7 +145,7 @@ import WinnerDialog from '@/components/Play/WinnerDialog.vue'
 import pog1Win from '@/assets/play/pog1Win.png'
 import pog2Win from '@/assets/play/pog2Win.png'
 import equalizerWin from '@/assets/play/equalizerWin.png'
-import { reactive, ref, onMounted, watch, onBeforeUnmount, onUnmounted } from 'vue'
+import { reactive, ref, onMounted, watch, onUnmounted, onBeforeUnmount } from 'vue'
 import { ElMessage, type ButtonInstance } from 'element-plus'
 import { useRouter } from 'vue-router'
 import { Menu } from '@element-plus/icons-vue'
@@ -171,6 +161,7 @@ import type { chipsTypes } from '@/components/models/types'
 import { useWinHistoryStore } from '../stores/winHistoryStore'
 import WinHistory from '@/components/Play/WinHistory.vue'
 import { MaxBetMessage } from '@/components/composables/useGlobalUtils'
+// import { Menu } from 'element-plus/icons'
 
 const userStore = useAuthenticationStore()
 const walletStore = useWalletStore()
@@ -540,6 +531,7 @@ if (totalBet > 0) {
 }
 
 import { NoBetUndoMessage, NoBetToClearMessage } from '@/components/composables/useGlobalUtils'
+import { Tickets } from '@element-plus/icons-vue'
 const NoBetToUndo = NoBetUndoMessage
 const NoBetToClear = NoBetToClearMessage
 
@@ -605,7 +597,7 @@ const startTimer = () => {
   intervals.value.push(timerInterval)
 }
 
-const multiplierValues = [1, 2, 3, 4, 5, 15, 25, 35, 100, 700, 1000]
+// const multiplierValues = [1, 2, 3, 4, 5]
 
 const pog1Multiplier = ref(1)
 const equalizerMultiplier = ref(1)
@@ -613,20 +605,20 @@ const pog2Multiplier = ref(1)
 
 const resetMultipliers = () => {
   const randomIndex = Math.floor(Math.random() * 3)
-  const selectedMultiplier = multiplierValues[Math.floor(Math.random() * multiplierValues.length)]
+  // const selectedMultiplier = multiplierValues[Math.floor(Math.random() * multiplierValues.length)]
 
   if (randomIndex === 0) {
-    pog1Multiplier.value = selectedMultiplier
+    // pog1Multiplier.value = selectedMultiplier
     equalizerMultiplier.value = 1
     pog2Multiplier.value = 1
   } else if (randomIndex === 1) {
     pog1Multiplier.value = 1
-    equalizerMultiplier.value = selectedMultiplier
+    // equalizerMultiplier.value = selectedMultiplier
     pog2Multiplier.value = 1
   } else {
     pog1Multiplier.value = 1
     equalizerMultiplier.value = 1
-    pog2Multiplier.value = selectedMultiplier
+    // pog2Multiplier.value = selectedMultiplier
   }
 }
 
@@ -754,6 +746,12 @@ onMounted(() => {
   startTimer()
 })
 
+onUnmounted(() => {
+  timeouts.value.forEach(clearTimeout)
+  intervals.value.forEach(clearInterval)
+  console.log('Game stopped when leaving page.')
+})
+
 const dialogVisible = ref(false)
 
 const windowWidth = ref(window.innerWidth)
@@ -768,12 +766,6 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   window.removeEventListener('resize', updateWindowWidth)
-})
-
-onUnmounted(() => {
-  timeouts.value.forEach(clearTimeout)
-  intervals.value.forEach(clearInterval)
-  console.log('Game stopped when leaving page.')
 })
 </script>
 
@@ -794,6 +786,21 @@ onUnmounted(() => {
   z-index: 2000;
 }
 
+.wallet-balance2 {
+  margin: auto;
+  max-width: 260px;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  border: 2px solid white;
+  border-radius: 10px;
+  padding: 16px 20px;
+  line-height: 1.5;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 100;
+  text-align: center;
+}
+
 .wallet-balance p {
   margin: 4px 0;
 }
@@ -803,6 +810,21 @@ onUnmounted(() => {
   border: 0;
   height: 1px;
   background: #ffffff40;
+}
+
+.responsive-menu {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+@media (max-width: 980px) {
+  .responsive-menu {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
 }
 
 .wallet-balance2 {
