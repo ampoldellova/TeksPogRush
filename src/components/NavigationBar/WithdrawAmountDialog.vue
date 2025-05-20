@@ -21,7 +21,10 @@
     placeholder="Enter amount to withdraw"
     input-style="font-family:regular; font-size:12px"
     v-model="withdrawAmount"
+    type="number"
     />
+
+    <!-- {{ withdrawAmount }} -->
     
     <el-button
     :style="{
@@ -48,15 +51,18 @@ import currency from '@/assets/currency.png'
 import { useAuthenticationStore } from '@/stores/userStore'
 import { useRegistrationStore } from '@/stores/userStore'
 import { useMoneyTransactionsStore } from '@/stores/moneyTransaction'
-import { ElMessage, type FormInstance } from 'element-plus'
+import { ElMessage, type Action, type FormInstance, ElMessageBox} from 'element-plus'
+// import { ElMessageBox } from 'element-plus/lib/components/index.js'
 
 const registrationStore = useRegistrationStore()
 const authenticationStore = useAuthenticationStore()
 const withdrawAmount = ref()
 const payment = useMoneyTransactionsStore()
 
+
+
 const emits = defineEmits(['closeDialog'])
-const withdraw = (formEl: FormInstance | undefined) => {
+const withdraw = async (formEl: FormInstance | undefined) => {
   if (!withdrawAmount.value || withdrawAmount.value <= 0) {
     // alert('Please enter a valid withdrawal amount.');
     ElMessage({
@@ -90,15 +96,31 @@ const withdraw = (formEl: FormInstance | undefined) => {
     return
   }
 
-  payment.withdraw(withdrawAmount.value, chips)
-  ElMessage({
-    message: 'Withdrawal successful.',
-    type: 'success',
-    grouping: true,
+  try{
+    await ElMessageBox.confirm(
+      `You are going to withdraw ₱${withdrawAmount.value}`,
+      'Gcash',
+      {
+        distinguishCancelAndClose: true,
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel'
+      } 
+    )
 
-  })
-  formEl?.resetFields()
+      payment.withdraw(withdrawAmount.value, chips)
+        ElMessage({
+          type: 'success',
+          message: 'Transaction Completed'
+        })
+        
+  } catch {
+    ElMessage({
+      type:'error',
+      message: 'Transaction Cacelled'
+    })
+  }
   emits('closeDialog')
+  formEl?.resetFields
 
 }
 
