@@ -1,5 +1,5 @@
 import WalletDialog from '@/components/NavigationBar/WalletDialog.vue'
-import ForgotPasswordPage from '@/views/ForgotPasswordPage.vue'
+
 import FriendlyPlayPage from '@/views/FriendlyPlayPage.vue'
 import GameMode from '@/views/GameMode.vue'
 import HomePage from '@/views/HomePage.vue'
@@ -15,11 +15,6 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomePage,
-    },
-    {
-      path: '/forgot-password',
-      name: 'forgotPassword',
-      component: ForgotPasswordPage,
     },
     {
       path: '/play',
@@ -44,8 +39,8 @@ const router = createRouter({
     {
       path: '/wallet',
       name: 'wallet',
-      component: WalletDialog
-    }
+      component: WalletDialog,
+    },
   ],
 })
 

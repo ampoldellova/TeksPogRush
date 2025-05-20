@@ -89,9 +89,9 @@
   <SignInDialog
     v-model="signInDialog"
     @registerDialogButton="registerDialogButton"
-    @resetPasswordDialogButton="resetPasswordDialogButton"
     @closeSignInDialog="closeSignInDialog"
     @closeDrawer="drawer = false"
+    @openForgotPassDialog="openForgotPassDialog"
   />
 
   <RegisterDialog
@@ -99,6 +99,14 @@
     :fromLogin="fromLogin"
     @backDialogButton="backDialogButton"
     @openSignInDialog="openSignInDialog"
+  />
+
+  <ForgotPassword
+    v-model="forgotPassDialog"
+    :fromLogin="fromLogin"
+    @backDialogButton="backDialogButton"
+    @closeForgotPassDialog="forgotPassDialog = false"
+    @openRegisterDialog="openRegisterDialog"
   />
 </template>
 
@@ -116,6 +124,8 @@ const drawer = ref(false)
 const fromLogin = ref(false)
 const signInDialog = ref(false)
 const registerDialog = ref(false)
+const forgotPassDialog = ref(false)
+
 const authenticationStore = useAuthenticationStore()
 const registrationStore = useRegistrationStore()
 
@@ -151,14 +161,16 @@ const registerDialogButton = () => {
   registerDialog.value = true
 }
 
-const resetPasswordDialogButton = () => {
-  signInDialog.value = false
-  router.push('/forgot-password')
-}
-
 const backDialogButton = () => {
   registerDialog.value = false
   signInDialog.value = true
+  forgotPassDialog.value = false
+}
+
+const openForgotPassDialog = () => {
+  forgotPassDialog.value = true
+  signInDialog.value = false
+  fromLogin.value = true
 }
 
 const logoutConfirmDialog = ref(false)

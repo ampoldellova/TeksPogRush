@@ -80,7 +80,7 @@
 
       <el-col :span="12">
         <el-button
-          @click="resetPasswordDialogButton"
+          @click="forgotPassDialogButton"
           width="100%"
           :style="{
             fontFamily: 'regular',
@@ -112,9 +112,9 @@ const authenticationStore = useAuthenticationStore()
 const ruleFormRef = ref<FormInstance>()
 const emit = defineEmits([
   'registerDialogButton',
-  'resetPasswordDialogButton',
   'closeSignInDialog',
   'closeDrawer',
+  'openForgotPassDialog',
 ])
 
 const SignInRuleForm = reactive(<loginForm>{
@@ -196,12 +196,11 @@ const cleanInputOnBlur = (field: keyof typeof SignInRuleForm) => {
   SignInRuleForm[field] = SignInRuleForm[field].trim()
 }
 
+const forgotPassDialogButton = () => {
+  emit('openForgotPassDialog')
+}
 const registerDialogButton = () => {
   emit('registerDialogButton')
-}
-
-const resetPasswordDialogButton = () => {
-  emit('resetPasswordDialogButton')
 }
 </script>
 
