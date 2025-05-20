@@ -161,7 +161,6 @@ type StringFieldsOnly<T> = {
 type RuleFormStringFields = StringFieldsOnly<userRegistrationStore>
 
 const validateUsername = (rule: any, value: any, callback: any) => {
-  console.log('value', value)
   if (value === '') {
     callback(new Error('Please input the username'))
   } else if (value.length < 8) {

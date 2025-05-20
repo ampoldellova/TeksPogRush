@@ -248,25 +248,38 @@ const validatePhoneNumber = (rule: any, value: any, callback: any) => {
 }
 
 const validateCardNumber = (rule: any, value: any, callback: any) => {
+const cardNumberRegex = /^\d+$/ 
+
   if (value === '') {
     callback(new Error('Please input card number'))
-  } else {
-    callback()
+  }else if(value.length > 19){
+    callback(new Error('Invalid Card Number'))
+  } else if(!cardNumberRegex.test(value)){
+    callback(new Error('Invalid Card Number'))
+  }callback()
   }
-}
+
 
 const validateExpiryDate = (rule: any, value: any, callback: any) => {
+  const expiryRegex = /^\d+$/
   if (value === '') {
     callback(new Error('Please input expiry date'))
+  }else if(!expiryRegex.test(value)){
+    callback(new Error('Invalid Expiry Date'))
   } else {
     callback()
   }
 }
 
 const validateSecurityCode = (rule: any, value: any, callback: any) => {
+  const securityCodeRegex= /^\d+$/
   if (value === '') {
     callback(new Error('Please input security code'))
-  } else {
+  } else if(value.length < 3 || value.length > 4){
+    callback(new Error('Please input a valid security code'))
+  } else if(!securityCodeRegex.test(value)){
+    callback(new Error('Invalid Security Code'))
+  }else{
     callback()
   }
 }
