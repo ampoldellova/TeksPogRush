@@ -43,18 +43,7 @@
       </el-row>
 
       <el-row
-        @click="navigateTo('/mode')"
-        style="display: flex; justify-content: center; align-items: center; cursor: pointer"
-      >
-        <el-icon :style="{ fontSize: '20px', marginRight: '10px', color: 'white' }">
-          <SwitchFilled />
-        </el-icon>
-        <el-text :style="{ fontFamily: 'regular', color: 'white', fontSize: '16px' }">
-          Play
-        </el-text>
-      </el-row>
-
-      <el-row
+        v-if="authenticationStore.isAuthenticated"
         @click="navigateTo('/shop')"
         style="display: flex; justify-content: center; align-items: center; cursor: pointer"
       >
