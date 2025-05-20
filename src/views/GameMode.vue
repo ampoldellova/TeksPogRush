@@ -36,49 +36,8 @@
         </motion.div>
 
         <el-row>
-          <ArenaButton @buttonClick="buttonClick" />
-
-          <el-col
-            :xs="24"
-            :sm="24"
-            :md="12"
-            :lg="12"
-            :xl="12"
-            style="display: flex; justify-content: center; align-items: center"
-          >
-            <el-popover
-              class="box-item"
-              title="Friendly Arena"
-              content="Friendly Arena is a fun and casual game mode where you can play without the pressure of losing chips. It's a great way to practice and enjoy the game!"
-              placement="top"
-              width="300"
-            >
-              <template #reference>
-                <motion.button
-                  @click="friendlyButtonClick"
-                  :whileHover="{
-                    scale: 1.2,
-                    transition: { duration: 0.3 },
-                  }"
-                  :whilePress="{ scale: 0.9 }"
-                  :style="{
-                    fontFamily: 'bold',
-                    width: '200px',
-                    backgroundColor: '#ffd200',
-                    color: 'black',
-                    borderWidth: 0,
-                    height: '50px',
-                    borderRadius: '15px',
-                    cursor: 'pointer',
-                    boxShadow: '5px 8px 0px 1px rgba(0, 0, 0, 1)',
-                    margin: '20px',
-                  }"
-                >
-                  F R I E N D L Y
-                </motion.button>
-              </template>
-            </el-popover>
-          </el-col>
+          <ArenaButton @buttonClick="arenaButtonClick" />
+          <FriendlyButton @buttonClick="friendlyButtonClick" />
         </el-row>
       </div>
     </div>
@@ -102,6 +61,7 @@ import { useAuthenticationStore, useRegistrationStore } from '@/stores/userStore
 import { COLORS } from '@/assets/theme'
 import ConfirmationDialog from '@/components/Play/ConfirmationDialog.vue'
 import ArenaButton from '@/components/GameMode/ArenaButton.vue'
+import FriendlyButton from '@/components/GameMode/FriendlyButton.vue'
 
 const registrationStore = useRegistrationStore()
 const authenticationStore = useAuthenticationStore()
@@ -116,7 +76,7 @@ const userWalletBalance = computed(() => {
   return user ? user.wallet : 0
 })
 
-const buttonClick = () => {
+const arenaButtonClick = () => {
   gameMode.value = 'arena'
   localStorage.setItem('gameMode', 'arena')
 
