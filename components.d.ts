@@ -9,12 +9,14 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     ActivityLog: typeof import('./src/components/Play/ActivityLog.vue')['default']
+    ArenaButton: typeof import('./src/components/GameMode/ArenaButton.vue')['default']
     BetButton: typeof import('./src/components/Play/BetButton.vue')['default']
     BetDialog: typeof import('./src/components/Play/BetDialog.vue')['default']
     BetPogButton: typeof import('./src/components/Play/BetPogButton.vue')['default']
     CartDrawer: typeof import('./src/components/NavigationBar/CartDrawer.vue')['default']
     ConfirmationDialog: typeof import('./src/components/Play/ConfirmationDialog.vue')['default']
     Drawer: typeof import('./src/components/NavigationBar/Drawer.vue')['default']
+    DrawerNavItem: typeof import('./src/components/NavigationBar/DrawerNavItem.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCol: typeof import('element-plus/es')['ElCol']
     ElDialog: typeof import('element-plus/es')['ElDialog']
@@ -32,6 +34,7 @@ declare module 'vue' {
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElText: typeof import('element-plus/es')['ElText']
+    FriendlyButton: typeof import('./src/components/GameMode/FriendlyButton.vue')['default']
     Hand: typeof import('./src/components/Play/Hand.vue')['default']
     NavBarButton: typeof import('./src/components/NavigationBar/NavBarButton.vue')['default']
     NavigationBar: typeof import('./src/components/NavigationBar/NavigationBar.vue')['default']

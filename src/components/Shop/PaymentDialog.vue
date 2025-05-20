@@ -49,7 +49,15 @@
         Amount Due: Php. {{ props.chip.price * quantity }}.00
       </el-text>
 
-      <el-input-number v-model="quantity" :min="1" :max="10" @change="handleChange" />
+      <el-input-number
+        v-model="quantity"
+        :min="1"
+        :max="10"
+        :step="1"
+        :precision="0"
+        @change="handleChange"
+        @input="sanitizeQuantityInput"
+      />
     </div>
 
     <el-divider :style="{ margin: 0, marginBottom: '10px' }" />
@@ -246,6 +254,14 @@ const cardDetailsRules = reactive<FormRules<typeof creditCardRuleForm>>({
   securityCode: [{ validator: validateSecurityCode, trigger: 'change' }],
   expiryDate: [{ validator: validateExpiryDate, trigger: 'change' }],
 })
+
+function sanitizeQuantityInput(value: number | string) {
+  if (typeof value === 'string') {
+    // Remove any non-digit characters
+    const sanitized = value.replace(/[^\d]/g, '')
+    quantity.value = sanitized ? Number(sanitized) : 1
+  }
+}
 
 const submitGcashDetails = (formEl: FormInstance | undefined) => {
   if (!formEl) return

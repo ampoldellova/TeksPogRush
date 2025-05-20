@@ -1,4 +1,5 @@
 import WalletDialog from '@/components/NavigationBar/WalletDialog.vue'
+import { useAuthenticationStore } from '@/stores/userStore'
 import ForgotPasswordPage from '@/views/ForgotPasswordPage.vue'
 import FriendlyPlayPage from '@/views/FriendlyPlayPage.vue'
 import GameMode from '@/views/GameMode.vue'
@@ -47,6 +48,17 @@ const router = createRouter({
       component: WalletDialog,
     },
   ],
+})
+
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthenticationStore()
+  const protectedRoutes = ['/arena', '/shop', '/wallet']
+
+  if (protectedRoutes.includes(to.path) && !authStore.isAuthenticated) {
+    next('/')
+  } else {
+    next()
+  }
 })
 
 export default router
