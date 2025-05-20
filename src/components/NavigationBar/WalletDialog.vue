@@ -201,6 +201,20 @@
                         CONFIRM
                       </el-button>
                     </el-col>
+                     <el-button
+                  @click="cancelButton"
+                  :style="{
+                    width: '100%',
+                    background: 'linear-gradient(to right, #f2cd5c, #f2921d',
+                    borderWidth: 0,
+                    fontFamily: 'semiBold',
+                    color: 'white',
+                    borderRadius: '10px',
+                    marginTop: '10px',
+                  }"
+                >
+                  CANCEL
+                </el-button>
                   </el-row>
                 </el-form>
               </div>
