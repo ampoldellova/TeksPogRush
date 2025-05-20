@@ -85,6 +85,11 @@ export interface Bet {
 export interface pogWin {
   round?: number
   winner?: string
+  total?: number
+  totalBet?: number
+  result?: string
+  dateTime?: string
+  amount?: number
 }
 
 export interface TokenWallet {

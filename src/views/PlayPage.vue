@@ -150,6 +150,9 @@ import { ElMessage, type ButtonInstance } from 'element-plus'
 import { useRouter } from 'vue-router'
 import { Menu } from '@element-plus/icons-vue'
 
+import { NoBetUndoMessage, NoBetToClearMessage } from '@/components/composables/useGlobalUtils'
+import { Tickets } from '@element-plus/icons-vue'
+
 import { useWalletStore } from '@/stores/walletStore'
 import { useAuthenticationStore } from '@/stores/userStore'
 import clickSound from '@/assets/sounds/click.wav'
@@ -530,8 +533,6 @@ if (totalBet > 0) {
   textImageDisplay.value = 'none'
 }
 
-import { NoBetUndoMessage, NoBetToClearMessage } from '@/components/composables/useGlobalUtils'
-import { Tickets } from '@element-plus/icons-vue'
 const NoBetToUndo = NoBetUndoMessage
 const NoBetToClear = NoBetToClearMessage
 
@@ -662,6 +663,13 @@ const flipCoin = () => {
       }
 
       const timeOut3 = setTimeout(() => {
+        const totalBet = Pog1BetDisplay.value + EqualizerBetDisplay.value + Pog2BetDisplay.value
+        const dateTime = new Date().toLocaleString()
+        const resultArr = [
+          `Pog1: ${pog1.value}`,
+          `Equalizer: ${equalizer.value}`,
+          `Pog2: ${pog2.value}`,
+        ]
         if (pog1.value !== pog2.value && pog1.value !== equalizer.value) {
           const winnings =
             pog1Multiplier.value === 1
@@ -675,6 +683,10 @@ const flipCoin = () => {
           winHistoryStore.addWin('arena', {
             round: winHistoryStore.getHistory('arena').length + 1,
             winner: 'Pog1',
+            result: resultArr.join(', '),
+            totalBet: totalBet,
+            dateTime: dateTime,
+            amount: winnings,
           })
           console.log('Pog1 wins')
         } else if (equalizer.value !== pog1.value && equalizer.value !== pog2.value) {
@@ -690,6 +702,10 @@ const flipCoin = () => {
           winHistoryStore.addWin('arena', {
             round: winHistoryStore.getHistory('arena').length + 1,
             winner: 'Equalizer',
+            result: resultArr.join(', '),
+            totalBet: totalBet,
+            dateTime: dateTime,
+            amount: winnings,
           })
           console.log('Equalizer wins')
         } else if (pog2.value !== pog1.value && pog2.value !== equalizer.value) {
@@ -705,6 +721,10 @@ const flipCoin = () => {
           winHistoryStore.addWin('arena', {
             round: winHistoryStore.getHistory('arena').length + 1,
             winner: 'Pog2',
+            result: resultArr.join(', '),
+            totalBet: totalBet,
+            dateTime: dateTime,
+            amount: winnings,
           })
           console.log('Pog2 wins')
         } else {
@@ -716,7 +736,9 @@ const flipCoin = () => {
           textImageDisplay.value = 'none'
           winHistoryStore.addWin('arena', {
             round: winHistoryStore.getHistory('arena').length + 1,
-            winner: 'Draw',
+            result: resultArr.join(', '),
+            totalBet: totalBet,
+            dateTime: dateTime,
           })
           console.log('Draw')
         }

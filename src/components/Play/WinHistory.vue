@@ -6,7 +6,7 @@
 
   <el-dialog
     v-model="dialogVisible"
-    width="400"
+    width="500"
     class="winHistory"
     v-if="windowWidth <= 600"
     style="max-height: 500px"
@@ -54,44 +54,101 @@
     </el-table>
   </el-dialog>
 
-  <div v-if="windowWidth > 600" class="winHistory">
-    <h2>Match History</h2>
-    <el-table
-      :data="winHistoryStore.getHistory(gameMode)"
-      style="width: 100%; padding: 12px; height: 330px"
-    >
-      <el-table-column label="Round" width="42">
+  <div v-if="windowWidth > 600" class="winHistory-container">
+    <el-text class="match-history-label">MATCH HISTORY</el-text>
+    <el-table :data="winHistoryStore.getHistory(gameMode)" class="winHistory-table">
+      <el-table-column label="Round" width="80">
         <template #header>
-          <span>Round</span>
+          <el-text style="font-size: 20px; font-weight: bold">Round</el-text>
         </template>
         <template #default="{ row }">
           <span>{{ row.round }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Pog1" width="70">
+      <el-table-column label="Pog1" width="100">
         <template #header>
-          <img src="@/assets/pogs/Tikbalang.png" width="50" />
+          <img src="@/assets/pogs/Tikbalang.png" width="80" />
         </template>
         <template #default="{ row }">
-          <span v-if="row.winner === 'Pog1'" class="win-indicator"></span>
+          <el-tooltip v-if="row.winner === 'Pog1'" effect="dark" placement="top" trigger="click">
+            <template #content>
+              <div>
+                <div>
+                  <strong>Result: </strong>
+                  <span v-if="Array.isArray(row.result)">
+                    {{ row.result.join(', ') }}
+                  </span>
+                  <span v-else>
+                    {{ row.result }}
+                  </span>
+                </div>
+                <div><strong>Total Bet:</strong> {{ row.totalBet }}</div>
+                <div><strong>Date/Time:</strong> {{ row.dateTime }}</div>
+                <div><strong>Total Win:</strong> {{ row.amount }}</div>
+              </div>
+            </template>
+            <span class="win-indicator" style="cursor: pointer"></span>
+          </el-tooltip>
         </template>
       </el-table-column>
 
-      <el-table-column label="Equalizer" width="70">
+      <el-table-column label="Equalizer" width="120">
         <template #header>
-          <img src="@/assets/pogs/Jeepney.png" alt="Equalizer" width="50" />
+          <img src="@/assets/pogs/Jeepney.png" alt="Equalizer" width="80" />
         </template>
         <template #default="{ row }">
-          <span v-if="row.winner === 'Equalizer'" class="win-indicator"></span>
+          <el-tooltip
+            v-if="row.winner === 'Equalizer'"
+            effect="dark"
+            placement="top"
+            trigger="click"
+          >
+            <template #content>
+              <div>
+                <
+                <div>
+                  <strong>Result: </strong>
+                  <span v-if="Array.isArray(row.result)">
+                    {{ row.result.join(', ') }}
+                  </span>
+                  <span v-else>
+                    {{ row.result }}
+                  </span>
+                </div>
+                <div><strong>Total Bet:</strong> {{ row.totalBet }}</div>
+                <div><strong>Date/Time:</strong> {{ row.dateTime }}</div>
+                <div><strong>Total Win:</strong> {{ row.amount }}</div>
+              </div>
+            </template>
+            <span class="win-indicator" style="cursor: pointer"></span>
+          </el-tooltip>
         </template>
       </el-table-column>
 
-      <el-table-column label="Pog2" width="70">
+      <el-table-column label="Pog2" width="120">
         <template #header>
-          <img src="@/assets/pogs/Festival.png" alt="Pog2" width="50" />
+          <img src="@/assets/pogs/Festival.png" alt="Pog2" width="80" />
         </template>
         <template #default="{ row }">
-          <span v-if="row.winner === 'Pog2'" class="win-indicator"></span>
+          <el-tooltip v-if="row.winner === 'Pog2'" effect="dark" placement="top" trigger="click">
+            <template #content>
+              <div>
+                <div>
+                  <strong>Result: </strong>
+                  <span v-if="Array.isArray(row.result)">
+                    {{ row.result.join(', ') }}
+                  </span>
+                  <span v-else>
+                    {{ row.result }}
+                  </span>
+                </div>
+                <div><strong>Total Bet:</strong> {{ row.totalBet }}</div>
+                <div><strong>Date/Time:</strong> {{ row.dateTime }}</div>
+                <div><strong>Total Win:</strong> {{ row.amount }}</div>
+              </div>
+            </template>
+            <span class="win-indicator" style="cursor: pointer"></span>
+          </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
@@ -102,6 +159,12 @@
 import { useWinHistoryStore } from '@/stores/winHistoryStore'
 import { ref, onMounted, onUnmounted } from 'vue'
 import { Menu } from '@element-plus/icons-vue'
+
+const Pog1BetDisplay = ref(0)
+const EqualizerBetDisplay = ref(0)
+const Pog2BetDisplay = ref(0)
+
+const totalBet = Pog1BetDisplay.value + EqualizerBetDisplay.value + Pog2BetDisplay.value
 
 const dialogVisible = ref(false)
 const winHistoryStore = useWinHistoryStore()
@@ -126,20 +189,36 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.winHistory {
+.winHistory-container {
   position: absolute;
   bottom: 10px;
   right: 0;
   height: 400px;
-  width: 320px;
-  color: white;
-  font-size: 20px;
-  font-weight: bold;
+  width: 470px;
   border: 2px solid white;
   border-radius: 15px;
-  padding: 10px;
   background-color: rgba(122, 129, 129, 0.6);
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 40px;
+  z-index: 10;
+}
+
+.match-history-label {
+  position: absolute;
+  top: 10px;
+  font-family: bold;
+  color: white;
+  font-size: 20px;
+  z-index: 20;
+}
+
+.winHistory-table {
+  width: 450px;
+  height: 350px;
+  padding: 12px;
+  z-index: 5;
 }
 
 .el-table {
@@ -149,22 +228,20 @@ onUnmounted(() => {
 }
 
 .win-indicator {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 15px;
   height: 15px;
   background-color: red;
   border-radius: 50%;
-  margin-left: 18px;
+  margin: 0 auto;
 }
 
 :deep(.el-table .cell) {
-  line-height: none;
-  padding: 0%;
-  overflow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  height: 100%;
 }
-
 .responsive-menu {
   display: none;
   position: absolute;
@@ -178,5 +255,21 @@ onUnmounted(() => {
     align-items: center;
     justify-content: flex-start;
   }
+}
+
+.tooltip-base-box {
+  width: 600px;
+}
+.tooltip-base-box .row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.tooltip-base-box .center {
+  justify-content: center;
+}
+.tooltip-base-box .box-item {
+  width: 110px;
+  margin-top: 10px;
 }
 </style>
