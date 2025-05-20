@@ -142,9 +142,11 @@ const ruleForm = reactive(<userRegistrationStore>{
 })
 
 const validateUsername = (rule: any, value: any, callback: any) => {
-  if (value === '') {
+
+  const username = value.trim()
+  if (username === '') {
     callback(new Error('Please input the username'))
-  } else if (value.length < 8) {
+  } else if (username.length < 8 ) {
     callback(new Error('Username must be at least 8 characters long'))
   } else {
     callback()
