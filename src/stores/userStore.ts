@@ -37,7 +37,7 @@ export const useRegistrationStore = defineStore('registration', {
       }
 
       const id = uuidv4()
-      const wallet = '0'
+      const wallet = 0
       this.registeredUsers.push({ id, username, email, contact, password, confirmPassword, wallet })
       localStorage.setItem('registeredUsers', JSON.stringify(this.registeredUsers))
 

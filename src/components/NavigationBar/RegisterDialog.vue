@@ -151,8 +151,14 @@ const ruleForm = reactive(<userRegistrationStore>{
   contact: '',
   password: '',
   confirmPassword: '',
-  wallet: '',
+  wallet: 0,
 })
+
+type StringFieldsOnly<T> = {
+  [K in keyof T]: T[K] extends string ? K : never
+}[keyof T]
+
+type RuleFormStringFields = StringFieldsOnly<userRegistrationStore>
 
 const validateUsername = (rule: any, value: any, callback: any) => {
   console.log('value', value)
@@ -251,11 +257,19 @@ const handleDialogClose = () => {
 }
 
 // REMOVE EXCESS WHITESPACE FUNCTION FOR THE INPUT FIELDS
-const removeWhitespace = (field: keyof typeof ruleForm) => {
+// const removeWhitespace = (field: keyof typeof ruleForm) => {
+//   ruleForm[field] = ruleForm[field].replace(/\s{2,}/g, ' ')
+// }
+
+// const cleanInputOnBlur = (field: keyof typeof ruleForm) => {
+//   ruleForm[field] = ruleForm[field].trim()
+// }
+
+const removeWhitespace = (field: RuleFormStringFields) => {
   ruleForm[field] = ruleForm[field].replace(/\s{2,}/g, ' ')
 }
 
-const cleanInputOnBlur = (field: keyof typeof ruleForm) => {
+const cleanInputOnBlur = (field: RuleFormStringFields) => {
   ruleForm[field] = ruleForm[field].trim()
 }
 

@@ -25,38 +25,52 @@
     </div>
   </div>
 
-      <!-- Player activity log -->
+  <!-- Player activity log -->
   <div v-if="windowWidth > 980" class="wallet-balance">
     <p>Wallet Balance: ₱{{ walletStore.userWalletBalance }}</p>
-  <p v-if="Pog1BetDisplay">Bet on Pog1: ₱{{ Pog1BetDisplay }}</p>
-  <p v-if="EqualizerBetDisplay">Bet on Equalizer: ₱{{ EqualizerBetDisplay }}</p>
-  <p v-if="Pog2BetDisplay">Bet on Pog2: ₱{{ Pog2BetDisplay }}</p>
-  <hr>
-  <p ><strong>Total Bet: ₱{{ Pog1BetDisplay + EqualizerBetDisplay + Pog2BetDisplay }}</strong></p>
+    <p v-if="Pog1BetDisplay">Bet on Pog1: ₱{{ Pog1BetDisplay }}</p>
+    <p v-if="EqualizerBetDisplay">Bet on Equalizer: ₱{{ EqualizerBetDisplay }}</p>
+    <p v-if="Pog2BetDisplay">Bet on Pog2: ₱{{ Pog2BetDisplay }}</p>
+    <hr />
+    <p>
+      <strong>Total Bet: ₱{{ Pog1BetDisplay + EqualizerBetDisplay + Pog2BetDisplay }}</strong>
+    </p>
   </div>
 
-      <el-col :span="8" class="responsive-menu" v-if="windowWidth <= 980">
-      <el-button plain @click="dialogVisible = true" size="large" color="#A61F69" :icon="Menu" circle />
-    </el-col>
-  
-    <el-dialog
-      v-model="dialogVisible"
-      width="260"
-      class="wallet-balance2"
-      v-if="windowWidth <= 980"
-      style="max-height: 500px; border-radius: 25px; text-align: center; background-color: rgba(0, 0, 0, 0.75) ;"
-    >
-      <div class="wallet-balance2">
-        <p>Activity Log:</p>
-        <br>
-        <p>Wallet Balance: ₱{{ walletStore.userWalletBalance }}</p>
-        <p v-if="Pog1BetDisplay">POG1: ₱{{ Pog1BetDisplay }}</p>
-        <p v-if="EqualizerBetDisplay">EQUALIZER: ₱{{ EqualizerBetDisplay }}</p>
-        <p v-if="Pog2BetDisplay">POG2: ₱{{ Pog2BetDisplay }}</p>
-        <hr />
-        <p>Total Bet: ₱{{ Pog1BetDisplay + EqualizerBetDisplay + Pog2BetDisplay }}</p>
-      </div>
-    </el-dialog>
+  <el-col :span="8" class="responsive-menu" v-if="windowWidth <= 980">
+    <el-button
+      plain
+      @click="dialogVisible = true"
+      size="large"
+      color="#A61F69"
+      :icon="Menu"
+      circle
+    />
+  </el-col>
+
+  <el-dialog
+    v-model="dialogVisible"
+    width="260"
+    class="wallet-balance2"
+    v-if="windowWidth <= 980"
+    style="
+      max-height: 500px;
+      border-radius: 25px;
+      text-align: center;
+      background-color: rgba(0, 0, 0, 0.75);
+    "
+  >
+    <div class="wallet-balance2">
+      <p>Activity Log:</p>
+      <br />
+      <p>Wallet Balance: ₱{{ walletStore.userWalletBalance }}</p>
+      <p v-if="Pog1BetDisplay">POG1: ₱{{ Pog1BetDisplay }}</p>
+      <p v-if="EqualizerBetDisplay">EQUALIZER: ₱{{ EqualizerBetDisplay }}</p>
+      <p v-if="Pog2BetDisplay">POG2: ₱{{ Pog2BetDisplay }}</p>
+      <hr />
+      <p>Total Bet: ₱{{ Pog1BetDisplay + EqualizerBetDisplay + Pog2BetDisplay }}</p>
+    </div>
+  </el-dialog>
 
   <!-- <div class="wallet-balance">
         <p>Wallet Balance: ₱{{ walletStore.userWalletBalance }} </p>
@@ -67,7 +81,6 @@
 <hr>
         <p>Total Bet: ₱{{ Pog1BetDisplay + EqualizerBetDisplay + Pog2BetDisplay }} </p>
       </div> -->
-    
 
   <!-- <ActivityLog/> -->
   <winHistory />
@@ -142,7 +155,7 @@ import WinnerDialog from '@/components/Play/WinnerDialog.vue'
 import pog1Win from '@/assets/play/pog1Win.png'
 import pog2Win from '@/assets/play/pog2Win.png'
 import equalizerWin from '@/assets/play/equalizerWin.png'
-import { reactive, ref, onMounted, watch, onBeforeUnmount } from 'vue'
+import { reactive, ref, onMounted, watch, onBeforeUnmount, onUnmounted } from 'vue'
 import { ElMessage, type ButtonInstance } from 'element-plus'
 import { useRouter } from 'vue-router'
 import { Menu } from '@element-plus/icons-vue'
@@ -156,7 +169,6 @@ import placeBet from '@/assets/sounds/placeBet.wav'
 import win from '@/assets/sounds/win.wav'
 import type { chipsTypes } from '@/components/models/types'
 import { useWinHistoryStore } from '../stores/winHistoryStore'
-import type { Bet } from '@/components/models/types'
 import WinHistory from '@/components/Play/WinHistory.vue'
 import { MaxBetMessage } from '@/components/composables/useGlobalUtils'
 
@@ -171,7 +183,6 @@ interface Bet {
   type: 'Pog1' | 'Equalizer' | 'Pog2'
   value: number
 }
-
 
 const tutorial = ref(false)
 
@@ -743,34 +754,31 @@ onMounted(() => {
   startTimer()
 })
 
-
 const dialogVisible = ref(false)
 
-  const windowWidth = ref(window.innerWidth)
-  
-  const updateWindowWidth = () => {
-    windowWidth.value = window.innerWidth
-  }
-  
-  onMounted(() => {
-    window.addEventListener('resize', updateWindowWidth)
-  })
-  
-  onBeforeUnmount(() => {
-    window.removeEventListener('resize', updateWindowWidth)
-  })
+const windowWidth = ref(window.innerWidth)
 
+const updateWindowWidth = () => {
+  windowWidth.value = window.innerWidth
+}
+
+onMounted(() => {
+  window.addEventListener('resize', updateWindowWidth)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', updateWindowWidth)
+})
 
 onUnmounted(() => {
   timeouts.value.forEach(clearTimeout)
   intervals.value.forEach(clearInterval)
   console.log('Game stopped when leaving page.')
 })
-
 </script>
 
 <style scoped>
-  .wallet-balance {
+.wallet-balance {
   position: fixed;
   bottom: 20px;
   left: 20px;
@@ -784,7 +792,7 @@ onUnmounted(() => {
   line-height: 1.5;
   background-color: rgba(0, 0, 0, 0.75);
   z-index: 2000;
-  }
+}
 
 .wallet-balance p {
   margin: 4px 0;
@@ -797,46 +805,44 @@ onUnmounted(() => {
   background: #ffffff40;
 }
 
-  .wallet-balance2 {
-    margin: auto;
-    max-width: 260px;
-    color: white;
-    font-size: 15px;
-    font-weight: bold;
-    border: 2px solid white;
-    border-radius: 10px;
-    padding: 16px 20px;
-    line-height: 1.5;
-    background-color: rgba(0, 0, 0, 0.75);
-    z-index: 100;
-    text-align: center;
-  }
+.wallet-balance2 {
+  margin: auto;
+  max-width: 260px;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  border: 2px solid white;
+  border-radius: 10px;
+  padding: 16px 20px;
+  line-height: 1.5;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 100;
+  text-align: center;
+}
 
-  .wallet-balance p {
-    margin: 4px 0;
-  }
-  
-  .wallet-balance hr {
-    margin: 10px 0;
-    border: 0;
-    height: 1px;
-    background: #ffffff40;
-  }
-  
+.wallet-balance p {
+  margin: 4px 0;
+}
+
+.wallet-balance hr {
+  margin: 10px 0;
+  border: 0;
+  height: 1px;
+  background: #ffffff40;
+}
+
+.responsive-menu {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+@media (max-width: 980px) {
   .responsive-menu {
-    display: none;
-    position: absolute;
-    bottom: 0;
-    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
   }
-  
-  @media (max-width: 980px) {
-    .responsive-menu {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-    }
-  }
-
-
+}
 </style>

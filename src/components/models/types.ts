@@ -36,7 +36,7 @@ export interface userRegistrationStore {
   contact: string
   password: string
   confirmPassword: string
-  wallet: string
+  wallet: number
 }
 
 export interface Wallet {
