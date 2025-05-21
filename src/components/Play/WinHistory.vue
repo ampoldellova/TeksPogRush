@@ -70,28 +70,27 @@
           <img src="@/assets/pogs/Tikbalang.png" width="80" />
         </template>
         <template #default="{ row }">
-          <el-tooltip v-if="row.winner === 'Pog1'" effect="dark" placement="top" trigger="click">
+          <el-tooltip v-if="row.winner === 'Pog1'" effect="dark" placement="top" trigger="hover">
             <template #content>
               <div>
                 <div>
                   <strong>Result:</strong>
                   <div style="margin-top: 6px">
-                    <span style="display: block; margin-bottom: 6px">
-                      {{ Array.isArray(row.result) ? row.result.join(', ') : row.result }}
-                    </span>
                     <div style="display: flex; gap: 8px">
-                      <template v-if="Array.isArray(row.result)">
-                        <img
-                          v-for="(res, index) in row.result"
-                          :key="index"
-                          :src="getPogImage(res)"
-                          :alt="res"
-                          width="40"
-                        />
-                      </template>
-                      <template v-else>
-                        <img :src="getPogImage(row.result)" :alt="row.result" width="40" />
-                      </template>
+                      <el-image
+                        :src="row.result.pog1 === 'Heads' ? heads1 : tails"
+                        :style="{ width: '40px', height: '40px' }"
+                      />
+
+                      <el-image
+                        :src="row.result.equalizer === 'Heads' ? heads2 : tails"
+                        :style="{ width: '40px', height: '40px' }"
+                      />
+
+                      <el-image
+                        :src="row.result.pog2 === 'Heads' ? heads3 : tails"
+                        :style="{ width: '40px', height: '40px' }"
+                      />
                     </div>
                   </div>
                 </div>
@@ -114,29 +113,28 @@
             v-if="row.winner === 'Equalizer'"
             effect="dark"
             placement="top"
-            trigger="click"
+            trigger="hover"
           >
             <template #content>
               <div>
                 <div>
                   <strong>Result:</strong>
                   <div style="margin-top: 6px">
-                    <span style="display: block; margin-bottom: 6px">
-                      {{ Array.isArray(row.result) ? row.result.join(', ') : row.result }}
-                    </span>
                     <div style="display: flex; gap: 8px">
-                      <template v-if="Array.isArray(row.result)">
-                        <img
-                          v-for="(res, index) in row.result"
-                          :key="index"
-                          :src="getPogImage(res)"
-                          :alt="res"
-                          width="40"
-                        />
-                      </template>
-                      <template v-else>
-                        <img :src="getPogImage(row.result)" :alt="row.result" width="40" />
-                      </template>
+                      <el-image
+                        :src="row.result.pog1 === 'Heads' ? heads1 : tails"
+                        :style="{ width: '40px', height: '40px' }"
+                      />
+
+                      <el-image
+                        :src="row.result.equalizer === 'Heads' ? heads2 : tails"
+                        :style="{ width: '40px', height: '40px' }"
+                      />
+
+                      <el-image
+                        :src="row.result.pog2 === 'Heads' ? heads3 : tails"
+                        :style="{ width: '40px', height: '40px' }"
+                      />
                     </div>
                   </div>
                 </div>
@@ -156,28 +154,27 @@
           <img src="@/assets/pogs/Festival.png" alt="Pog2" width="80" />
         </template>
         <template #default="{ row }">
-          <el-tooltip v-if="row.winner === 'Pog2'" effect="dark" placement="top" trigger="click">
+          <el-tooltip v-if="row.winner === 'Pog2'" effect="dark" placement="top" trigger="hover">
             <template #content>
               <div>
                 <div>
                   <strong>Result:</strong>
                   <div style="margin-top: 6px">
-                    <span style="display: block; margin-bottom: 6px">
-                      {{ Array.isArray(row.result) ? row.result.join(', ') : row.result }}
-                    </span>
                     <div style="display: flex; gap: 8px">
-                      <template v-if="Array.isArray(row.result)">
-                        <img
-                          v-for="(res, index) in row.result"
-                          :key="index"
-                          :src="getPogImage(res)"
-                          :alt="res"
-                          width="40"
-                        />
-                      </template>
-                      <template v-else>
-                        <img :src="getPogImage(row.result)" :alt="row.result" width="40" />
-                      </template>
+                      <el-image
+                        :src="row.result.pog1 === 'Heads' ? heads1 : tails"
+                        :style="{ width: '40px', height: '40px' }"
+                      />
+
+                      <el-image
+                        :src="row.result.equalizer === 'Heads' ? heads2 : tails"
+                        :style="{ width: '40px', height: '40px' }"
+                      />
+
+                      <el-image
+                        :src="row.result.pog2 === 'Heads' ? heads3 : tails"
+                        :style="{ width: '40px', height: '40px' }"
+                      />
                     </div>
                   </div>
                 </div>
@@ -199,6 +196,10 @@
 import { useWinHistoryStore } from '@/stores/winHistoryStore'
 import { ref, onMounted, onUnmounted } from 'vue'
 import { Menu } from '@element-plus/icons-vue'
+import heads1 from '@/assets/pogs/Tikbalang.png'
+import heads2 from '@/assets/pogs/Jeepney.png'
+import heads3 from '@/assets/pogs/Festival.png'
+import tails from '@/assets/pogs/Tails.png'
 
 const Pog1BetDisplay = ref(0)
 const EqualizerBetDisplay = ref(0)
@@ -209,18 +210,6 @@ const totalBet = Pog1BetDisplay.value + EqualizerBetDisplay.value + Pog2BetDispl
 const dialogVisible = ref(false)
 const winHistoryStore = useWinHistoryStore()
 const windowWidth = ref(window.innerWidth)
-
-const getPogImage = (result: string) => {
-  if (result === 'Pog1') {
-    return new URL('@/assets/pogs/Tikbalang.png', import.meta.url).href
-  } else if (result === 'Equalizer') {
-    return new URL('@/assets/pogs/Jeepney.png', import.meta.url).href
-  } else if (result === 'Pog2') {
-    return new URL('@/assets/pogs/Festival.png', import.meta.url).href
-  } else {
-    return new URL('@/assets/pogs/Tails.png', import.meta.url).href
-  }
-}
 
 // const gameMode = ref(localStorage.getItem('gameMode') || 'arena')
 const gameMode = ref<'arena' | 'friendly'>(
