@@ -203,9 +203,9 @@ const timerImages = [
 const maxbet = MaxBetMessage
 
 //Pogs
-const pog1 = ref({})
-const equalizer = ref({})
-const pog2 = ref({})
+const pog1 = ref('')
+const equalizer = ref('')
+const pog2 = ref('')
 const animation1 = ref({})
 const animation2 = ref({})
 const animation3 = ref({})
@@ -683,7 +683,7 @@ const flipCoin = () => {
           winHistoryStore.addWin('arena', {
             round: winHistoryStore.getHistory('arena').length + 1,
             winner: 'Pog1',
-            result: resultArr.join(', '),
+            result: { pog1: pog1.value, equalizer: equalizer.value, pog2: pog2.value },
             totalBet: totalBet,
             dateTime: dateTime,
             amount: winnings,
@@ -702,7 +702,7 @@ const flipCoin = () => {
           winHistoryStore.addWin('arena', {
             round: winHistoryStore.getHistory('arena').length + 1,
             winner: 'Equalizer',
-            result: resultArr.join(', '),
+            result: { pog1: pog1.value, equalizer: equalizer.value, pog2: pog2.value },
             totalBet: totalBet,
             dateTime: dateTime,
             amount: winnings,
@@ -721,7 +721,7 @@ const flipCoin = () => {
           winHistoryStore.addWin('arena', {
             round: winHistoryStore.getHistory('arena').length + 1,
             winner: 'Pog2',
-            result: resultArr.join(', '),
+            result: { pog1: pog1.value, equalizer: equalizer.value, pog2: pog2.value },
             totalBet: totalBet,
             dateTime: dateTime,
             amount: winnings,
@@ -735,8 +735,7 @@ const flipCoin = () => {
           result.value = ''
           textImageDisplay.value = 'none'
           winHistoryStore.addWin('arena', {
-            round: winHistoryStore.getHistory('arena').length + 1,
-            result: resultArr.join(', '),
+            result: { pog1: pog1.value, equalizer: equalizer.value, pog2: pog2.value },
             totalBet: totalBet,
             dateTime: dateTime,
           })

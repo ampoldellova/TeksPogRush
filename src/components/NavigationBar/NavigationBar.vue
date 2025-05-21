@@ -13,7 +13,7 @@
         >
           Home
         </el-text>
-        <el-text
+        <!-- <el-text
           v-if="authenticationStore.isAuthenticated"
           @click="router.push('/profile')"
           :style="{
@@ -24,7 +24,7 @@
           }"
         >
           Profile
-        </el-text>
+        </el-text> -->
         <el-text
           v-if="authenticationStore.isAuthenticated"
           @click="router.push('/shop')"

@@ -87,7 +87,11 @@ export interface pogWin {
   winner?: string
   total?: number
   totalBet?: number
-  result?: string | string[]
+  result?: {
+    pog1: string
+    equalizer: string
+    pog2: string
+  }
   dateTime?: string
   amount?: number
 }
