@@ -25,7 +25,7 @@
     </div>
   </div>
 
-  <winHistory />
+  <WinHistory />
 
   <BetDialog
     v-model="betDialog"
@@ -397,6 +397,7 @@ const undoBet = () => {
 }
 
 import { NoBetUndoMessage, NoBetToClearMessage } from '@/components/composables/useGlobalUtils'
+import WinHistory from '@/components/Play/WinHistory.vue'
 const NoBetToUndo = NoBetUndoMessage
 const NoBetToClear = NoBetToClearMessage
 
@@ -501,6 +502,13 @@ const flipCoin = () => {
       }
 
       const timeOut3 = setTimeout(() => {
+        const totalBet = Pog1BetDisplay.value + EqualizerBetDisplay.value + Pog2BetDisplay.value
+        const dateTime = new Date().toLocaleString()
+        const resultArr = [
+          `Pog1: ${pog1.value}`,
+          `Equalizer: ${equalizer.value}`,
+          `Pog2: ${pog2.value}`,
+        ]
         if (pog1.value !== pog2.value && pog1.value !== equalizer.value) {
           const winnings =
             pog1Multiplier.value === 1
@@ -514,6 +522,10 @@ const flipCoin = () => {
           winHistoryStore.addWin('friendly', {
             round: winHistoryStore.getHistory('friendly').length + 1,
             winner: 'Pog1',
+            result: { pog1: pog1.value, equalizer: equalizer.value, pog2: pog2.value },
+            totalBet: totalBet,
+            dateTime: dateTime,
+            amount: winnings,
           })
           console.log('Pog1 wins')
         } else if (equalizer.value !== pog1.value && equalizer.value !== pog2.value) {
@@ -524,11 +536,13 @@ const flipCoin = () => {
           addWinnings(winnings)
           winnerImage.value = heads2
           showWinner.value = true
-          result.value = equalizerWin
-          textImageDisplay.value = 'flex'
           winHistoryStore.addWin('friendly', {
             round: winHistoryStore.getHistory('friendly').length + 1,
             winner: 'Equalizer',
+            result: { pog1: pog1.value, equalizer: equalizer.value, pog2: pog2.value },
+            totalBet: totalBet,
+            dateTime: dateTime,
+            amount: winnings,
           })
           console.log('Equalizer wins')
         } else if (pog2.value !== pog1.value && pog2.value !== equalizer.value) {
@@ -544,6 +558,10 @@ const flipCoin = () => {
           winHistoryStore.addWin('friendly', {
             round: winHistoryStore.getHistory('friendly').length + 1,
             winner: 'Pog2',
+            result: { pog1: pog1.value, equalizer: equalizer.value, pog2: pog2.value },
+            totalBet: totalBet,
+            dateTime: dateTime,
+            amount: winnings,
           })
           console.log('Pog2 wins')
         } else {

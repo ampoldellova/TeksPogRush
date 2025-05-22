@@ -19,10 +19,17 @@
     >
       <el-table-column label="Round" width="80">
         <template #header>
-          <span>Round</span>
+          <el-text style="font-size: 20px; font-weight: bold">Round</el-text>
         </template>
         <template #default="{ row }">
-          <span>{{ row.round }}</span>
+          <div style="display: flex; flex-direction: column; align-items: center">
+            <span
+              v-if="row.winner === 'Draw'"
+              style="color: orange; font-weight: bold; margin-top: 4px"
+            >
+              DRAW
+            </span>
+          </div>
         </template>
       </el-table-column>
       <el-table-column label="Pog1" width="90">
@@ -40,6 +47,11 @@
         </template>
         <template #default="{ row }">
           <span v-if="row.winner === 'Equalizer'" class="win-indicator"></span>
+          <span
+            v-else-if="row.winner === 'Draw'"
+            style="color: orange; font-weight: bold; word-spacing: 15px"
+            >D R A W</span
+          >
         </template>
       </el-table-column>
 
@@ -146,6 +158,11 @@
             </template>
             <span class="win-indicator" style="cursor: pointer"></span>
           </el-tooltip>
+          <span
+            v-else-if="row.winner === 'Draw'"
+            style="color: orange; font-weight: bold; font-size: 20px; word-spacing: 8px"
+            >D R A W</span
+          >
         </template>
       </el-table-column>
 
@@ -211,7 +228,6 @@ const dialogVisible = ref(false)
 const winHistoryStore = useWinHistoryStore()
 const windowWidth = ref(window.innerWidth)
 
-// const gameMode = ref(localStorage.getItem('gameMode') || 'arena')
 const gameMode = ref<'arena' | 'friendly'>(
   (localStorage.getItem('gameMode') as 'arena' | 'friendly') || 'arena',
 )
