@@ -104,7 +104,7 @@
 </template>
 
 <script setup lang="ts">
-import backgrounds from '@/assets/Background.png'
+import backgrounds from '@/assets/play/background.jpg'
 import Timer from '@/components/Play/Timer.vue'
 import timer0 from '@/assets/Timer/0.png'
 import timer1 from '@/assets/Timer/1.png'
@@ -150,6 +150,9 @@ import { ElMessage, type ButtonInstance } from 'element-plus'
 import { useRouter } from 'vue-router'
 import { Menu } from '@element-plus/icons-vue'
 
+import { NoBetUndoMessage, NoBetToClearMessage } from '@/components/composables/useGlobalUtils'
+import { Tickets } from '@element-plus/icons-vue'
+
 import { useWalletStore } from '@/stores/walletStore'
 import { useAuthenticationStore } from '@/stores/userStore'
 import clickSound from '@/assets/sounds/click.wav'
@@ -159,7 +162,6 @@ import placeBet from '@/assets/sounds/placeBet.wav'
 import win from '@/assets/sounds/win.wav'
 import type { chipsTypes } from '@/components/models/types'
 import { useWinHistoryStore } from '../stores/winHistoryStore'
-import type { Bet } from '@/components/models/types'
 import WinHistory from '@/components/Play/WinHistory.vue'
 import { MaxBetMessage } from '@/components/composables/useGlobalUtils'
 // import { Menu } from 'element-plus/icons'
@@ -171,10 +173,10 @@ const friendly = ref(false)
 
 const gameMode = ref(localStorage.getItem('gameMode') as 'arena' | 'friendly')
 console.log('Current Game Mode:', gameMode.value)
-// interface Bet {
-//   type: 'Pog1' | 'Equalizer' | 'Pog2'
-//   value: number
-// }
+interface Bet {
+  type: 'Pog1' | 'Equalizer' | 'Pog2'
+  value: number
+}
 
 const tutorial = ref(false)
 
@@ -201,9 +203,9 @@ const timerImages = [
 const maxbet = MaxBetMessage
 
 //Pogs
-const pog1 = ref({})
-const equalizer = ref({})
-const pog2 = ref({})
+const pog1 = ref('')
+const equalizer = ref('')
+const pog2 = ref('')
 const animation1 = ref({})
 const animation2 = ref({})
 const animation3 = ref({})
@@ -531,8 +533,6 @@ if (totalBet > 0) {
   textImageDisplay.value = 'none'
 }
 
-import { NoBetUndoMessage, NoBetToClearMessage } from '@/components/composables/useGlobalUtils'
-import { Tickets } from '@element-plus/icons-vue'
 const NoBetToUndo = NoBetUndoMessage
 const NoBetToClear = NoBetToClearMessage
 
@@ -663,6 +663,13 @@ const flipCoin = () => {
       }
 
       const timeOut3 = setTimeout(() => {
+        const totalBet = Pog1BetDisplay.value + EqualizerBetDisplay.value + Pog2BetDisplay.value
+        const dateTime = new Date().toLocaleString()
+        const resultArr = [
+          `Pog1: ${pog1.value}`,
+          `Equalizer: ${equalizer.value}`,
+          `Pog2: ${pog2.value}`,
+        ]
         if (pog1.value !== pog2.value && pog1.value !== equalizer.value) {
           const winnings =
             pog1Multiplier.value === 1
@@ -676,6 +683,10 @@ const flipCoin = () => {
           winHistoryStore.addWin('arena', {
             round: winHistoryStore.getHistory('arena').length + 1,
             winner: 'Pog1',
+            result: { pog1: pog1.value, equalizer: equalizer.value, pog2: pog2.value },
+            totalBet: totalBet,
+            dateTime: dateTime,
+            amount: winnings,
           })
           console.log('Pog1 wins')
         } else if (equalizer.value !== pog1.value && equalizer.value !== pog2.value) {
@@ -691,6 +702,10 @@ const flipCoin = () => {
           winHistoryStore.addWin('arena', {
             round: winHistoryStore.getHistory('arena').length + 1,
             winner: 'Equalizer',
+            result: { pog1: pog1.value, equalizer: equalizer.value, pog2: pog2.value },
+            totalBet: totalBet,
+            dateTime: dateTime,
+            amount: winnings,
           })
           console.log('Equalizer wins')
         } else if (pog2.value !== pog1.value && pog2.value !== equalizer.value) {
@@ -706,6 +721,10 @@ const flipCoin = () => {
           winHistoryStore.addWin('arena', {
             round: winHistoryStore.getHistory('arena').length + 1,
             winner: 'Pog2',
+            result: { pog1: pog1.value, equalizer: equalizer.value, pog2: pog2.value },
+            totalBet: totalBet,
+            dateTime: dateTime,
+            amount: winnings,
           })
           console.log('Pog2 wins')
         } else {
@@ -716,8 +735,9 @@ const flipCoin = () => {
           result.value = ''
           textImageDisplay.value = 'none'
           winHistoryStore.addWin('arena', {
-            round: winHistoryStore.getHistory('arena').length + 1,
-            winner: 'Draw',
+            result: { pog1: pog1.value, equalizer: equalizer.value, pog2: pog2.value },
+            totalBet: totalBet,
+            dateTime: dateTime,
           })
           console.log('Draw')
         }

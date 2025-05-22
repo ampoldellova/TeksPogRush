@@ -7,39 +7,24 @@ export const useWinHistoryStore = defineStore('winHistoryStore', {
     friendlyHistory: JSON.parse(localStorage.getItem('friendlyHistory') || '[]'),
   }),
   actions: {
-    addWin(mode: 'arena' | 'friendly', { round, winner }: pogWin) {
+    addWin(mode: 'arena' | 'friendly', win: pogWin) {
       const currentMode = localStorage.getItem('gameMode') as 'arena' | 'friendly'
 
-      if (mode !== currentMode || !winner || round == null) {
+      if (mode !== currentMode || !win.winner || win.round == null) {
         console.warn(
-          `Ignoring win record: mode=${mode}, currentMode=${currentMode}, round=${round}, winner=${winner}`,
+          `Ignoring win record: mode=${mode}, currentMode=${currentMode}, round=${win.round}, winner=${win.winner}`,
         )
         return
       }
       if (mode === 'arena') {
-        this.arenaHistory.push({ round, winner })
+        this.arenaHistory.push({ ...win })
         localStorage.setItem('arenaHistory', JSON.stringify(this.arenaHistory))
       } else {
-        this.friendlyHistory.push({ round, winner })
+        this.friendlyHistory.push({ ...win })
         localStorage.setItem('friendlyHistory', JSON.stringify(this.friendlyHistory))
       }
     },
-    // clearHistory(mode: 'arena' | 'friendly') {
-    //   if (mode === 'arena') {
-    //     this.arenaHistory = []
-    //     localStorage.removeItem('arenaHistory')
-    //   } else {
-    //     this.friendlyHistory = []
-    //     localStorage.removeItem('friendlyHistory')
-    //   }
-    // },
-    // persistPogWinHistory(mode: 'arena' | 'friendly') {
-    //   if (mode === 'arena') {
-    //     localStorage.setItem('arenaHistory', JSON.stringify(this.arenaHistory))
-    //   } else {
-    //     localStorage.setItem('friendlyHistory', JSON.stringify(this.friendlyHistory))
-    //   }
-    // },
+
     getHistory(mode: 'arena' | 'friendly') {
       return mode === 'arena' ? this.arenaHistory : this.friendlyHistory
     },

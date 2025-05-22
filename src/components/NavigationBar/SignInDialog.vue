@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="signInDialog" width="300" align-center>
+  <el-dialog v-model="signInDialog" width="300" align-center @close="handleDialogClose">
     <div style="display: flex; align-items: center; justify-content: center">
       <el-image :src="logo" fit="cover" style="height: 100px; width: 190px" />
     </div>
@@ -15,6 +15,8 @@
               style="width: 100%"
               placeholder="Enter your email"
               input-style="font-family:regular"
+              @input="removeWhitespace('signInEmail')"
+              @blur="cleanInputOnBlur('signInEmail')"
             />
           </el-form-item>
         </el-col>
@@ -33,6 +35,8 @@
               placeholder="Enter your password"
               input-style="font-family:regular"
               type="password"
+              @input="removeWhitespace('signInPassword')"
+              @blur="cleanInputOnBlur('signInPassword')"
               show-password
             />
           </el-form-item>
@@ -76,7 +80,7 @@
 
       <el-col :span="12">
         <el-button
-          @click="resetPasswordDialogButton"
+          @click="forgotPassDialogButton"
           width="100%"
           :style="{
             fontFamily: 'regular',
@@ -100,7 +104,7 @@ import { COLORS } from '@/assets/theme'
 import { useAuthenticationStore } from '@/stores/userStore'
 import { Lock, Message } from '@element-plus/icons-vue'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
-import { reactive, ref } from 'vue'
+import { reactive, ref, watch } from 'vue'
 import type { loginForm } from '../models/types'
 
 const signInDialog = ref(false)
@@ -108,15 +112,23 @@ const authenticationStore = useAuthenticationStore()
 const ruleFormRef = ref<FormInstance>()
 const emit = defineEmits([
   'registerDialogButton',
-  'resetPasswordDialogButton',
   'closeSignInDialog',
   'closeDrawer',
+  'openForgotPassDialog',
 ])
 
 const SignInRuleForm = reactive(<loginForm>{
   signInEmail: '',
   signInPassword: '',
 })
+
+const handleDialogClose = () => {
+  if (ruleFormRef.value) {
+    ruleFormRef.value.resetFields()
+  }
+  SignInRuleForm.signInEmail = ''
+  SignInRuleForm.signInPassword = ''
+}
 
 const validateSignInEmail = (rule: any, value: any, callback: any) => {
   if (value === '') {
@@ -143,10 +155,10 @@ const loginForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
-      const { success, message } = authenticationStore.login(
-        SignInRuleForm.signInEmail,
-        SignInRuleForm.signInPassword,
-      )
+      const email = SignInRuleForm.signInEmail.toLocaleLowerCase().trim()
+      const password = SignInRuleForm.signInPassword.trim()
+
+      const { success, message } = authenticationStore.login(email, password)
       if (success) {
         ElMessage({
           message,
@@ -175,12 +187,20 @@ const loginForm = (formEl: FormInstance | undefined) => {
   })
 }
 
-const registerDialogButton = () => {
-  emit('registerDialogButton')
+// REMOVE EXCESS WHITESPACE FUNCTION FOR THE INPUT FIELDS
+const removeWhitespace = (field: keyof typeof SignInRuleForm) => {
+  SignInRuleForm[field] = SignInRuleForm[field].replace(/\s{2,}/g, ' ')
 }
 
-const resetPasswordDialogButton = () => {
-  emit('resetPasswordDialogButton')
+const cleanInputOnBlur = (field: keyof typeof SignInRuleForm) => {
+  SignInRuleForm[field] = SignInRuleForm[field].trim()
+}
+
+const forgotPassDialogButton = () => {
+  emit('openForgotPassDialog')
+}
+const registerDialogButton = () => {
+  emit('registerDialogButton')
 }
 </script>
 

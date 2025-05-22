@@ -13,7 +13,7 @@
         >
           Home
         </el-text>
-        <el-text
+        <!-- <el-text
           v-if="authenticationStore.isAuthenticated"
           @click="router.push('/profile')"
           :style="{
@@ -24,7 +24,7 @@
           }"
         >
           Profile
-        </el-text>
+        </el-text> -->
         <el-text
           v-if="authenticationStore.isAuthenticated"
           @click="router.push('/shop')"
@@ -77,12 +77,24 @@
           </el-text>
         </div>
 
-        <el-text v-if="authenticationStore.isAuthenticated" @click="logout" class="logout-button">
+        <el-text
+          v-if="authenticationStore.isAuthenticated"
+          @click="authenticationStore.logout"
+          class="logout-button"
+        >
           Logout
         </el-text>
       </el-col>
     </el-row>
   </div>
+
+  <el-dialog v-model="logoutConfirmDialog" title="Confirm Logout" width="300px" align-center>
+    <span>Are you sure you want to logout?</span>
+    <template #footer>
+      <el-button @click="logoutConfirmDialog = false">Cancel</el-button>
+      <el-button type="primary" @click="confirmLogout">Logout</el-button>
+    </template>
+  </el-dialog>
 
   <Drawer
     v-model="drawer"
@@ -94,9 +106,9 @@
   <SignInDialog
     v-model="signInDialog"
     @registerDialogButton="registerDialogButton"
-    @resetPasswordDialogButton="resetPasswordDialogButton"
     @closeSignInDialog="closeSignInDialog"
     @closeDrawer="drawer = false"
+    @openForgotPassDialog="openForgotPassDialog"
   />
 
   <RegisterDialog
@@ -104,6 +116,14 @@
     :fromLogin="fromLogin"
     @backDialogButton="backDialogButton"
     @openSignInDialog="openSignInDialog"
+  />
+
+  <ForgotPassword
+    v-model="forgotPassDialog"
+    :fromLogin="fromLogin"
+    @backDialogButton="backDialogButton"
+    @closeForgotPassDialog="forgotPassDialog = false"
+    @openRegisterDialog="openRegisterDialog"
   />
 </template>
 
@@ -123,6 +143,8 @@ const drawer = ref(false)
 const fromLogin = ref(false)
 const signInDialog = ref(false)
 const registerDialog = ref(false)
+const forgotPassDialog = ref(false)
+
 const authenticationStore = useAuthenticationStore()
 const registrationStore = useRegistrationStore()
 
@@ -163,14 +185,23 @@ const registerDialogButton = () => {
   registerDialog.value = true
 }
 
-const resetPasswordDialogButton = () => {
-  signInDialog.value = false
-  router.push('/forgot-password')
-}
-
 const backDialogButton = () => {
   registerDialog.value = false
   signInDialog.value = true
+  forgotPassDialog.value = false
+}
+
+const openForgotPassDialog = () => {
+  forgotPassDialog.value = true
+  signInDialog.value = false
+  fromLogin.value = true
+}
+
+const logoutConfirmDialog = ref(false)
+
+const confirmLogout = () => {
+  authenticationStore.logout()
+  logoutConfirmDialog.value = false
 }
 
 onMounted(() => {
