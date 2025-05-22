@@ -24,7 +24,7 @@ export interface CardTransaction {
   amount: number
   date: string
   cardNumber: string
-  expiryDate: string
+  expiryDate: Date
   securityCode: string
   type: 'CashIn' | 'Withdrawal'
 }
