@@ -68,6 +68,7 @@
               @blur="cleanInputOnBlur('password')"
               show-password
               maxlength="13"
+              minlenegth="8"
             />
           </el-form-item>
         </el-col>
@@ -87,6 +88,7 @@
               @blur="cleanInputOnBlur('confirmPassword')"
               show-password
               maxlength="13"
+              minlenegth="8"
             />
           </el-form-item>
         </el-col>
@@ -195,6 +197,8 @@ const validateContact = (rule: any, value: any, callback: any) => {
 const validatePass = (rule: any, value: any, callback: any) => {
   if (value === '') {
     callback(new Error('Please input the password'))
+  } else if (value.length < 8) {
+    callback(new Error('Password must be at least 8 characters long'))
   } else {
     if (ruleForm.password !== '') {
       if (!ruleFormRef.value) return
@@ -234,7 +238,8 @@ const submitForm = (formEl: FormInstance | undefined) => {
       }
     } else {
       ElMessage({
-        message: 'Error during form submission!',
+        message: 'Error registration. Please check your inputs.',
+        duration: 3000,
         grouping: true,
         type: 'error',
       })
@@ -265,7 +270,7 @@ const handleDialogClose = () => {
 // }
 
 const removeWhitespace = (field: RuleFormStringFields) => {
-  ruleForm[field] = ruleForm[field].replace(/\s{2,}/g, ' ')
+  ruleForm[field] = ruleForm[field].replace(/\s+/g, '')
 }
 
 const cleanInputOnBlur = (field: RuleFormStringFields) => {
