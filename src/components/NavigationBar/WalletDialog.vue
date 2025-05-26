@@ -296,16 +296,31 @@ const cardNumberRegex = /^\d+$/
   }
 
 
+
+
 const validateExpiryDate = (rule: any, value: any, callback: any) => {
-  const expiryRegex = /^\d+$/
+  const expiryRegex = /^(0[1-9]|1[0-2])\/\d{2}$/; 
+  const currentDate = new Date();
+  
   if (value === '') {
-    callback(new Error('Please input expiry date'))
-  }else if(!expiryRegex.test(value)){
-    callback(new Error('Invalid Expiry Date'))
+    callback(new Error('Please input expiry date'));
+  } else if (!expiryRegex.test(value)) {
+    callback(new Error('Invalid Expiry Date'));
   } else {
-    callback()
+    const [month, year] = value.split('/'); 
+    const expiryMonth = parseInt(month, 10);
+    const expiryYear = parseInt(year, 10);
+
+    const fullExpiryYear = 2000 + expiryYear;
+    const expiryDate = new Date(fullExpiryYear, expiryMonth - 1);
+    if (expiryDate < currentDate) {
+      callback(new Error('This Card is Expired'));
+    } else {
+      callback();
+    }
   }
 }
+
 
 const validateSecurityCode = (rule: any, value: any, callback: any) => {
   const securityCodeRegex= /^\d+$/
