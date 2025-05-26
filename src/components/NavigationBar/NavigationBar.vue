@@ -13,7 +13,7 @@
         >
           Home
         </el-text>
-        <!-- <el-text
+        <el-text
           v-if="authenticationStore.isAuthenticated"
           @click="router.push('/profile')"
           :style="{
@@ -24,7 +24,7 @@
           }"
         >
           Profile
-        </el-text> -->
+        </el-text>
         <el-text
           v-if="authenticationStore.isAuthenticated"
           @click="router.push('/shop')"
@@ -79,7 +79,7 @@
 
         <el-text
           v-if="authenticationStore.isAuthenticated"
-          @click="authenticationStore.logout"
+          @click="logoutConfirmDialog = true"
           class="logout-button"
         >
           Logout
@@ -92,7 +92,7 @@
     <span>Are you sure you want to logout?</span>
     <template #footer>
       <el-button @click="logoutConfirmDialog = false">Cancel</el-button>
-      <el-button type="primary" @click="confirmLogout">Logout</el-button>
+      <el-button type="danger" @click="confirmLogout">Logout</el-button>
     </template>
   </el-dialog>
 
@@ -232,6 +232,7 @@ onMounted(() => {
 .responsive-button-left .el-text:hover {
   color: #ffd200 !important;
   font-weight: bold;
+  text-decoration: underline;
 }
 
 .responsive-button-right {
@@ -244,6 +245,7 @@ onMounted(() => {
 .responsive-button-right .el-text:hover {
   color: #ffd200 !important;
   font-weight: bold;
+  text-decoration: underline;
 }
 
 .responsive-menu {
