@@ -36,7 +36,7 @@ const chips = ref([
   {
     id: '001',
     name: '50 Chips',
-    price: 100,
+    price: 50,
     image: buy50,
     value: 50,
     quantity: 1,
@@ -44,7 +44,7 @@ const chips = ref([
   {
     id: '002',
     name: '150 Chips',
-    price: 200,
+    price: 150,
     image: buy150,
     value: 150,
     quantity: 1,
@@ -52,7 +52,7 @@ const chips = ref([
   {
     id: '003',
     name: '350 Chips',
-    price: 400,
+    price: 350,
     image: buy350,
     value: 350,
     quantity: 1,
@@ -60,7 +60,7 @@ const chips = ref([
   {
     id: '004',
     name: '500 Chips',
-    price: 550,
+    price: 500,
     image: buy500,
     value: 500,
     quantity: 1,
