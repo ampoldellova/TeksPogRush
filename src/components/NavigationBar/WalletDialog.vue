@@ -215,6 +215,7 @@
                 >
                   CANCEL
                 </el-button>
+                  <a>Go to Transaction History</a>
                   </el-row>
                 </el-form>
               </div>
@@ -238,7 +239,7 @@ import { COLORS } from '@/assets/theme'
 // import creditCard from '@/assets/shop/creditCard.png'
 import { reactive, ref } from 'vue'
 import WithdrawAmountDialog from './WithdrawAmountDialog.vue'
-import { type FormInstance, type FormRules } from 'element-plus'
+import { ElMessage, ElMessageBox, type FormInstance, type FormRules } from 'element-plus'
 import { paymentMethods } from '../models/constants'
 import { useRouter } from 'vue-router'
 
@@ -247,10 +248,24 @@ const walletDialog = ref(false)
 const withdrawAmountDialog = ref(false)
 const paymentSelected = ref('GCash')
 const router = useRouter()
-
-const cancelButton = () => {
-  router.push('/')
+const cancelButton = async () => {
+  try {
+    await ElMessageBox.confirm(
+      'You are exiting the withdraw page', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel'
+      }
+    )
+    router.push('/')
+  } catch {
+    ElMessage({
+      message: 'You are still in the withdraw page'
+    }
+  )
+  }
 }
+
 
 // const paymentMethods = ref([
 //   {
