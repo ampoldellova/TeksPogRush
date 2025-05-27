@@ -81,6 +81,9 @@
           v-if="authenticationStore.isAuthenticated"
           @click="logoutConfirmDialog = true"
           class="logout-button"
+          :style="{
+            cursor: 'pointer',
+          }"
         >
           Logout
         </el-text>
@@ -286,7 +289,6 @@ onMounted(() => {
   font-family: 'regular';
   font-size: '16px';
   color: white;
-  cursor: 'pointer';
 }
 
 @media (max-width: 1440px) {
