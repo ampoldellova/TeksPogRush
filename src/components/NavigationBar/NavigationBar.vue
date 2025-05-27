@@ -136,6 +136,9 @@ import { useRoute, useRouter } from 'vue-router'
 import { useAuthenticationStore } from '@/stores/userStore'
 import { useRegistrationStore } from '@/stores/userStore'
 import { COLORS } from '@/assets/theme'
+import { useWinHistoryStore } from '@/stores/winHistoryStore'
+
+const winHistoryStore = useWinHistoryStore()
 
 const router = useRouter()
 const route = useRoute()
@@ -150,11 +153,6 @@ const registrationStore = useRegistrationStore()
 
 const openWalletDialog = () => {
   router.push('/wallet')
-}
-
-const logout = () => {
-  authenticationStore.logout()
-  router.push('/')
 }
 
 const userWalletBalance = computed(() => {
@@ -200,6 +198,7 @@ const openForgotPassDialog = () => {
 const logoutConfirmDialog = ref(false)
 
 const confirmLogout = () => {
+  winHistoryStore.resetWinHistory()
   authenticationStore.logout()
   logoutConfirmDialog.value = false
 }

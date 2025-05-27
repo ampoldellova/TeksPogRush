@@ -252,9 +252,9 @@ onUnmounted(() => {
   right: 0;
   height: 400px;
   width: 470px;
-  border: 2px solid white;
+  border: 1px solid white;
   border-radius: 15px;
-  background-color: rgba(122, 129, 129, 0.6);
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
   align-items: center;
