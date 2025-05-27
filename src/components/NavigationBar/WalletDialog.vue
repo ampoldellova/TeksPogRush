@@ -144,6 +144,7 @@
                           <el-input
                             v-model="creditCardRuleForm.cardNumber"
                             placeholder="Enter card number"
+                            type="number"
                             input-style="font-family:regular; font-size:12px"
                           />
                         </el-form-item>
@@ -162,6 +163,8 @@
                           <el-input
                             v-model="creditCardRuleForm.expiryDate"
                             placeholder="MM/YY"
+                             maxlength="5"
+                          @input="formatExpiryDate"
                             input-style="font-family:regular; font-size:12px"
                           />
                         </el-form-item>
@@ -175,6 +178,7 @@
                         <el-form-item prop="securityCode">
                           <el-input
                             v-model="creditCardRuleForm.securityCode"
+                            @input="filterDigits"
                             :type="'password'"
                             :show-password="true"
                             placeholder="Enter security code"
@@ -215,7 +219,6 @@
                 >
                   CANCEL
                 </el-button>
-                  <a>Go to Transaction History</a>
                   </el-row>
                 </el-form>
               </div>
@@ -242,6 +245,7 @@ import WithdrawAmountDialog from './WithdrawAmountDialog.vue'
 import { ElMessage, ElMessageBox, type FormInstance, type FormRules } from 'element-plus'
 import { paymentMethods } from '../models/constants'
 import { useRouter } from 'vue-router'
+import type{ CardTransaction } from '../models/types'
 
 const ruleFormRef = ref<FormInstance>()
 const walletDialog = ref(false)
@@ -265,6 +269,7 @@ const cancelButton = async () => {
   )
   }
 }
+
 
 
 // const paymentMethods = ref([
@@ -313,11 +318,11 @@ const cardNumberRegex = /^\d+$/
 
 
 
-const validateExpiryDate = (rule: any, value: any, callback: any) => {
+const validateExpiryDate = (rule: any, value: string, callback: (error?: Error) => void) => {
   const expiryRegex = /^(0[1-9]|1[0-2])\/\d{2}$/; 
   const currentDate = new Date();
-  
-  if (value === '') {
+
+  if (!value || value === '/' || value.trim() === '') {
     callback(new Error('Please input expiry date'));
   } else if (!expiryRegex.test(value)) {
     callback(new Error('Invalid Expiry Date'));
@@ -327,14 +332,37 @@ const validateExpiryDate = (rule: any, value: any, callback: any) => {
     const expiryYear = parseInt(year, 10);
 
     const fullExpiryYear = 2000 + expiryYear;
-    const expiryDate = new Date(fullExpiryYear, expiryMonth - 1);
-    if (expiryDate < currentDate) {
+    const expiryDate = new Date(fullExpiryYear, expiryMonth, 0);
+    
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+
+    if (expiryDate < now) {
       callback(new Error('This Card is Expired'));
     } else {
       callback();
     }
   }
 }
+
+function formatExpiryDate() {
+  let val = creditCardRuleForm.expiryDate;
+
+  val = val.replace(/[^0-9\/]/g, '');
+
+  val = val.replace(/\//g, '');
+
+  if (val.length === 0) {
+    val = '/';
+  } else if (val.length <= 2) {
+    val = val + '/';
+  } else {
+    val = val.slice(0, 2) + '/' + val.slice(2, 4);
+  }
+
+  creditCardRuleForm.expiryDate = val.slice(0, 5);
+}
+
 
 
 const validateSecurityCode = (rule: any, value: any, callback: any) => {
@@ -350,11 +378,16 @@ const validateSecurityCode = (rule: any, value: any, callback: any) => {
   }
 }
 
+function filterDigits() {
+  // Keep only digits in the input
+  creditCardRuleForm.securityCode = creditCardRuleForm.securityCode.replace(/\D/g, '');
+}
+
 const gCashRuleForm = reactive({
   mobileNumber: '',
 })
 
-const creditCardRuleForm = reactive({
+const creditCardRuleForm = reactive<CardTransaction>({
   cardNumber: '',
   securityCode: '',
   expiryDate: '',

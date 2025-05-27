@@ -19,14 +19,14 @@ export interface GCashTransaction {
 }
 
 export interface CardTransaction {
-  id: string
-  userName: string
-  amount: number
-  date: string
-  cardNumber: string
-  expiryDate: Date
+  id?: string
+  userName?: string
+  amount?: number
+  date?: string
+  cardNumber?: string
+  expiryDate: string
   securityCode: string
-  type: 'CashIn' | 'Withdrawal'
+  type?: 'CashIn' | 'Withdrawal'
 }
 
 export interface userRegistrationStore {
