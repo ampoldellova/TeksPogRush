@@ -261,14 +261,6 @@ const handleDialogClose = () => {
 }
 
 // REMOVE EXCESS WHITESPACE FUNCTION FOR THE INPUT FIELDS
-// const removeWhitespace = (field: keyof typeof ruleForm) => {
-//   ruleForm[field] = ruleForm[field].replace(/\s{2,}/g, ' ')
-// }
-
-// const cleanInputOnBlur = (field: keyof typeof ruleForm) => {
-//   ruleForm[field] = ruleForm[field].trim()
-// }
-
 const removeWhitespace = (field: RuleFormStringFields) => {
   ruleForm[field] = ruleForm[field].replace(/\s+/g, '')
 }

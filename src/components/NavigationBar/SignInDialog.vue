@@ -106,8 +106,10 @@ import { Lock, Message } from '@element-plus/icons-vue'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import { reactive, ref, watch } from 'vue'
 import type { loginForm } from '../models/types'
+import { useRouter } from 'vue-router'
 
 const signInDialog = ref(false)
+const router = useRouter()
 const authenticationStore = useAuthenticationStore()
 const ruleFormRef = ref<FormInstance>()
 const emit = defineEmits([
@@ -170,6 +172,7 @@ const loginForm = (formEl: FormInstance | undefined) => {
         SignInRuleForm.signInEmail = ''
         SignInRuleForm.signInPassword = ''
         formEl.resetFields()
+        router.push('/')
       } else {
         ElMessage({
           message,
