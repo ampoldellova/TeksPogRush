@@ -294,7 +294,7 @@ const selectPaymentOption = (payment: string) => {
 
 const getPaymentMethod = (): 'GCash' | 'Card' => {
   if (paymentSelected.value === 'GCash') return 'GCash'
-  if (paymentSelected.value === 'Card') return 'Card'
+  if (paymentSelected.value === 'Credit Card') return 'Card'
   return 'GCash'
 }
 
