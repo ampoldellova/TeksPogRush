@@ -2,41 +2,60 @@
   <div class="responsive-navbar">
     <el-row style="width: 100%">
       <el-col :span="8" class="responsive-button-left">
+        <!-- Back button for game pages -->
         <el-text
-          @click="router.push('/')"
+          v-if="route.path === '/friendly-arena' || route.path === '/arena'"
+          @click="router.back()"
           :style="{
             fontFamily: 'regular',
             fontSize: '16px',
-            color: route.path === '/' ? COLORS.quarternary : 'white',
+            color: 'white',
             cursor: 'pointer',
           }"
         >
-          Home
+          ← Back
         </el-text>
-        <el-text
-          v-if="authenticationStore.isAuthenticated"
-          @click="router.push('/profile')"
-          :style="{
-            fontFamily: 'regular',
-            fontSize: '16px',
-            color: route.path === '/profile' ? COLORS.quarternary : 'white',
-            cursor: 'pointer',
-          }"
-        >
-          Profile
-        </el-text>
-        <el-text
-          v-if="authenticationStore.isAuthenticated"
-          @click="router.push('/shop')"
-          :style="{
-            fontFamily: 'regular',
-            fontSize: '16px',
-            color: route.path === '/shop' ? COLORS.quarternary : 'white',
-            cursor: 'pointer',
-          }"
-        >
-          Shop
-        </el-text>
+
+        <!-- Default navigation links -->
+        <template v-else>
+          <el-text
+            @click="router.push('/')"
+            :style="{
+              fontFamily: 'regular',
+              fontSize: '16px',
+              color: route.path === '/' ? COLORS.quarternary : 'white',
+              cursor: 'pointer',
+            }"
+          >
+            Home
+          </el-text>
+
+          <el-text
+            v-if="authenticationStore.isAuthenticated"
+            @click="router.push('/profile')"
+            :style="{
+              fontFamily: 'regular',
+              fontSize: '16px',
+              color: route.path === '/profile' ? COLORS.quarternary : 'white',
+              cursor: 'pointer',
+            }"
+          >
+            Profile
+          </el-text>
+
+          <el-text
+            v-if="authenticationStore.isAuthenticated"
+            @click="router.push('/shop')"
+            :style="{
+              fontFamily: 'regular',
+              fontSize: '16px',
+              color: route.path === '/shop' ? COLORS.quarternary : 'white',
+              cursor: 'pointer',
+            }"
+          >
+            Shop
+          </el-text>
+        </template>
       </el-col>
 
       <el-col :span="8" class="responsive-menu">
@@ -50,22 +69,7 @@
       </el-col>
 
       <el-col :span="8" class="responsive-button-right">
-        <el-text
-          v-if="!authenticationStore.isAuthenticated"
-          @click="signInDialog = true"
-          class="login-button"
-        >
-          Login
-        </el-text>
-
-        <el-text
-          v-if="!authenticationStore.isAuthenticated"
-          @click="openRegisterDialog"
-          class="register-button"
-        >
-          Register
-        </el-text>
-
+        <!-- Show wallet on all routes -->
         <div
           v-if="authenticationStore.isAuthenticated"
           @click="openWalletDialog"
@@ -77,16 +81,36 @@
           </el-text>
         </div>
 
-        <el-text
-          v-if="authenticationStore.isAuthenticated"
-          @click="logoutConfirmDialog = true"
-          class="logout-button"
-          :style="{
-            cursor: 'pointer',
-          }"
-        >
-          Logout
-        </el-text>
+        <!-- Show Login/Register/Logout only when not on friendlygame or arenagame -->
+        <div v-if="route.path !== '/friendly-arena' && route.path !== '/arena'">
+          <el-text
+            v-if="!authenticationStore.isAuthenticated"
+            @click="signInDialog = true"
+            class="login-button"
+            style="margin-right: 40px"
+          >
+            Login
+          </el-text>
+
+          <el-text
+            v-if="!authenticationStore.isAuthenticated"
+            @click="openRegisterDialog"
+            class="register-button"
+          >
+            Register
+          </el-text>
+
+          <el-text
+            v-if="authenticationStore.isAuthenticated"
+            @click="logoutConfirmDialog = true"
+            class="logout-button"
+            :style="{
+              cursor: 'pointer',
+            }"
+          >
+            Logout
+          </el-text>
+        </div>
       </el-col>
     </el-row>
   </div>

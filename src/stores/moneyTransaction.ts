@@ -108,6 +108,7 @@ export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
         id: Date.now().toString(),
         userName: user.username,
         amount,
+        name: '',
         date: new Date().toISOString(),
         cardNumber: cardNumber,
         expiryDate: expiryDate,

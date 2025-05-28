@@ -9,7 +9,7 @@
           :src="currency"
           fit="cover"
           style="height: 20px; width: 20px; margin-right: 5px; margin-left: 5px"
-        />{{ userWalletBalance }}.00
+        />{{ userWalletBalance }}
       </el-text>
     </template>
 
@@ -61,10 +61,17 @@ const authenticationStore = useAuthenticationStore()
 const withdrawAmount = ref()
 const payment = useMoneyTransactionsStore()
 
+// const props = defineProps({
+//   paymentMethod: {
+//     type: String,
+//     required: true,
+//   },
+// })
+
 const emits = defineEmits(['closeDialog'])
 
 const withdraw = async (formEl: FormInstance | undefined) => {
-  if (!withdrawAmount.value || withdrawAmount.value <= 0) {
+  if (!withdrawAmount.value || Number(withdrawAmount.value) <= 0) {
     ElMessage({
       message: 'Please enter a valid withdrawal amount.',
       type: 'error',
@@ -73,7 +80,7 @@ const withdraw = async (formEl: FormInstance | undefined) => {
     return
   }
 
-  const chips = withdrawAmount.value
+  const chips = Number(withdrawAmount.value)
   const user = registrationStore.registeredUsers.find(
     (u) => u.email === authenticationStore.user?.email,
   )
@@ -97,13 +104,41 @@ const withdraw = async (formEl: FormInstance | undefined) => {
   }
 
   try {
-    await ElMessageBox.confirm(`You are going to withdraw ₱${withdrawAmount.value}`, 'Withdraw', {
+    if (props.paymentMethod === 'GCash') {
+      const fixedOTP = '000000'
+      console.log('OTP sent to user:', fixedOTP)
+
+      const { value: otp } = await ElMessageBox.prompt(
+        'Enter the OTP sent to your Gcash',
+        'OTP Verification',
+        {
+          confirmButtonText: 'Verify',
+          cancelButtonText: 'Cancel',
+          inputPattern: /^\d{6}$/,
+          inputErrorMessage: 'Please enter the 6-digit OTP',
+          inputPlaceholder: '000000',
+          inputType: 'number',
+        },
+      )
+
+      if (otp !== fixedOTP) {
+        ElMessage({
+          message: 'Invalid OTP entered.',
+          type: 'error',
+          grouping: true,
+        })
+        return
+      }
+    }
+
+    // Confirm withdrawal after OTP (or immediately if not GCash)
+    await ElMessageBox.confirm(`You are going to withdraw ₱${withdrawAmount.value}`, 'Confirm', {
       distinguishCancelAndClose: true,
       confirmButtonText: 'Confirm',
       cancelButtonText: 'Cancel',
     })
 
-    payment.withdraw(withdrawAmount.value, chips, props.paymentMethod)
+    payment.withdraw(chips, chips, props.paymentMethod)
 
     ElMessage({
       type: 'success',
@@ -114,6 +149,10 @@ const withdraw = async (formEl: FormInstance | undefined) => {
       type: 'error',
       message: 'Transaction Cancelled',
     })
+  } finally {
+    emits('closeDialog')
+    formEl?.resetFields()
+    withdrawAmount.value = ''
   }
   emits('closeDialog')
   formEl?.resetFields()
@@ -121,11 +160,14 @@ const withdraw = async (formEl: FormInstance | undefined) => {
 
 function formatWithdrawAmount() {
   let val = withdrawAmount.value ?? ''
+
   val = val.replace(/[^0-9.]/g, '')
+
   const parts = val.split('.')
   if (parts.length > 2) {
     val = parts[0] + '.' + parts[1]
   }
+
   if (parts[1]) {
     parts[1] = parts[1].slice(0, 2)
     val = parts[0] + '.' + parts[1]
