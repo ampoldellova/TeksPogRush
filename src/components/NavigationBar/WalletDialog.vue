@@ -83,21 +83,21 @@
                     />
                   </el-form-item>
                   <el-button
-                  @click="submitGcashDetails(ruleFormRef)"
-                  :style="{
-                    width: '100%',
-                    background: 'linear-gradient(to right, #f2cd5c, #f2921d',
-                    borderWidth: 0,
-                    fontFamily: 'semiBold',
-                    color: 'white',
-                    borderRadius: '10px',
-                    marginTop: '10px',
-                  }"
-                >
-                  CONFIRM
-                </el-button>
+                    @click="submitGcashDetails(ruleFormRef)"
+                    :style="{
+                      width: '100%',
+                      background: 'linear-gradient(to right, #f2cd5c, #f2921d',
+                      borderWidth: 0,
+                      fontFamily: 'semiBold',
+                      color: 'white',
+                      borderRadius: '10px',
+                      marginTop: '10px',
+                    }"
+                  >
+                    CONFIRM
+                  </el-button>
                 </el-form>
-                  <el-button
+                <el-button
                   @click="cancelButton"
                   :style="{
                     width: '100%',
@@ -111,7 +111,6 @@
                 >
                   CANCEL
                 </el-button>
-                
               </div>
 
               <div v-if="paymentSelected === 'Credit Card'">
@@ -144,7 +143,9 @@
                           <el-input
                             v-model="creditCardRuleForm.cardNumber"
                             placeholder="Enter card number"
+                            type="number"
                             input-style="font-family:regular; font-size:12px"
+                            @input="limitCardNumberLength"
                           />
                         </el-form-item>
                       </el-col>
@@ -162,6 +163,8 @@
                           <el-input
                             v-model="creditCardRuleForm.expiryDate"
                             placeholder="MM/YY"
+                            maxlength="5"
+                            @input="formatExpiryDate"
                             input-style="font-family:regular; font-size:12px"
                           />
                         </el-form-item>
@@ -175,6 +178,7 @@
                         <el-form-item prop="securityCode">
                           <el-input
                             v-model="creditCardRuleForm.securityCode"
+                            @input="filterDigits"
                             :type="'password'"
                             :show-password="true"
                             placeholder="Enter security code"
@@ -201,20 +205,20 @@
                         CONFIRM
                       </el-button>
                     </el-col>
-                     <el-button
-                  @click="cancelButton"
-                  :style="{
-                    width: '100%',
-                    background: 'linear-gradient(to right, #f2cd5c, #f2921d',
-                    borderWidth: 0,
-                    fontFamily: 'semiBold',
-                    color: 'white',
-                    borderRadius: '10px',
-                    marginTop: '10px',
-                  }"
-                >
-                  CANCEL
-                </el-button>
+                    <el-button
+                      @click="cancelButton"
+                      :style="{
+                        width: '100%',
+                        background: 'linear-gradient(to right, #f2cd5c, #f2921d',
+                        borderWidth: 0,
+                        fontFamily: 'semiBold',
+                        color: 'white',
+                        borderRadius: '10px',
+                        marginTop: '10px',
+                      }"
+                    >
+                      CANCEL
+                    </el-button>
                   </el-row>
                 </el-form>
               </div>
@@ -238,18 +242,29 @@ import { COLORS } from '@/assets/theme'
 // import creditCard from '@/assets/shop/creditCard.png'
 import { reactive, ref } from 'vue'
 import WithdrawAmountDialog from './WithdrawAmountDialog.vue'
-import { type FormInstance, type FormRules } from 'element-plus'
+import { ElMessage, ElMessageBox, type FormInstance, type FormRules } from 'element-plus'
 import { paymentMethods } from '../models/constants'
 import { useRouter } from 'vue-router'
+import type { CardTransaction } from '../models/types'
 
 const ruleFormRef = ref<FormInstance>()
 const walletDialog = ref(false)
 const withdrawAmountDialog = ref(false)
 const paymentSelected = ref('GCash')
 const router = useRouter()
-
-const cancelButton = () => {
-  router.push('/')
+const cancelButton = async () => {
+  try {
+    await ElMessageBox.confirm('You are exiting the withdraw page', {
+      distinguishCancelAndClose: true,
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+    })
+    router.push('/')
+  } catch {
+    ElMessage({
+      message: 'You are still in the withdraw page',
+    })
+  }
 }
 
 // const paymentMethods = ref([
@@ -264,6 +279,10 @@ const cancelButton = () => {
 //     image: creditCard,
 //   },
 // ])
+
+function limitCardNumberLength() {
+  creditCardRuleForm.cardNumber = creditCardRuleForm.cardNumber?.slice(0, 19)
+}
 
 const emit = defineEmits(['closeDialog'])
 
@@ -284,63 +303,87 @@ const validatePhoneNumber = (rule: any, value: any, callback: any) => {
 }
 
 const validateCardNumber = (rule: any, value: any, callback: any) => {
-const cardNumberRegex = /^\d+$/ 
+  const cardNumberRegex = /^\d+$/
 
   if (value === '') {
     callback(new Error('Please input card number'))
-  }else if(value.length > 19){
+  } else if (value.length > 19) {
     callback(new Error('Invalid Card Number'))
-  } else if(!cardNumberRegex.test(value)){
+  } else if (!cardNumberRegex.test(value)) {
     callback(new Error('Invalid Card Number'))
-  }callback()
   }
+  callback()
+}
 
+const validateExpiryDate = (rule: any, value: string, callback: (error?: Error) => void) => {
+  const expiryRegex = /^(0[1-9]|1[0-2])\/\d{2}$/
+  const currentDate = new Date()
 
-
-
-const validateExpiryDate = (rule: any, value: any, callback: any) => {
-  const expiryRegex = /^(0[1-9]|1[0-2])\/\d{2}$/; 
-  const currentDate = new Date();
-  
-  if (value === '') {
-    callback(new Error('Please input expiry date'));
+  if (!value || value === '/' || value.trim() === '') {
+    callback(new Error('Please input expiry date'))
   } else if (!expiryRegex.test(value)) {
-    callback(new Error('Invalid Expiry Date'));
+    callback(new Error('Invalid Expiry Date'))
   } else {
-    const [month, year] = value.split('/'); 
-    const expiryMonth = parseInt(month, 10);
-    const expiryYear = parseInt(year, 10);
+    const [month, year] = value.split('/')
+    const expiryMonth = parseInt(month, 10)
+    const expiryYear = parseInt(year, 10)
 
-    const fullExpiryYear = 2000 + expiryYear;
-    const expiryDate = new Date(fullExpiryYear, expiryMonth - 1);
-    if (expiryDate < currentDate) {
-      callback(new Error('This Card is Expired'));
+    const fullExpiryYear = 2000 + expiryYear
+    const expiryDate = new Date(fullExpiryYear, expiryMonth, 0)
+
+    const now = new Date()
+    now.setHours(0, 0, 0, 0)
+
+    if (expiryDate < now) {
+      callback(new Error('This Card is Expired'))
     } else {
-      callback();
+      callback()
     }
   }
 }
 
+function formatExpiryDate() {
+  let val = creditCardRuleForm.expiryDate
+
+  val = val.replace(/[^0-9\/]/g, '')
+
+  val = val.replace(/\//g, '')
+
+  if (val.length === 0) {
+    val = '/'
+  } else if (val.length <= 2) {
+    val = val + '/'
+  } else {
+    val = val.slice(0, 2) + '/' + val.slice(2, 4)
+  }
+
+  creditCardRuleForm.expiryDate = val.slice(0, 5)
+}
 
 const validateSecurityCode = (rule: any, value: any, callback: any) => {
-  const securityCodeRegex= /^\d+$/
+  const securityCodeRegex = /^\d+$/
   if (value === '') {
     callback(new Error('Please input security code'))
-  } else if(value.length < 3 || value.length > 4){
+  } else if (value.length < 3 || value.length > 4) {
     callback(new Error('Please input a valid security code'))
-  } else if(!securityCodeRegex.test(value)){
+  } else if (!securityCodeRegex.test(value)) {
     callback(new Error('Invalid Security Code'))
-  }else{
+  } else {
     callback()
   }
+}
+
+function filterDigits() {
+  creditCardRuleForm.securityCode = creditCardRuleForm.securityCode.replace(/\D/g, '')
+  creditCardRuleForm.securityCode = creditCardRuleForm.securityCode?.slice(0, 4)
 }
 
 const gCashRuleForm = reactive({
   mobileNumber: '',
 })
 
-const creditCardRuleForm = reactive({
-  cardNumber: '',
+const creditCardRuleForm = reactive<CardTransaction>({
+  cardNumber: ' ',
   securityCode: '',
   expiryDate: '',
 })

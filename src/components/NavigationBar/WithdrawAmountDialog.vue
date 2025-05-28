@@ -2,45 +2,46 @@
   <el-dialog v-model="withdrawAmountDialog" width="300" align-center>
     <template #header>
       <el-text
-      :style="{ fontFamily: 'bold', color: COLORS.dark, alignItems: 'center', display: 'flex' }"
+        :style="{ fontFamily: 'bold', color: COLORS.dark, alignItems: 'center', display: 'flex' }"
       >
-      Current Balance:
-      <el-image
-      :src="currency"
-      fit="cover"
-      style="height: 20px; width: 20px; margin-right: 5px; margin-left: 5px"
-      />{{ userWalletBalance }}.00
-    </el-text>
-  </template>
-  
-  <el-form>
-    <el-text :style="{ fontFamily: 'regular', fontSize: '10px', color: COLORS.dark }">
-      Withdraw Amount
-    </el-text>
-    <el-input
-    placeholder="Enter amount to withdraw"
-    input-style="font-family:regular; font-size:12px"
-    v-model="withdrawAmount"
-    type="number"
-    />
+        Current Balance:
+        <el-image
+          :src="currency"
+          fit="cover"
+          style="height: 20px; width: 20px; margin-right: 5px; margin-left: 5px"
+        />{{ userWalletBalance }}.00
+      </el-text>
+    </template>
 
-    <!-- {{ withdrawAmount }} -->
-    
-    <el-button
-    :style="{
-      width: '100%',
-      background: 'linear-gradient(to right, #f2cd5c, #f2921d',
-      borderWidth: 0,
-      fontFamily: 'semiBold',
-      color: 'white',
-      borderRadius: '10px',
-      marginTop: '10px',
-    }"
-      @click="withdraw"
+    <el-form>
+      <el-text :style="{ fontFamily: 'regular', fontSize: '10px', color: COLORS.dark }">
+        Withdraw Amount
+      </el-text>
+      <el-input
+        placeholder="Enter amount to withdraw"
+        input-style="font-family:regular; font-size:12px"
+        v-model="withdrawAmount"
+        type="text"
+        @input="formatWithdrawAmount"
+      />
+
+      <!-- {{ withdrawAmount }} -->
+
+      <el-button
+        :style="{
+          width: '100%',
+          background: 'linear-gradient(to right, #f2cd5c, #f2921d',
+          borderWidth: 0,
+          fontFamily: 'semiBold',
+          color: 'white',
+          borderRadius: '10px',
+          marginTop: '10px',
+        }"
+        @click="withdraw"
       >
-      WITHDRAW
-    </el-button>
-  </el-form>
+        WITHDRAW
+      </el-button>
+    </el-form>
   </el-dialog>
 </template>
 
@@ -51,15 +52,13 @@ import currency from '@/assets/currency.png'
 import { useAuthenticationStore } from '@/stores/userStore'
 import { useRegistrationStore } from '@/stores/userStore'
 import { useMoneyTransactionsStore } from '@/stores/moneyTransaction'
-import { ElMessage, type Action, type FormInstance, ElMessageBox} from 'element-plus'
+import { ElMessage, type Action, type FormInstance, ElMessageBox } from 'element-plus'
 // import { ElMessageBox } from 'element-plus/lib/components/index.js'
 
 const registrationStore = useRegistrationStore()
 const authenticationStore = useAuthenticationStore()
 const withdrawAmount = ref()
 const payment = useMoneyTransactionsStore()
-
-
 
 const emits = defineEmits(['closeDialog'])
 const withdraw = async (formEl: FormInstance | undefined) => {
@@ -96,32 +95,47 @@ const withdraw = async (formEl: FormInstance | undefined) => {
     return
   }
 
-  try{
-    await ElMessageBox.confirm(
-      `You are going to withdraw ₱${withdrawAmount.value}`,
-      'Gcash',
-      {
-        distinguishCancelAndClose: true,
-        confirmButtonText: 'Confirm',
-        cancelButtonText: 'Cancel'
-      } 
-    )
+  try {
+    await ElMessageBox.confirm(`You are going to withdraw ₱${withdrawAmount.value}`, 'Gcash', {
+      distinguishCancelAndClose: true,
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+    })
 
-      payment.withdraw(withdrawAmount.value, chips)
-        ElMessage({
-          type: 'success',
-          message: 'Transaction Completed'
-        })
-        
+    payment.withdraw(withdrawAmount.value, chips)
+    ElMessage({
+      type: 'success',
+      message: 'Transaction Completed',
+    })
   } catch {
     ElMessage({
-      type:'error',
-      message: 'Transaction Cacelled'
+      type: 'error',
+      message: 'Transaction Cacelled',
     })
   }
   emits('closeDialog')
   formEl?.resetFields
+}
 
+function formatWithdrawAmount() {
+  let val = withdrawAmount.value ?? ''
+
+  // Remove anything other than digits and dot
+  val = val.replace(/[^0-9.]/g, '')
+
+  // Allow only one dot
+  const parts = val.split('.')
+  if (parts.length > 2) {
+    val = parts[0] + '.' + parts[1]
+  }
+
+  // Limit to 2 decimals
+  if (parts[1]) {
+    parts[1] = parts[1].slice(0, 2)
+    val = parts[0] + '.' + parts[1]
+  }
+
+  withdrawAmount.value = val
 }
 
 const withdrawAmountDialog = ref(false)
