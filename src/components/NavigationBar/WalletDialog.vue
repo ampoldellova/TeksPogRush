@@ -224,10 +224,10 @@
                   </el-row>
                 </el-form>
               </div>
-
               <WithdrawAmountDialog
                 v-model="withdrawAmountDialog"
                 @closeDialog="withdrawAmountDialog = false"
+                :payment-method="paymentSelected"
               />
             </el-form>
           </el-col>
@@ -254,6 +254,14 @@ const walletDialog = ref(false)
 const withdrawAmountDialog = ref(false)
 const paymentSelected = ref('GCash')
 const router = useRouter()
+
+defineProps({
+  paymentMethod: {
+    type: String,
+    required: true,
+  },
+})
+
 const cancelButton = async () => {
   try {
     await ElMessageBox.confirm('You are exiting the withdraw page', {
