@@ -24,7 +24,7 @@ export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
     userTransactions(state) {
       const authStore = useAuthenticationStore()
       return state.transactions.filter(
-        (transaction) => transaction.userName === authStore.user?.email,
+        (transaction) => transaction.userName === authStore.user?.username,
       )
     },
   },
@@ -45,7 +45,6 @@ export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
       }
 
       const user = registrationStore.registeredUsers.find((u) => u.email === authStore.user?.email)
-
       if (!user) {
         throw new Error('User not found.')
       }
@@ -61,9 +60,27 @@ export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
 
       this.gcashPayments.push(newGCashTransaction)
       localStorage.setItem('gCashPayments', JSON.stringify(this.gcashPayments))
+
+      const previousBalance = user.wallet
       const balanceChange = type === 'CashIn' ? +chips * quantity : -chips
       user.wallet += balanceChange
+      const newBalance = user.wallet
+
       localStorage.setItem('registeredUsers', JSON.stringify(registrationStore.registeredUsers))
+
+      const newTransaction: Transaction = {
+        id: uuidv4(),
+        userName: user.username,
+        type: type === 'CashIn' ? 'Cash-in' : 'Withdrawal',
+        amount,
+        date: new Date().toISOString(),
+        method: 'GCash',
+        previousBalance,
+        newBalance,
+      }
+
+      this.transactions.push(newTransaction)
+      localStorage.setItem('transactions', JSON.stringify(this.transactions))
     },
 
     cardPayment(
@@ -83,7 +100,6 @@ export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
       }
 
       const user = registrationStore.registeredUsers.find((u) => u.email === authStore.user?.email)
-
       if (!user) {
         throw new Error('User not found.')
       }
@@ -101,9 +117,27 @@ export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
 
       this.cardPayments.push(newCardTransaction)
       localStorage.setItem('cardPayments', JSON.stringify(this.cardPayments))
+
+      const previousBalance = user.wallet
       const balanceChange = type === 'CashIn' ? +chips * quantity : -chips
       user.wallet += balanceChange
+      const newBalance = user.wallet
+
       localStorage.setItem('registeredUsers', JSON.stringify(registrationStore.registeredUsers))
+
+      const newTransaction: Transaction = {
+        id: uuidv4(),
+        userName: user.username,
+        type: type === 'CashIn' ? 'Cash-in' : 'Withdrawal',
+        amount,
+        date: new Date().toISOString(),
+        method: 'Card',
+        previousBalance,
+        newBalance,
+      }
+
+      this.transactions.push(newTransaction)
+      localStorage.setItem('transactions', JSON.stringify(this.transactions))
     },
 
     withdraw(amount: number, chips: number) {
@@ -137,78 +171,25 @@ export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
       this.withdrawTransactions.push(newWithdrawTransaction)
       localStorage.setItem('withdrawTransactions', JSON.stringify(this.withdrawTransactions))
 
+      const previousBalance = user.wallet
       user.wallet -= chips
+      const newBalance = user.wallet
+
       localStorage.setItem('registeredUsers', JSON.stringify(registrationStore.registeredUsers))
+
+      const newTransaction: Transaction = {
+        id: uuidv4(),
+        userName: user.username,
+        type: 'Withdrawal',
+        amount,
+        date: new Date().toISOString(),
+        method: 'Wallet',
+        previousBalance,
+        newBalance,
+      }
+
+      this.transactions.push(newTransaction)
+      localStorage.setItem('transactions', JSON.stringify(this.transactions))
     },
   },
-
-  // addTransaction(
-  //   type: 'cash-in' | 'withdrawal',
-  //   amount: number,
-  //   accountNumber: string,
-  //   accountName: string,
-  //   method: 'Gcash' | 'Bank Account',
-  // ) {
-  //   const authStore = useAuthenticationStore()
-  //   const registrationStore = useRegistrationStore()
-
-  //   if (!authStore.isLoggedIn) {
-  //     throw new Error('User must be logged in to perform a transaction.')
-  //   }
-
-  //   const user = registrationStore.registeredUsers.find((u) => u.email === authStore.user?.email)
-
-  //   if (!user) {
-  //     throw new Error('User not found.')
-  //   }
-
-  //   const MIN_CASH_IN = 100
-  //   const MAX_CASH_IN = 10000
-  //   const MIN_WITHDRAWAL = 100
-  //   const MAX_WITHDRAWAL = 50000
-
-  //   // Validate minimum and maximum cash-in
-  //   if (type === 'cash-in') {
-  //     if (amount < MIN_CASH_IN) {
-  //       throw new Error(`Minimum cash-in amount is ${MIN_CASH_IN}.`)
-  //     }
-  //     if (amount > MAX_CASH_IN) {
-  //       throw new Error(`Maximum cash-in amount is ${MAX_CASH_IN}.`)
-  //     }
-  //   }
-
-  //   // Validate minimum and maximum withdrawal
-  //   if (type === 'withdrawal') {
-  //     if (amount < MIN_WITHDRAWAL) {
-  //       throw new Error(`Minimum withdrawal amount is ${MIN_WITHDRAWAL}.`)
-  //     }
-  //     if (amount > MAX_WITHDRAWAL) {
-  //       throw new Error(`Maximum withdrawal amount is ${MAX_WITHDRAWAL}.`)
-  //     }
-  //     if (user.wallet < amount) {
-  //       throw new Error('Insufficient balance for withdrawal.')
-  //     }
-  //   }
-
-  //   const newTransaction: Transaction = {
-  //     id: uuidv4(),
-  //     userName: user.username,
-  //     type,
-  //     amount,
-  //     date: new Date().toISOString(),
-  //     accountNumber,
-  //     accountName,
-  //     method,
-  //   }
-
-  //   this.transactions.push(newTransaction)
-  //   localStorage.setItem('transactions', JSON.stringify(this.transactions))
-
-  //   // Update the user's wallet balance
-  //   const balanceChange = type === 'cash-in' ? +amount : -amount
-  //   user.wallet += balanceChange
-
-  //   // Save updated users to localStorage
-  //   localStorage.setItem('registeredUsers', JSON.stringify(registrationStore.registeredUsers))
-  // },
 })

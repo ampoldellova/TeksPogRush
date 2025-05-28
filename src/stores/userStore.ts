@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import router from '@/router'
 import { ElMessage } from 'element-plus'
+import { useWinHistoryStore } from './winHistoryStore'
 
 import { v4 as uuidv4 } from 'uuid'
 import type { userRegistrationStore } from '@/components/models/types'
@@ -93,6 +94,8 @@ export const useAuthenticationStore = defineStore('auth', {
     logout() {
       this.isLoggedIn = false
       this.user = null
+      // const winHistoryStore = useWinHistoryStore()
+      // winHistoryStore.resetWinHistory()
       localStorage.removeItem('loginStatus')
       router.push('/')
       ElMessage({
