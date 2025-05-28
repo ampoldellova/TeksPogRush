@@ -100,6 +100,7 @@
           </el-text>
 
           <el-text
+            v-else
             v-if="authenticationStore.isAuthenticated"
             @click="logoutConfirmDialog = true"
             class="logout-button"
