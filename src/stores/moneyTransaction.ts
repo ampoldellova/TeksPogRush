@@ -140,7 +140,7 @@ export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
       localStorage.setItem('transactions', JSON.stringify(this.transactions))
     },
 
-    withdraw(amount: number, chips: number) {
+    withdraw(amount: number, chips: number, method: 'GCash' | 'Card') {
       const authStore = useAuthenticationStore()
       const registrationStore = useRegistrationStore()
 
@@ -183,7 +183,7 @@ export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
         type: 'Withdrawal',
         amount,
         date: new Date().toISOString(),
-        method: 'Wallet',
+        method: method,
         previousBalance,
         newBalance,
       }

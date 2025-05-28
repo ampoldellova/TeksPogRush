@@ -25,8 +25,6 @@
         @input="formatWithdrawAmount"
       />
 
-      <!-- {{ withdrawAmount }} -->
-
       <el-button
         :style="{
           width: '100%',
@@ -53,7 +51,10 @@ import { useAuthenticationStore } from '@/stores/userStore'
 import { useRegistrationStore } from '@/stores/userStore'
 import { useMoneyTransactionsStore } from '@/stores/moneyTransaction'
 import { ElMessage, type Action, type FormInstance, ElMessageBox } from 'element-plus'
-// import { ElMessageBox } from 'element-plus/lib/components/index.js'
+
+const props = defineProps<{
+  paymentMethod: 'GCash' | 'Card'
+}>()
 
 const registrationStore = useRegistrationStore()
 const authenticationStore = useAuthenticationStore()
@@ -61,9 +62,9 @@ const withdrawAmount = ref()
 const payment = useMoneyTransactionsStore()
 
 const emits = defineEmits(['closeDialog'])
+
 const withdraw = async (formEl: FormInstance | undefined) => {
   if (!withdrawAmount.value || withdrawAmount.value <= 0) {
-    // alert('Please enter a valid withdrawal amount.');
     ElMessage({
       message: 'Please enter a valid withdrawal amount.',
       type: 'error',
@@ -96,13 +97,14 @@ const withdraw = async (formEl: FormInstance | undefined) => {
   }
 
   try {
-    await ElMessageBox.confirm(`You are going to withdraw ₱${withdrawAmount.value}`, 'Gcash', {
+    await ElMessageBox.confirm(`You are going to withdraw ₱${withdrawAmount.value}`, 'Withdraw', {
       distinguishCancelAndClose: true,
       confirmButtonText: 'Confirm',
       cancelButtonText: 'Cancel',
     })
 
-    payment.withdraw(withdrawAmount.value, chips)
+    payment.withdraw(withdrawAmount.value, chips, props.paymentMethod)
+
     ElMessage({
       type: 'success',
       message: 'Transaction Completed',
@@ -110,31 +112,24 @@ const withdraw = async (formEl: FormInstance | undefined) => {
   } catch {
     ElMessage({
       type: 'error',
-      message: 'Transaction Cacelled',
+      message: 'Transaction Cancelled',
     })
   }
   emits('closeDialog')
-  formEl?.resetFields
+  formEl?.resetFields()
 }
 
 function formatWithdrawAmount() {
   let val = withdrawAmount.value ?? ''
-
-  // Remove anything other than digits and dot
   val = val.replace(/[^0-9.]/g, '')
-
-  // Allow only one dot
   const parts = val.split('.')
   if (parts.length > 2) {
     val = parts[0] + '.' + parts[1]
   }
-
-  // Limit to 2 decimals
   if (parts[1]) {
     parts[1] = parts[1].slice(0, 2)
     val = parts[0] + '.' + parts[1]
   }
-
   withdrawAmount.value = val
 }
 
@@ -143,9 +138,6 @@ const userWalletBalance = computed(() => {
   const user = registrationStore.registeredUsers.find(
     (u) => u.email === authenticationStore.user?.email,
   )
-  console.log('User:', user)
   return user ? `${user.wallet}` : '₱0.00'
 })
 </script>
-
-<style scoped></style>

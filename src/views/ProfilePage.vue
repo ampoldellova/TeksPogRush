@@ -13,6 +13,7 @@
     <el-row justify="center" style="width: 100%; height: 75%">
       <el-col :xs="24" :sm="20" :md="16" :lg="12" :xl="8">
         <div
+          ref="transactionContainerRef"
           class="transactionContainer"
           style="
             max-height: 80vh;
@@ -40,7 +41,7 @@
           </el-text>
 
           <div
-            v-for="transaction in transactions"
+            v-for="transaction in reversedTransactions"
             :key="transaction.id"
             style="width: 100%; color: white; border-bottom: 1px solid #666; padding-bottom: 15px"
           >
@@ -129,30 +130,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, watch, nextTick } from 'vue'
 import profilePicture from '@/assets/profile/profileImage.jpg'
 import { useMoneyTransactionsStore } from '@/stores/moneyTransaction'
 
-const transactionHistory = ref(false)
+const transactionContainerRef = ref<HTMLElement | null>(null)
 const moneyTransactionsStore = useMoneyTransactionsStore()
 
 const transactions = computed(() => moneyTransactionsStore.userTransactions)
 
-console.log('User Transactions:', transactions.value)
-
-onMounted(() => {
-  moneyTransactionsStore.transactions.push({
-    id: '1',
-    userName: 'testuser@example.com',
-    amount: 100,
-    date: new Date().toISOString(),
-    type: 'Cash-in',
-    method: 'GCash',
-    previousBalance: 0,
-    newBalance: 100,
-    accountNumber: '',
-    accountName: '',
-  })
+const reversedTransactions = computed(() => {
+  return [...transactions.value].reverse()
 })
 </script>
 
