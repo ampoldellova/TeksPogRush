@@ -138,6 +138,25 @@
                       <el-col :span="24">
                         <el-text
                           :style="{ fontFamily: 'regular', fontSize: '10px', color: COLORS.dark }"
+                          >* Cardholder Name
+                        </el-text>
+                        <el-form-item prop="name">
+                          <el-input
+                            v-model="creditCardRuleForm.name"
+                            placeholder="Enter Name"
+                            type="text"
+                            input-style="font-family:regular; font-size:12px"
+                            @input="preventLeadingSpace"
+                            maxlength="30"
+                          />
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+
+                    <el-row>
+                      <el-col :span="24">
+                        <el-text
+                          :style="{ fontFamily: 'regular', fontSize: '10px', color: COLORS.dark }"
                         >
                           * Card Number
                         </el-text>
@@ -290,6 +309,12 @@ const cancelButton = async () => {
 //   },
 // ])
 
+function preventLeadingSpace() {
+  if (creditCardRuleForm.name.startsWith(' ')) {
+    creditCardRuleForm.name = creditCardRuleForm.name.trimStart()
+  }
+}
+
 function limitCardNumberLength() {
   creditCardRuleForm.cardNumber = creditCardRuleForm.cardNumber?.slice(0, 19)
 }
@@ -311,6 +336,16 @@ const validatePhoneNumber = (rule: any, value: any, callback: any) => {
     callback(new Error('Please input your mobile number'))
   } else if (!phoneRegex.test(value)) {
     callback(new Error('Please enter a valid Philippine mobile number'))
+  } else {
+    callback()
+  }
+}
+
+const validateName = (rule: any, value: any, callback: any) => {
+  const trimmed = value?.trim()
+
+  if (!trimmed) {
+    callback(new Error('Please input a valid name'))
   } else {
     callback()
   }
@@ -411,6 +446,7 @@ const gCashRuleForm = reactive({
 })
 
 const creditCardRuleForm = reactive<CardTransaction>({
+  name: '',
   cardNumber: ' ',
   securityCode: '',
   expiryDate: '',
@@ -421,6 +457,7 @@ const gCashRules = reactive<FormRules<typeof gCashRuleForm>>({
 })
 
 const cardDetailsRules = reactive<FormRules<typeof creditCardRuleForm>>({
+  name: [{ validator: validateName, trigger: 'change' }],
   cardNumber: [{ validator: validateCardNumber, trigger: 'change' }],
   securityCode: [{ validator: validateSecurityCode, trigger: 'change' }],
   expiryDate: [{ validator: validateExpiryDate, trigger: 'change' }],

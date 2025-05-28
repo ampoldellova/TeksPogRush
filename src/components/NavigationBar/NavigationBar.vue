@@ -87,6 +87,7 @@
             v-if="!authenticationStore.isAuthenticated"
             @click="signInDialog = true"
             class="login-button"
+            style="margin-right: 40px"
           >
             Login
           </el-text>
