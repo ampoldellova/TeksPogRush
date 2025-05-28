@@ -1,12 +1,14 @@
 export interface Transaction {
   id: string
   userName: string
-  type: 'cash-in' | 'withdrawal'
+  type: 'Cash-in' | 'Withdrawal'
   amount: number
   date: string
-  accountNumber: string
-  accountName: string
-  method: 'Gcash' | 'Bank Account'
+  accountNumber?: string
+  accountName?: string
+  method: 'GCash' | 'Bank Account' | 'Card' | 'Wallet'
+  previousBalance: number
+  newBalance: number
 }
 
 export interface GCashTransaction {
@@ -24,6 +26,7 @@ export interface CardTransaction {
   amount?: number
   date?: string
   cardNumber?: string
+
   expiryDate: string
   securityCode: string
   type?: 'CashIn' | 'Withdrawal'

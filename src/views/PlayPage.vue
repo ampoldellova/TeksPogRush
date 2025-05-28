@@ -735,9 +735,8 @@ const flipCoin = () => {
           result.value = ''
           textImageDisplay.value = 'none'
           winHistoryStore.addWin('arena', {
-            result: { pog1: pog1.value, equalizer: equalizer.value, pog2: pog2.value },
-            totalBet: totalBet,
-            dateTime: dateTime,
+            round: winHistoryStore.getHistory('arena').length + 1,
+            winner: 'Draw',
           })
           console.log('Draw')
         }

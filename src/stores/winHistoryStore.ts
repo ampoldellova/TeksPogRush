@@ -28,5 +28,13 @@ export const useWinHistoryStore = defineStore('winHistoryStore', {
     getHistory(mode: 'arena' | 'friendly') {
       return mode === 'arena' ? this.arenaHistory : this.friendlyHistory
     },
+
+    resetWinHistory() {
+      this.arenaHistory = []
+      this.friendlyHistory = []
+      localStorage.removeItem('arenaHistory')
+      localStorage.removeItem('friendlyHistory')
+      console.log('Win history has been reset')
+    },
   },
 })

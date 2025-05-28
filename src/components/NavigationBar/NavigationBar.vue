@@ -13,7 +13,7 @@
         >
           Home
         </el-text>
-        <!-- <el-text
+        <el-text
           v-if="authenticationStore.isAuthenticated"
           @click="router.push('/profile')"
           :style="{
@@ -24,7 +24,7 @@
           }"
         >
           Profile
-        </el-text> -->
+        </el-text>
         <el-text
           v-if="authenticationStore.isAuthenticated"
           @click="router.push('/shop')"
@@ -79,7 +79,7 @@
 
         <el-text
           v-if="authenticationStore.isAuthenticated"
-          @click="authenticationStore.logout"
+          @click="logoutConfirmDialog = true"
           class="logout-button"
         >
           Logout
@@ -92,7 +92,7 @@
     <span>Are you sure you want to logout?</span>
     <template #footer>
       <el-button @click="logoutConfirmDialog = false">Cancel</el-button>
-      <el-button type="primary" @click="confirmLogout">Logout</el-button>
+      <el-button type="danger" @click="confirmLogout">Logout</el-button>
     </template>
   </el-dialog>
 
@@ -136,6 +136,9 @@ import { useRoute, useRouter } from 'vue-router'
 import { useAuthenticationStore } from '@/stores/userStore'
 import { useRegistrationStore } from '@/stores/userStore'
 import { COLORS } from '@/assets/theme'
+import { useWinHistoryStore } from '@/stores/winHistoryStore'
+
+const winHistoryStore = useWinHistoryStore()
 
 const router = useRouter()
 const route = useRoute()
@@ -150,11 +153,6 @@ const registrationStore = useRegistrationStore()
 
 const openWalletDialog = () => {
   router.push('/wallet')
-}
-
-const logout = () => {
-  authenticationStore.logout()
-  router.push('/')
 }
 
 const userWalletBalance = computed(() => {
@@ -200,6 +198,7 @@ const openForgotPassDialog = () => {
 const logoutConfirmDialog = ref(false)
 
 const confirmLogout = () => {
+  winHistoryStore.resetWinHistory()
   authenticationStore.logout()
   logoutConfirmDialog.value = false
 }
@@ -232,6 +231,7 @@ onMounted(() => {
 .responsive-button-left .el-text:hover {
   color: #ffd200 !important;
   font-weight: bold;
+  text-decoration: underline;
 }
 
 .responsive-button-right {
@@ -244,6 +244,7 @@ onMounted(() => {
 .responsive-button-right .el-text:hover {
   color: #ffd200 !important;
   font-weight: bold;
+  text-decoration: underline;
 }
 
 .responsive-menu {
