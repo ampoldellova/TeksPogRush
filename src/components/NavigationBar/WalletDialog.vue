@@ -80,6 +80,8 @@
                       v-model="gCashRuleForm.mobileNumber"
                       placeholder="Enter mobile number"
                       input-style="font-family:regular; font-size:12px"
+                      type="number"
+                      @input="limitnumberLength"
                     />
                   </el-form-item>
                   <el-button
@@ -133,6 +135,25 @@
                 >
                   <el-col>
                     <el-row style="margin-top: 10px">
+                      <el-col :span="24">
+                        <el-text
+                          :style="{ fontFamily: 'regular', fontSize: '10px', color: COLORS.dark }"
+                          >* Cardholder Name
+                        </el-text>
+                        <el-form-item prop="name">
+                          <el-input
+                            v-model="creditCardRuleForm.name"
+                            placeholder="Enter Name"
+                            type="text"
+                            input-style="font-family:regular; font-size:12px"
+                            @input="preventLeadingSpace"
+                            maxlength="30"
+                          />
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+
+                    <el-row>
                       <el-col :span="24">
                         <el-text
                           :style="{ fontFamily: 'regular', fontSize: '10px', color: COLORS.dark }"
@@ -222,10 +243,10 @@
                   </el-row>
                 </el-form>
               </div>
-
               <WithdrawAmountDialog
                 v-model="withdrawAmountDialog"
                 @closeDialog="withdrawAmountDialog = false"
+                :payment-method="paymentSelected"
               />
             </el-form>
           </el-col>
@@ -252,6 +273,14 @@ const walletDialog = ref(false)
 const withdrawAmountDialog = ref(false)
 const paymentSelected = ref('GCash')
 const router = useRouter()
+
+defineProps({
+  paymentMethod: {
+    type: String,
+    required: true,
+  },
+})
+
 const cancelButton = async () => {
   try {
     await ElMessageBox.confirm('You are exiting the withdraw page', {
@@ -280,8 +309,18 @@ const cancelButton = async () => {
 //   },
 // ])
 
+function preventLeadingSpace() {
+  if (creditCardRuleForm.name.startsWith(' ')) {
+    creditCardRuleForm.name = creditCardRuleForm.name.trimStart()
+  }
+}
+
 function limitCardNumberLength() {
   creditCardRuleForm.cardNumber = creditCardRuleForm.cardNumber?.slice(0, 19)
+}
+
+function limitnumberLength() {
+  gCashRuleForm.mobileNumber = gCashRuleForm.mobileNumber?.slice(0, 11)
 }
 
 const emit = defineEmits(['closeDialog'])
@@ -302,12 +341,22 @@ const validatePhoneNumber = (rule: any, value: any, callback: any) => {
   }
 }
 
+const validateName = (rule: any, value: any, callback: any) => {
+  const trimmed = value?.trim()
+
+  if (!trimmed) {
+    callback(new Error('Please input a valid name'))
+  } else {
+    callback()
+  }
+}
+
 const validateCardNumber = (rule: any, value: any, callback: any) => {
   const cardNumberRegex = /^\d+$/
 
   if (value === '') {
     callback(new Error('Please input card number'))
-  } else if (value.length > 19) {
+  } else if (value.length < 16 || value.length > 19) {
     callback(new Error('Invalid Card Number'))
   } else if (!cardNumberRegex.test(value)) {
     callback(new Error('Invalid Card Number'))
@@ -341,23 +390,37 @@ const validateExpiryDate = (rule: any, value: string, callback: (error?: Error) 
     }
   }
 }
-
 function formatExpiryDate() {
-  let val = creditCardRuleForm.expiryDate
+  let val = creditCardRuleForm.expiryDate || ''
 
-  val = val.replace(/[^0-9\/]/g, '')
+  val = val.replace(/[^\d\/]/g, '')
 
-  val = val.replace(/\//g, '')
-
-  if (val.length === 0) {
-    val = '/'
-  } else if (val.length <= 2) {
-    val = val + '/'
-  } else {
-    val = val.slice(0, 2) + '/' + val.slice(2, 4)
+  const firstSlashIndex = val.indexOf('/')
+  if (firstSlashIndex !== -1) {
+    val = val.slice(0, firstSlashIndex + 1) + val.slice(firstSlashIndex + 1).replace(/\//g, '')
   }
 
-  creditCardRuleForm.expiryDate = val.slice(0, 5)
+  if (firstSlashIndex === -1 && val.length > 2) {
+    val = val.slice(0, 2) + '/' + val.slice(2)
+  }
+
+  if (val.length > 5) {
+    val = val.slice(0, 5)
+  }
+
+  if (val.startsWith('/') && val.length === 1) {
+    val = ''
+  }
+
+  const monthPart = val.split('/')[0]
+  if (monthPart.length === 2) {
+    let monthNum = parseInt(monthPart, 10)
+    if (monthNum > 12) {
+      val = '12' + (val.length > 2 ? val.slice(2) : '')
+    }
+  }
+
+  creditCardRuleForm.expiryDate = val
 }
 
 const validateSecurityCode = (rule: any, value: any, callback: any) => {
@@ -383,6 +446,7 @@ const gCashRuleForm = reactive({
 })
 
 const creditCardRuleForm = reactive<CardTransaction>({
+  name: '',
   cardNumber: ' ',
   securityCode: '',
   expiryDate: '',
@@ -393,6 +457,7 @@ const gCashRules = reactive<FormRules<typeof gCashRuleForm>>({
 })
 
 const cardDetailsRules = reactive<FormRules<typeof creditCardRuleForm>>({
+  name: [{ validator: validateName, trigger: 'change' }],
   cardNumber: [{ validator: validateCardNumber, trigger: 'change' }],
   securityCode: [{ validator: validateSecurityCode, trigger: 'change' }],
   expiryDate: [{ validator: validateExpiryDate, trigger: 'change' }],

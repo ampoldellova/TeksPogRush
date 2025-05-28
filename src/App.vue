@@ -20,9 +20,9 @@ const authenticationStore = useAuthenticationStore()
 const winHistoryStore = useWinHistoryStore()
 const gameMode = (localStorage.getItem('gameMode') as 'arena' | 'friendly') || 'arena'
 
-watch(route, (newRoute) => {
-  showNavbar.value = newRoute.name !== 'gamePage'
-})
+// watch(route, (newRoute) => {
+//   showNavbar.value = newRoute.name !== 'friendlyArena'
+// })
 
 onMounted(() => {
   authenticationStore.checkLoginStatus()
