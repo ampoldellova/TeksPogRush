@@ -208,6 +208,27 @@
                         </el-form-item>
                       </el-col>
                     </el-row>
+                    <el-row style="margin-top: 10px">
+                      <el-col :span="24">
+                        <el-text
+                          :style="{ fontFamily: 'regular', fontSize: '10px', color: COLORS.dark }"
+                        >
+                          * Card Type
+                        </el-text>
+                        <el-form-item prop="cardType">
+                          <el-select
+                            v-model="creditCardRuleForm.cardType"
+                            placeholder="Select card type"
+                            :style="{ width: '100%' }"
+                          >
+                            <el-option label="Visa" value="Visa" />
+                            <el-option label="MasterCard" value="MasterCard" />
+                            <el-option label="American Express" value="AMEX" />
+                            <el-option label="Discover" value="Discover" />
+                          </el-select>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
                   </el-col>
                   <el-row>
                     <el-col :span="24">
@@ -450,6 +471,7 @@ const creditCardRuleForm = reactive<CardTransaction>({
   cardNumber: ' ',
   securityCode: '',
   expiryDate: '',
+  cardType: 'Visa',
 })
 
 const gCashRules = reactive<FormRules<typeof gCashRuleForm>>({

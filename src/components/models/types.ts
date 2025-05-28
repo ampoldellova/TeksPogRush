@@ -30,6 +30,7 @@ export interface CardTransaction {
   expiryDate: string
   securityCode: string
   type?: 'CashIn' | 'Withdrawal'
+  cardType: 'Visa' | 'Union Bank' | 'BPI' | 'MasterCard'
 }
 
 export interface userRegistrationStore {
