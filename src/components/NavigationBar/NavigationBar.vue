@@ -100,17 +100,17 @@
             Register
           </el-text>
 
-        <el-text
-          v-if="authenticationStore.isAuthenticated"
-          @click="logoutConfirmDialog = true"
-          class="logout-button"
-          :style="{
-            cursor: 'pointer',
-          }"
-        >
-          Logout
-        </el-text>
-
+          <el-text
+            v-if="authenticationStore.isAuthenticated"
+            @click="logoutConfirmDialog = true"
+            class="logout-button"
+            :style="{
+              cursor: 'pointer',
+            }"
+          >
+            Logout
+          </el-text>
+        </div>
       </el-col>
     </el-row>
   </div>
