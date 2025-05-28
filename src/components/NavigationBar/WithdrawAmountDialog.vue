@@ -25,8 +25,6 @@
         @input="formatWithdrawAmount"
       />
 
-      <!-- {{ withdrawAmount }} -->
-
       <el-button
         :style="{
           width: '100%',
@@ -53,7 +51,10 @@ import { useAuthenticationStore } from '@/stores/userStore'
 import { useRegistrationStore } from '@/stores/userStore'
 import { useMoneyTransactionsStore } from '@/stores/moneyTransaction'
 import { ElMessage, type Action, type FormInstance, ElMessageBox } from 'element-plus'
-// import { ElMessageBox } from 'element-plus/lib/components/index.js'
+
+const props = defineProps<{
+  paymentMethod: 'GCash' | 'Card'
+}>()
 
 const registrationStore = useRegistrationStore()
 const authenticationStore = useAuthenticationStore()
@@ -68,8 +69,11 @@ const props = defineProps({
 })
 
 const emits = defineEmits(['closeDialog'])
+
 const withdraw = async (formEl: FormInstance | undefined) => {
+
   if (!withdrawAmount.value || Number(withdrawAmount.value) <= 0) {
+
     ElMessage({
       message: 'Please enter a valid withdrawal amount.',
       type: 'error',
@@ -102,6 +106,7 @@ const withdraw = async (formEl: FormInstance | undefined) => {
   }
 
   try {
+
     if (props.paymentMethod === 'GCash') {
       const fixedOTP = '000000'
       console.log('OTP sent to user:', fixedOTP)
@@ -137,6 +142,7 @@ const withdraw = async (formEl: FormInstance | undefined) => {
     })
 
     payment.withdraw(chips, chips)
+
     ElMessage({
       type: 'success',
       message: 'Transaction Completed',
@@ -151,12 +157,15 @@ const withdraw = async (formEl: FormInstance | undefined) => {
     formEl?.resetFields()
     withdrawAmount.value = ''
   }
+
 }
 
 function formatWithdrawAmount() {
   let val = withdrawAmount.value ?? ''
 
+
   val = val.replace(/[^0-9.]/g, '')
+
 
   const parts = val.split('.')
   if (parts.length > 2) {
@@ -167,7 +176,6 @@ function formatWithdrawAmount() {
     parts[1] = parts[1].slice(0, 2)
     val = parts[0] + '.' + parts[1]
   }
-
   withdrawAmount.value = val
 }
 
@@ -176,9 +184,6 @@ const userWalletBalance = computed(() => {
   const user = registrationStore.registeredUsers.find(
     (u) => u.email === authenticationStore.user?.email,
   )
-  console.log('User:', user)
   return user ? `${user.wallet}` : '₱0.00'
 })
 </script>
-
-<style scoped></style>

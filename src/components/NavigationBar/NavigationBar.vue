@@ -81,34 +81,17 @@
           </el-text>
         </div>
 
-        <!-- Show Login/Register/Logout only when not on friendlygame or arenagame -->
-        <div v-if="route.path !== '/friendly-arena' && route.path !== '/arena'">
-          <el-text
-            v-if="!authenticationStore.isAuthenticated"
-            @click="signInDialog = true"
-            class="login-button"
-            style="margin-right: 40px"
-          >
-            Login
-          </el-text>
+        <el-text
+          v-if="authenticationStore.isAuthenticated"
+          @click="logoutConfirmDialog = true"
+          class="logout-button"
+          :style="{
+            cursor: 'pointer',
+          }"
+        >
+          Logout
+        </el-text>
 
-          <el-text
-            v-if="!authenticationStore.isAuthenticated"
-            @click="openRegisterDialog"
-            class="register-button"
-          >
-            Register
-          </el-text>
-
-          <el-text
-            v-else
-            v-if="authenticationStore.isAuthenticated"
-            @click="logoutConfirmDialog = true"
-            class="logout-button"
-          >
-            Logout
-          </el-text>
-        </div>
       </el-col>
     </el-row>
   </div>
@@ -311,7 +294,6 @@ onMounted(() => {
   font-family: 'regular';
   font-size: '16px';
   color: white;
-  cursor: 'pointer';
 }
 
 @media (max-width: 1440px) {

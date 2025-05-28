@@ -245,6 +245,7 @@
               </div>
               <WithdrawAmountDialog
                 v-model="withdrawAmountDialog"
+                :payment-method="getPaymentMethod()"
                 @closeDialog="withdrawAmountDialog = false"
                 :payment-method="paymentSelected"
               />
@@ -328,6 +329,12 @@ const emit = defineEmits(['closeDialog'])
 const selectPaymentOption = (payment: string) => {
   paymentSelected.value = payment
   resetForm(ruleFormRef.value)
+}
+
+const getPaymentMethod = (): 'GCash' | 'Card' => {
+  if (paymentSelected.value === 'GCash') return 'GCash'
+  if (paymentSelected.value === 'Credit Card') return 'Card'
+  return 'GCash'
 }
 
 const validatePhoneNumber = (rule: any, value: any, callback: any) => {
