@@ -22,14 +22,7 @@
           <el-text style="font-size: 20px; font-weight: bold">Round</el-text>
         </template>
         <template #default="{ row }">
-          <div style="display: flex; flex-direction: column; align-items: center">
-            <span
-              v-if="row.winner === 'Draw'"
-              style="color: orange; font-weight: bold; margin-top: 4px"
-            >
-              DRAW
-            </span>
-          </div>
+          <div style="display: flex; flex-direction: column; align-items: center"></div>
         </template>
       </el-table-column>
       <el-table-column label="Pog1" width="90">
