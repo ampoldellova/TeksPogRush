@@ -247,7 +247,6 @@
                 v-model="withdrawAmountDialog"
                 :payment-method="getPaymentMethod()"
                 @closeDialog="withdrawAmountDialog = false"
-                :payment-method="paymentSelected"
               />
             </el-form>
           </el-col>
