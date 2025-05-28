@@ -80,6 +80,8 @@
                       v-model="gCashRuleForm.mobileNumber"
                       placeholder="Enter mobile number"
                       input-style="font-family:regular; font-size:12px"
+                      type="number"
+                      @input="limitnumberLength"
                     />
                   </el-form-item>
                   <el-button
@@ -284,6 +286,10 @@ function limitCardNumberLength() {
   creditCardRuleForm.cardNumber = creditCardRuleForm.cardNumber?.slice(0, 19)
 }
 
+function limitnumberLength() {
+  gCashRuleForm.mobileNumber = gCashRuleForm.mobileNumber?.slice(0, 11)
+}
+
 const emit = defineEmits(['closeDialog'])
 
 const selectPaymentOption = (payment: string) => {
@@ -307,7 +313,7 @@ const validateCardNumber = (rule: any, value: any, callback: any) => {
 
   if (value === '') {
     callback(new Error('Please input card number'))
-  } else if (value.length > 19) {
+  } else if (value.length < 16 || value.length > 19) {
     callback(new Error('Invalid Card Number'))
   } else if (!cardNumberRegex.test(value)) {
     callback(new Error('Invalid Card Number'))
@@ -341,23 +347,37 @@ const validateExpiryDate = (rule: any, value: string, callback: (error?: Error) 
     }
   }
 }
-
 function formatExpiryDate() {
-  let val = creditCardRuleForm.expiryDate
+  let val = creditCardRuleForm.expiryDate || ''
 
-  val = val.replace(/[^0-9\/]/g, '')
+  val = val.replace(/[^\d\/]/g, '')
 
-  val = val.replace(/\//g, '')
-
-  if (val.length === 0) {
-    val = '/'
-  } else if (val.length <= 2) {
-    val = val + '/'
-  } else {
-    val = val.slice(0, 2) + '/' + val.slice(2, 4)
+  const firstSlashIndex = val.indexOf('/')
+  if (firstSlashIndex !== -1) {
+    val = val.slice(0, firstSlashIndex + 1) + val.slice(firstSlashIndex + 1).replace(/\//g, '')
   }
 
-  creditCardRuleForm.expiryDate = val.slice(0, 5)
+  if (firstSlashIndex === -1 && val.length > 2) {
+    val = val.slice(0, 2) + '/' + val.slice(2)
+  }
+
+  if (val.length > 5) {
+    val = val.slice(0, 5)
+  }
+
+  if (val.startsWith('/') && val.length === 1) {
+    val = ''
+  }
+
+  const monthPart = val.split('/')[0]
+  if (monthPart.length === 2) {
+    let monthNum = parseInt(monthPart, 10)
+    if (monthNum > 12) {
+      val = '12' + (val.length > 2 ? val.slice(2) : '')
+    }
+  }
+
+  creditCardRuleForm.expiryDate = val
 }
 
 const validateSecurityCode = (rule: any, value: any, callback: any) => {
