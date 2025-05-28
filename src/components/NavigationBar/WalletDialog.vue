@@ -147,6 +147,7 @@
                             type="text"
                             input-style="font-family:regular; font-size:12px"
                             @input="preventLeadingSpace"
+                            @keypress="allowOnlyLetters"
                             maxlength="30"
                           />
                         </el-form-item>
@@ -329,6 +330,14 @@ const cancelButton = async () => {
 //     image: creditCard,
 //   },
 // ])
+
+function allowOnlyLetters(event: KeyboardEvent) {
+  const char = String.fromCharCode(event.keyCode)
+  const regex = /^[a-zA-Z\s]*$/
+  if (!regex.test(char)) {
+    event.preventDefault()
+  }
+}
 
 function preventLeadingSpace() {
   if (creditCardRuleForm.name.startsWith(' ')) {
