@@ -102,7 +102,7 @@
                 <div
                   class="walletCard"
                   style="
-                    width: 100%;
+                    width: 50%;
                     background: rgba(255, 255, 255, 0.1);
                     border-radius: 10px;
                     padding: 20px;
@@ -164,7 +164,7 @@
                       v-if="isEditing"
                       v-model="editableProfile.username"
                       style="font-family: 'regular'"
-                      readonly="readonly"
+                      disabled
                     />
                     <span v-else class="fieldValue">{{ currentProfile.username }}</span>
                   </div>

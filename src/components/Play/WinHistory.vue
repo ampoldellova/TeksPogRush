@@ -13,7 +13,7 @@
   >
     <h2>Match History</h2>
     <el-table
-      :data="winHistoryStore.getHistory(gameMode)"
+      :data="[...winHistoryStore.getHistory(gameMode)].reverse()"
       height="auto"
       style="width: 100%; padding: 12px; height: 400px"
     >
@@ -67,8 +67,9 @@
   </el-dialog>
 
   <div v-if="windowWidth > 600" class="winHistory-container">
+    <div></div>
     <el-text class="match-history-label">MATCH HISTORY</el-text>
-    <el-table :data="winHistoryStore.getHistory(gameMode)" class="winHistory-table">
+    <el-table :data="[...winHistoryStore.getHistory(gameMode)].reverse()" class="winHistory-table">
       <el-table-column label="Round" width="80">
         <template #header>
           <el-text style="font-size: 20px; font-weight: bold">Round</el-text>
@@ -211,7 +212,7 @@
 
 <script setup lang="ts">
 import { useWinHistoryStore } from '@/stores/winHistoryStore'
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { Menu } from '@element-plus/icons-vue'
 import heads1 from '@/assets/pogs/Tikbalang.png'
 import heads2 from '@/assets/pogs/Jeepney.png'
@@ -224,6 +225,9 @@ const Pog2BetDisplay = ref(0)
 
 const totalBet = Pog1BetDisplay.value + EqualizerBetDisplay.value + Pog2BetDisplay.value
 
+const reversedHistory = computed(() => {
+  return [...winHistoryStore.getHistory(gameMode.value)].reverse()
+})
 const dialogVisible = ref(false)
 const winHistoryStore = useWinHistoryStore()
 const windowWidth = ref(window.innerWidth)
