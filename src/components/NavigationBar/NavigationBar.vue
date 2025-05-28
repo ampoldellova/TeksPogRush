@@ -82,7 +82,7 @@
         </div>
 
         <!-- Show Login/Register/Logout only when not on friendlygame or arenagame -->
-        <div v-if="route.path !== '/friendly-arena' && route.path !== '/arenagame'">
+        <div v-if="route.path !== '/friendly-arena' && route.path !== '/arena'">
           <el-text
             v-if="!authenticationStore.isAuthenticated"
             @click="signInDialog = true"
