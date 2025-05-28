@@ -61,19 +61,17 @@ const authenticationStore = useAuthenticationStore()
 const withdrawAmount = ref()
 const payment = useMoneyTransactionsStore()
 
-const props = defineProps({
-  paymentMethod: {
-    type: String,
-    required: true,
-  },
-})
+// const props = defineProps({
+//   paymentMethod: {
+//     type: String,
+//     required: true,
+//   },
+// })
 
 const emits = defineEmits(['closeDialog'])
 
 const withdraw = async (formEl: FormInstance | undefined) => {
-
   if (!withdrawAmount.value || Number(withdrawAmount.value) <= 0) {
-
     ElMessage({
       message: 'Please enter a valid withdrawal amount.',
       type: 'error',
@@ -106,7 +104,6 @@ const withdraw = async (formEl: FormInstance | undefined) => {
   }
 
   try {
-
     if (props.paymentMethod === 'GCash') {
       const fixedOTP = '000000'
       console.log('OTP sent to user:', fixedOTP)
@@ -141,7 +138,7 @@ const withdraw = async (formEl: FormInstance | undefined) => {
       cancelButtonText: 'Cancel',
     })
 
-    payment.withdraw(chips, chips)
+    payment.withdraw(chips, chips, props.paymentMethod)
 
     ElMessage({
       type: 'success',
@@ -157,15 +154,14 @@ const withdraw = async (formEl: FormInstance | undefined) => {
     formEl?.resetFields()
     withdrawAmount.value = ''
   }
-
+  emits('closeDialog')
+  formEl?.resetFields()
 }
 
 function formatWithdrawAmount() {
   let val = withdrawAmount.value ?? ''
 
-
   val = val.replace(/[^0-9.]/g, '')
-
 
   const parts = val.split('.')
   if (parts.length > 2) {
