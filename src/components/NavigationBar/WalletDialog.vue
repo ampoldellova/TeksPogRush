@@ -225,7 +225,7 @@
                             <el-option label="Visa" value="Visa" />
                             <el-option label="MasterCard" value="MasterCard" />
                             <el-option label="American Express" value="AMEX" />
-                            <el-option label="Discover" value="Discover" />
+                            <el-option label="Union Bank" value="Union Bank" />
                           </el-select>
                         </el-form-item>
                       </el-col>
