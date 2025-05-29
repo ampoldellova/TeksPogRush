@@ -1,12 +1,12 @@
 <template>
-  <el-col :span="8" class="responsive-menu" v-if="windowWidth <= 980">
+  <el-col :span="8" class="responsive-menu" v-if="windowWidth <= 1060">
     <el-button plain @click="dialogVisible = true" size="large" color="#A61F69" :icon="Menu" circle>
     </el-button>
   </el-col>
 
   <el-dialog
     v-model="dialogVisible"
-    width="500"
+    width="300"
     class="winHistory"
     v-if="windowWidth <= 600"
     style="max-height: 500px"
@@ -17,26 +17,28 @@
       height="auto"
       style="width: 100%; padding: 12px; height: 400px"
     >
-      <el-table-column label="Round" width="80">
+      <el-table-column label="Round" width="30">
         <template #header>
-          <el-text style="font-size: 20px; font-weight: bold">Round</el-text>
+          <el-text style="font-size: 20px; font-weight: bold; display: flex; margin-right: 50px"
+            >Round</el-text
+          >
         </template>
         <template #default="{ row }">
           <div style="display: flex; flex-direction: column; align-items: center"></div>
         </template>
       </el-table-column>
-      <el-table-column label="Pog1" width="90">
+      <el-table-column label="Pog1" width="45">
         <template #header>
-          <img src="@/assets/pogs/Tikbalang.png" width="50" />
+          <img src="@/assets/pogs/Tikbalang.png" width="30" />
         </template>
         <template #default="{ row }">
           <span v-if="row.winner === 'Pog1'" class="win-indicator"></span>
         </template>
       </el-table-column>
 
-      <el-table-column label="Equalizer" width="90">
+      <el-table-column label="Equalizer" width="45">
         <template #header>
-          <img src="@/assets/pogs/Jeepney.png" alt="Equalizer" width="50" />
+          <img src="@/assets/pogs/Jeepney.png" alt="Equalizer" width="30" />
         </template>
         <template #default="{ row }">
           <span v-if="row.winner === 'Equalizer'" class="win-indicator"></span>
@@ -48,9 +50,9 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="Pog2" width="90">
+      <el-table-column label="Pog2" width="">
         <template #header>
-          <img src="@/assets/pogs/Festival.png" alt="Pog2" width="50" />
+          <img src="@/assets/pogs/Festival.png" alt="Pog2" width="30" />
         </template>
         <template #default="{ row }">
           <span v-if="row.winner === 'Pog2'" class="win-indicator"></span>
@@ -59,7 +61,7 @@
     </el-table>
   </el-dialog>
 
-  <div v-if="windowWidth > 600" class="winHistory-container">
+  <div v-if="windowWidth > 1060" class="winHistory-container">
     <div></div>
     <el-text class="match-history-label">MATCH HISTORY</el-text>
     <el-table :data="[...winHistoryStore.getHistory(gameMode)].reverse()" class="winHistory-table">
