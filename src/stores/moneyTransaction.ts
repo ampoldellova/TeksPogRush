@@ -91,6 +91,7 @@ export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
       expiryDate: string,
       securityCode: string,
       type: 'CashIn' | 'Withdrawal',
+      cardType: 'Visa' | 'BPI' | 'MasterCard' | 'UnionBank',
     ) {
       const authStore = useAuthenticationStore()
       const registrationStore = useRegistrationStore()
@@ -114,6 +115,7 @@ export const useMoneyTransactionsStore = defineStore('moneyTransactions', {
         expiryDate: expiryDate,
         securityCode: securityCode,
         type,
+        cardType: 'Visa',
       }
 
       this.cardPayments.push(newCardTransaction)

@@ -147,6 +147,7 @@
                             type="text"
                             input-style="font-family:regular; font-size:12px"
                             @input="preventLeadingSpace"
+                            @keypress="allowOnlyLetters"
                             maxlength="30"
                           />
                         </el-form-item>
@@ -205,6 +206,27 @@
                             placeholder="Enter security code"
                             input-style="font-family:regular; font-size:12px"
                           />
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                    <el-row style="margin-top: 10px">
+                      <el-col :span="24">
+                        <el-text
+                          :style="{ fontFamily: 'regular', fontSize: '10px', color: COLORS.dark }"
+                        >
+                          * Card Type
+                        </el-text>
+                        <el-form-item prop="cardType">
+                          <el-select
+                            v-model="creditCardRuleForm.cardType"
+                            placeholder="Select card type"
+                            :style="{ width: '100%' }"
+                          >
+                            <el-option label="Visa" value="Visa" />
+                            <el-option label="MasterCard" value="MasterCard" />
+                            <el-option label="American Express" value="AMEX" />
+                            <el-option label="Discover" value="Discover" />
+                          </el-select>
                         </el-form-item>
                       </el-col>
                     </el-row>
@@ -308,6 +330,14 @@ const cancelButton = async () => {
 //     image: creditCard,
 //   },
 // ])
+
+function allowOnlyLetters(event: KeyboardEvent) {
+  const char = String.fromCharCode(event.keyCode)
+  const regex = /^[a-zA-Z\s]*$/
+  if (!regex.test(char)) {
+    event.preventDefault()
+  }
+}
 
 function preventLeadingSpace() {
   if (creditCardRuleForm.name.startsWith(' ')) {
@@ -456,6 +486,7 @@ const creditCardRuleForm = reactive<CardTransaction>({
   cardNumber: ' ',
   securityCode: '',
   expiryDate: '',
+  cardType: 'Visa',
 })
 
 const gCashRules = reactive<FormRules<typeof gCashRuleForm>>({
